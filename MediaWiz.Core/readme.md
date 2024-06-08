@@ -1,9 +1,9 @@
-# MediaWizForums #
-Simple Forum add on for Umbraco ≥ 10. 
+# MediaWizForums 14 #
+Simple Forum add on for Umbraco 14. 
 
-## 13.0.1 ##
+## 14.0.0 ##
 
-Update to support different MemberType. If you want to use a member type other than the created "forumMember", add the following setting in appsettings.json
+If you want to use a member type other than the created "forumMember", add the following setting in appsettings.json
 ```
   "MediaWizOptions": {
     "MemberTypeAlias": "myMemberType",
@@ -11,20 +11,7 @@ Update to support different MemberType. If you want to use a member type other t
   }
 ```
 
-## 13.0.0 ##
-
-Updated to support Umbraco 13 and .net8.0
-
-## 10.6.1 ##
-1. Fixed issue with password reset
-2. Fixed issue with index and searching
-3. Updated static strings in viewcomponents to use dictionary strings
-4. Added viewcomponent for active topic filter
-5. FIxed issue with indexing of updated field
-
-# IMPORTANT! 10.6.0 update #
-Some code refactoring and a change to the way the migration works, A problem was discovered where the install would fail
-if your website already contained any document types using the same aliases as the forum package. 
+If your website already contains any document types using the same aliases as the forum package. 
 
 doctypes created that may cause conflicts "login", "members", "profile", "register", "reset", "verify"
 
@@ -38,25 +25,10 @@ If you encounter this issue it is possible to add a setting to the "MediaWizOpti
 ```
 Adding this value will force the install to load a different package.xml in the migration and create the document types using the prefix "forum" instead, this should avoid any conflicts
 
-## New version 10 nuget package released ##
-1. Removed partial view files and replaced with Viewcomponents
-2. Removed dependency on platform specific System.Drawing for Captcha control
-3. Template views maintened in RCL rather than in package.zip
+Tested in v14 of Umbraco
 
-Tested in v10 and v11 of Umbraco
 
-### 10.4.4 ###
-Umbraco Security Patch
-
-### 10.4.3 ###
-Fixed issue with ForgotPassword code
-
-### 10.4.2 ###
-Fixed issue with tinyMCE image uploads
-Fixed issue with sorting, stickiness values
-
-Added 'My Files' section to members profile page
-Added Config section to appsettings.json
+Config section in appsettings.json
 ```
   "MediaWizOptions": {
     "MaxFileSize": 8,  - Maximum file size in MB
@@ -64,10 +36,4 @@ Added Config section to appsettings.json
     "UniqueFilenames": true - if true uses random guid for filename, if false uses name of uploaded file
   }
 ```
-
-### 10.4.1 ###
-Added 'mark as answered' to posts
-Update to Custom ForumIndex fields + Rebuild on publish post
-Changed DisplayPost Razor function into ViewComponent
-Fixed issue with tinyMCE initialisation in modal popups
 

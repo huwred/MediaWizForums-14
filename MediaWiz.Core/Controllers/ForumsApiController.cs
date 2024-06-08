@@ -98,8 +98,8 @@ namespace MediaWiz.Forums.Controllers
 
                         if ( post.HasProperty("deletedByAuthor"))
                             post.SetValue("deletedByAuthor", true);
-
-                        _contentService.SaveAndPublish(post);
+                        var saveresult = _contentService.Save(post);
+                        _contentService.Publish(post,new string[]{"*"});
                         //Logger.LogInformation<ForumsApiController>("Deleting post {0}", id);
                         return true;
                     }
@@ -111,8 +111,8 @@ namespace MediaWiz.Forums.Controllers
 
                         if ( post.HasProperty("deletedByAuthor"))
                             post.SetValue("deletedByAuthor", false);
-
-                        _contentService.SaveAndPublish(post);
+                        var saveresult = _contentService.Save(post);
+                        _contentService.Publish(post,new string[]{"*"});
                         //Logger.LogInformation<ForumsApiController>("Deleting post {0}", id);
                         return true;
                     }
@@ -160,12 +160,14 @@ namespace MediaWiz.Forums.Controllers
                         if (post.HasProperty("answer"))
                         {
                             post.SetValue("answer", true);
-                            _contentService.SaveAndPublish(post);
+                            _contentService.Save(post);
+                            _contentService.Publish(post, new string[] { "*" });
                             var parentTopic = _contentService.GetById(post.ParentId);
                             if (parentTopic != null)
                             {
                                 parentTopic.SetValue("answer", true);
-                                _contentService.SaveAndPublish(parentTopic);
+                                _contentService.Save(parentTopic);
+                                _contentService.Publish(parentTopic,new string[]{"*"});
                             }
                             return true;
                         }
@@ -198,8 +200,8 @@ namespace MediaWiz.Forums.Controllers
                             var currentState = post.GetValue<bool>("allowReplies");
                             post.SetValue("allowReplies", !currentState);
                         }
-                        
-                        _contentService.SaveAndPublish(post);
+                        var saveresult = _contentService.Save(post);
+                        _contentService.Publish(post, new string[] { "*" });
                         return true;
                     }
 

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Cache;
@@ -156,17 +157,19 @@ namespace MediaWiz.Forums.Controllers
                     else
                     {
                         //does the post need approval
-                        post.SetValue("requireApproval",parent.GetValue<bool>("requireApproval"));
+                        post.SetValue("requireApproval", parent.GetValue<bool>("requireApproval"));
                         if (parent.GetValue<bool>("requireApproval"))
                         {
-                            post.SetValue("approved",false);
+                            post.SetValue("approved", false);
                         }
                         else
                         {
-                            post.SetValue("approved",true);
+                            post.SetValue("approved", true);
                         }
                     }
-                    var result = _contentService.SaveAndPublish(post);
+
+                    var saveresult = _contentService.Save(post);
+                    var result = _contentService.Publish(post, new string[] { "*" });
 
                     return RedirectToCurrentUmbracoPage();
                 }
@@ -207,7 +210,8 @@ namespace MediaWiz.Forums.Controllers
                     
                     post.SetValue("postBody", model.Body);
                     post.SetValue("editDate",DateTime.UtcNow);
-                    var result = _contentService.SaveAndPublish(post);
+                    var saveresult = _contentService.Save(post);
+                    var result = _contentService.Publish(post, new string[] { "*" });
 
                     return Redirect(model.returnPath);
                 }
@@ -233,7 +237,8 @@ namespace MediaWiz.Forums.Controllers
             forum.SetValue("isActive",true);
             forum.SetValue("allowImages",model.AllowImages);
             forum.SetValue("requireApproval",model.RequireApproval);
-            var result = _contentService.SaveAndPublish(forum);
+            var saveresult = _contentService.Save(forum);
+            var result = _contentService.Publish(forum, new string[] { "*" });
             TempData["ForumSaveResult"] = result;
             return CurrentUmbracoPage();
         }

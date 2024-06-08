@@ -35,7 +35,7 @@ namespace MediaWiz.Forums.Migrations
             try
             {
                 var dataTypeDefinitions = _dataTypeService.GetAll().ToArray(); //.ToArray() because arrays are fast and easy.
-                var truefalse = dataTypeDefinitions.FirstOrDefault(p => p.EditorAlias.ToLower() == "umbraco.truefalse" && p.Name.Contains("Resolved")); //we want the TrueFalse data type.
+                var truefalse = dataTypeDefinitions.FirstOrDefault(p => p.EditorAlias.ToLower() == "umbraco.truefalse" && p.Name.Contains("True")); //we want the TrueFalse data type.
                 
                 var forumPost = _contentTypeService.Get("forumPost");
                 if (forumPost != null && truefalse != null)
@@ -44,6 +44,7 @@ namespace MediaWiz.Forums.Migrations
                     {
                         var approvedPropertyType = new PropertyType(_shortStringHelper, truefalse)
                         {
+                            PropertyEditorAlias = "Umb.PropertyEditorUi.Toggle",
                             Key = Guid.Parse("6BF64B84-B947-438C-BA89-EB66E9CFFFB8"),
                             Name = "Approved",
                             Alias = "approved",
@@ -62,7 +63,8 @@ namespace MediaWiz.Forums.Migrations
                             Name = "Require Approval",
                             Alias = "requireapproval",
                             Description = "Post requires approval.",
-
+                            PropertyEditorAlias = "Umb.PropertyEditorUi.Toggle"
+                            
                         };
                         
                         forumPost.AddPropertyType(approvalPropertyType,"general");
@@ -82,7 +84,7 @@ namespace MediaWiz.Forums.Migrations
             try
             {
                 var dataTypeDefinitions = _dataTypeService.GetAll().ToArray(); //.ToArray() because arrays are fast and easy.
-                var truefalse = dataTypeDefinitions.FirstOrDefault(p => p.EditorAlias.ToLower() == "umbraco.truefalse" && p.Name.Contains("Resolved")); //we want the TrueFalse data type.
+                var truefalse = dataTypeDefinitions.FirstOrDefault(p => p.EditorAlias.ToLower() == "umbraco.truefalse" && p.Name.Contains("True")); //we want the TrueFalse data type.
                 
                 var forum = _contentTypeService.Get("forum");
                 if (forum != null && truefalse != null)
@@ -91,6 +93,7 @@ namespace MediaWiz.Forums.Migrations
                     {
                         var approvedPropertyType = new PropertyType(_shortStringHelper, truefalse)
                         {
+                            PropertyEditorAlias = "Umb.PropertyEditorUi.Toggle",
                             Key = Guid.Parse("84C6263A-E95D-4C0D-B425-30AE795A4A6C"),
                             Name = "Require Approval",
                             Alias = "requireApproval",

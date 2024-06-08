@@ -13,7 +13,7 @@
 *@
 @{
     var CurrentPage = UmbracoContext.PublishedRequest.PublishedContent;
-    var ForumUrl = Umbraco.GetDictionaryValue("Forums.ForumUrl", "/").TrimEnd('/');
+    var ForumUrl = Umbraco.GetDictionaryValueOrDefault("Forums.ForumUrl", "/").TrimEnd('/');
 }
 <ul class="forum-breadcrumb">
 

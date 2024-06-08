@@ -10,7 +10,7 @@
 @inject IMemberManager MemberManager
 @inject ILocalizationService LocalizationService
 @{
-    var ForumUrl = Umbraco.GetDictionaryValue("Forums.ForumUrl", "/").TrimEnd('/');
+    var ForumUrl = Umbraco.GetDictionaryValueOrDefault("Forums.ForumUrl", "/").TrimEnd('/');
 
     var AllUsers = memberService.GetMembersByPropertyValue("hasVerifiedAccount", true).OrderByDescending(x => x.GetValue<int>("postCount")).ToList();
 

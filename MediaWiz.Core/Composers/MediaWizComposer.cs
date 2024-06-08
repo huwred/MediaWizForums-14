@@ -15,8 +15,8 @@ namespace MediaWiz.Forums.Composers
     {
         public void Compose(IUmbracoBuilder builder)
         {
-            builder.ManifestFilters().Append<EmailValidationManifestFilter>();
-            builder.ManifestFilters().Append<ForumPostListManifestFilter>();
+            //builder.ManifestFilters().Append<EmailValidationManifestFilter>();
+            //builder.ManifestFilters().Append<ForumPostListManifestFilter>();
 
             builder.Services.AddScoped<IBackofficeUserAccessor, BackofficeUserAccessor>();
             builder.Services.AddScoped<IForumCacheService, ForumCacheService>();
@@ -27,7 +27,7 @@ namespace MediaWiz.Forums.Composers
             builder.AddNotificationHandler<ContentSavingNotification, ForumPostSavingEvent>();
             builder.AddNotificationHandler<ContentPublishedNotification, ForumPostPublishedEvent>();
             builder.AddNotificationHandler<ContentMovedToRecycleBinNotification, ForumPostDeletedHandler>();
-            builder.AddNotificationHandler<MenuRenderingNotification, MemberTreeNotificationHandler>();
+            //builder.AddNotificationHandler<MenuRenderingNotification, MemberTreeNotificationHandler>();
 
             builder.Services
                 .AddOptions<ForumConfigOptions>()

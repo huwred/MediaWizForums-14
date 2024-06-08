@@ -16,19 +16,19 @@ namespace MediaWiz.Forums.Extensions
                 _ => string.Concat(input[0].ToString().ToUpper(), input.AsSpan(1))
             };
 
-        [Obsolete("GetDictionaryItemOrDefault is deprecated, please use GetOrCreateDictionaryValue instead.")]
-        public static string GetDictionaryItemOrDefault(this ILocalizationService ls, string Key, string Default)
-        {
-            IDictionaryItem dictionaryItem = ls.GetDictionaryItemByKey("Forums.ForumUrl");
-            if (dictionaryItem == null)
-            {
-                return Default;
+        //[Obsolete("GetDictionaryItemOrDefault is deprecated, please use GetOrCreateDictionaryValue instead.")]
+        //public static string GetDictionaryItemOrDefault(this ILocalizationService ls, string Key, string Default)
+        //{
+        //    IDictionaryItem dictionaryItem = ls.GetDictionaryItemByKey("Forums.ForumUrl");
+        //    if (dictionaryItem == null)
+        //    {
+        //        return Default;
 
-            }
+        //    }
 
-            IDictionaryTranslation translation = dictionaryItem.Translations.FirstOrDefault(x => x.LanguageId == 1);
-            return translation.Value;
-        }
+        //    IDictionaryTranslation translation = dictionaryItem.Translations.FirstOrDefault(x => x.LanguageId == 1);
+        //    return translation.Value;
+        //}
 
         /// <summary>
         /// GetOrCreateDictionaryValue.
@@ -52,7 +52,7 @@ namespace MediaWiz.Forums.Extensions
                 
                 return localizationService.GetDictionaryItemByKey(partKey) ?? localizationService.CreateDictionaryItemWithIdentity(partKey, item?.Key, partKey.Equals(key) ? defaultValue : string.Empty);
             });
-            var currentValue = dictionaryItem.Translations?.FirstOrDefault(it => it.Language.IsoCode == languageCode);
+            var currentValue = dictionaryItem.Translations?.FirstOrDefault(it => it.LanguageIsoCode == languageCode);
             if (!string.IsNullOrWhiteSpace(currentValue?.Value))
                 return currentValue.Value;
             return $"[{key}]";

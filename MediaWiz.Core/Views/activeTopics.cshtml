@@ -30,9 +30,9 @@
 
         <div class="wiz-topics">
             <div class="d-flex flex-row flex-wrap mb-3 p-2 color-white bg-secondary">
-                <div class="col-8">@Umbraco.GetDictionaryValue("Forums.Topic","Topic")</div>
-                <div class="col-2">@Umbraco.GetDictionaryValue("Forums.Replies","Replies")</div>
-                <div class="col-2">@Umbraco.GetDictionaryValue("Forums.Views","Views")</div>
+                <div class="col-8">@Umbraco.GetDictionaryValueOrDefault("Forums.Topic", "Topic")</div>
+                <div class="col-2">@Umbraco.GetDictionaryValueOrDefault("Forums.Replies", "Replies")</div>
+                <div class="col-2">@Umbraco.GetDictionaryValueOrDefault("Forums.Views", "Views")</div>
             </div>
             <div class="wiz-body">
                 @foreach (var result in Model.PagedResult)
@@ -52,7 +52,7 @@
     }
     else
     {
-        <p>@Umbraco.GetDictionaryValue("Forums.NoTopics","No active Topics") </p>
+        <p>@Umbraco.GetDictionaryValueOrDefault("Forums.NoTopics", "No active Topics") </p>
     }
 </div>
 

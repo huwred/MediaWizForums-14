@@ -139,7 +139,7 @@ else
 
     IList<string> roles = new List<string>();
     var allowimages = Model.Value<bool>("allowImages", fallback: Fallback.ToAncestors);
-    var ForumUrl = Umbraco.GetDictionaryValue("Forums.ForumUrl", "/").TrimEnd('/');
+    var ForumUrl = Umbraco.GetDictionaryValueOrDefault("Forums.ForumUrl", "/").TrimEnd('/');
     string returnUrl = null;
     if (TempData["returnUrl"] != null)
     {

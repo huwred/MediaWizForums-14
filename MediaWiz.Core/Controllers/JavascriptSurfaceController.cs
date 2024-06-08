@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Web;
 using Microsoft.AspNetCore.Mvc;
@@ -46,7 +47,7 @@ namespace MediaWiz.Forums.Controllers
                         {
                             var translation = _localizationService.GetDictionaryItemByKey(descendantItem.ItemKey);
 
-                            local.AppendLine($"local.{descendantItem.ItemKey.Replace(".","")} = \"{HttpUtility.HtmlEncode(translation.GetDefaultValue())}\";");
+                            local.AppendLine($"local.{descendantItem.ItemKey.Replace(".","")} = \"{HttpUtility.HtmlEncode(translation.GetTranslatedValue(CultureInfo.CurrentCulture.TwoLetterISOLanguageName))}\";");
                         }
                     }
                 }

@@ -1,26 +1,9 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <MediaWizForumsAppPluginsFilesPath>$(MSBuildThisFileDirectory)..\App_Plugins\MediaWizards\**\*.*</MediaWizForumsAppPluginsFilesPath>
-        <MediaWizListViewFilesPath>$(MSBuildThisFileDirectory)..\App_Plugins\ForumListView\**\*.*</MediaWizListViewFilesPath>
         <MediaWizAssetsFilesPath>$(MSBuildThisFileDirectory)..\staticwebassets\**\*.*</MediaWizAssetsFilesPath>
         <MediaWizViewsPartial>$(MSBuildThisFileDirectory)..\Views\Partials\*.*</MediaWizViewsPartial>
         <MediaWizViewUpdates>$(MSBuildThisFileDirectory)..\Views\*.*</MediaWizViewUpdates>
     </PropertyGroup>
-
-    <Target Name="CopyMediaWizForums" BeforeTargets="Build">
-        <ItemGroup>
-            <MediaWizForumsAppPluginFiles Include="$(MediaWizForumsAppPluginsFilesPath)" />
-        </ItemGroup>
-        <Message Text="Copying MediaWiz.Forums App_Plugins: $(MediaWizForumsAppPluginsFilesPath) - #@(MediaWizForumsAppPluginFiles->Count()) files" Importance="high" />
-        <Copy SourceFiles="@(MediaWizForumsAppPluginFiles)" DestinationFiles="@(MediaWizForumsAppPluginFiles->'$(MSBuildProjectDirectory)\App_Plugins\MediaWizards\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="false" />
-    </Target>
-  <Target Name="CopyForumListView" BeforeTargets="Build">
-    <ItemGroup>
-      <MediaWizListViewFiles Include="$(MediaWizListViewFilesPath)" />
-    </ItemGroup>
-    <Message Text="Copying MediaWiz.Forums App_Plugins: $(MediaWizListViewFilesPath) - #@(MediaWizListViewFiles->Count()) files" Importance="high" />
-    <Copy SourceFiles="@(MediaWizListViewFiles)" DestinationFiles="@(MediaWizListViewFiles->'$(MSBuildProjectDirectory)\App_Plugins\ForumListView\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="false" />
-  </Target>
 
   <Target Name="CopyMediaWizForumPartials" BeforeTargets="Build">
     <ItemGroup>

@@ -2,6 +2,7 @@
 using System.Linq;
 using Examine;
 using MediaWiz.Forums.Helpers;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Umbraco.Cms.Core.Models;
@@ -95,7 +96,7 @@ namespace MediaWiz.Forums.Migrations
                             Name = "Answer",
                             Alias = "answer",
                             Description = "Marked as solution/resolved.",
-
+                            PropertyEditorAlias = "Umb.PropertyEditorUi.Toggle",
                         };
                         
                         forumPost.AddPropertyType(answerPropertyType,"general");
@@ -200,7 +201,8 @@ namespace MediaWiz.Forums.Migrations
                         Name = "Receive Notifications",
                         Alias = "receiveNotifications",
                         Description = "Get an email when someone posts in a topic you are participating.",
-                        Mandatory = false
+                        Mandatory = false,
+                        PropertyEditorAlias = "Umb.PropertyEditorUi.Toggle",
                     }, groupname);
                     if (saveMemberContent)
                     {
@@ -358,7 +360,8 @@ namespace MediaWiz.Forums.Migrations
                     {
                         var content = _contentService.GetById(Convert.ToInt32(topic.Id));
                         content.SetValue("replyCount",_contentService.CountChildren(content.Id));
-                        _contentService.SaveAndPublish(content);
+                        var saveresult = _contentService.Save(content);
+                        _contentService.Publish(content,new string[]{"*"});
                     }
                 }
 
