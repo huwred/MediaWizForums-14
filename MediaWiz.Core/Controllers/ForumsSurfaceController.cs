@@ -247,7 +247,7 @@ namespace MediaWiz.Forums.Controllers
             forum.SetValue("requireApproval",model.RequireApproval);
             var saveresult = _contentService.Save(forum);
             var result = _contentService.Publish(forum, new string[] { "*" });
-            TempData["ForumSaveResult"] = result;
+            TempData["ForumSaveResult"] = result.Result.ToString();
             return CurrentUmbracoPage();
         }
  

@@ -24,7 +24,7 @@ namespace MediaWiz.Forums.ViewComponents
             _umbracoContextAccessor = umbracoContextAccessor;
             
         }
-        public async Task<IViewComponentResult> InvokeAsync(string Template, int ParentId)
+        public async Task<IViewComponentResult> InvokeAsync(string Template, Guid ParentId)
         {
             var currentpage = _umbracoContextAccessor?.GetRequiredUmbracoContext()?.PublishedRequest?.PublishedContent;
 
@@ -33,7 +33,7 @@ namespace MediaWiz.Forums.ViewComponents
                 case "Create":
                     var Forum = new ForumsForumModel
                     {
-                        ParentId = ParentId,
+                        ParentId = currentpage.Id,
                         AllowPosts = true
                     };
                     return await Task.FromResult((IViewComponentResult)View("Create",Forum));
