@@ -11,7 +11,6 @@
 
 @inject IMemberManager _memberManager
 @inject IMemberGroupService MemberGroupService
-@inject ILocalizationService LocalizationService
 @{
     if (UserCanPostHere(Model))
     {
@@ -23,9 +22,9 @@
             edit = (bool)TempData["edit"];
         }
 
-        var mode = edit ? LocalizationService.GetOrCreateDictionaryValue("Forums.Posts.EditPost", "Edit Post") : (showTitle ? LocalizationService.GetOrCreateDictionaryValue("Forums.Posts.Newpost", "Create a new Post") : LocalizationService.GetOrCreateDictionaryValue("Forums.Posts.Reply", "Reply"));
-        var label = edit ? LocalizationService.GetOrCreateDictionaryValue("Forums.Posts.Message", "Message") : (showTitle ? LocalizationService.GetOrCreateDictionaryValue("Forums.Posts.Message", "Message") : LocalizationService.GetOrCreateDictionaryValue("Forums.Posts.Reply", "Reply"));
-        var btn = edit ? LocalizationService.GetOrCreateDictionaryValue("Forums.Save", "Save") : (showTitle ? LocalizationService.GetOrCreateDictionaryValue("Forums.Submit", "Submit") : LocalizationService.GetOrCreateDictionaryValue("Forums.Save", "Save"));
+        var mode = edit ? Umbraco.GetDictionaryValueOrDefault("Forums.Posts.EditPost", "Edit Post") : (showTitle ? Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Newpost", "Create a new Post") : Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Reply", "Reply"));
+        var label = edit ? Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Message", "Message") : (showTitle ? Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Message", "Message") : Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Reply", "Reply"));
+        var btn = edit ? Umbraco.GetDictionaryValueOrDefault("Forums.Save", "Save") : (showTitle ? Umbraco.GetDictionaryValueOrDefault("Forums.Submit", "Submit") : Umbraco.GetDictionaryValueOrDefault("Forums.Save", "Save"));
 
         var Post = new ForumsPostModel();
         var user = _memberManager.GetCurrentMemberAsync().Result;
@@ -80,7 +79,7 @@
                 <input asp-for="@Post.IsTopic" type="hidden" />
 
                 <div class="col ms-5 p-2">
-                    <button type="submit" class="btn btn-dark">@btn</button> <button type="button" class="btn btn-secondary btn-cancel">@LocalizationService.GetOrCreateDictionaryValue("Forums.Cancel","Cancel")</button>
+                    <button type="submit" class="btn btn-dark">@btn</button> <button type="button" class="btn btn-secondary btn-cancel">@Umbraco.GetDictionaryValueOrDefault("Forums.Cancel","Cancel")</button>
                 </div>
             </fieldset>
         }

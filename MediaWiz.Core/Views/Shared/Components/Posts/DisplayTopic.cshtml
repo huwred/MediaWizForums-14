@@ -8,7 +8,6 @@
 
 @inject IViewCounterService _viewCounter
 @inject IForumCacheService _cacheService
-@inject ILocalizationService LocalizationService
 @{
     var post = Model;
     var cacheInfo = _cacheService.GetPost(post, "Topic_" + post.Id);
@@ -34,13 +33,13 @@
                     @if (!String.IsNullOrWhiteSpace(cacheInfo.lastpostAuthor))
                     {
                         <span class="wiz-topic-started-by">
-                            @LocalizationService.GetOrCreateDictionaryValue("Forums.Posts.Lastpostby","last post by") <a href="/profile/?user=@cacheInfo.lastpostAuthor">@cacheInfo.lastpostAuthor</a>
-                            <span title="@cacheInfo.latestPost.ToDisplayDate()">@cacheInfo.latestPost.GetRelativeDate()</span> <a href="@cacheInfo.lastPostUrl" title="@LocalizationService.GetOrCreateDictionaryValue("Forums.Forum.Jumpto","Jump to latest post")"><i class="bi bi-chevron-double-right"></i></a>
+                            @Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Lastpostby","last post by") <a href="/profile/?user=@cacheInfo.lastpostAuthor">@cacheInfo.lastpostAuthor</a>
+                            <span title="@cacheInfo.latestPost.ToDisplayDate()">@cacheInfo.latestPost.GetRelativeDate()</span> <a href="@cacheInfo.lastPostUrl" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Forum.Jumpto","Jump to latest post")"><i class="bi bi-chevron-double-right"></i></a>
                         </span>
                     }
                     else
                     {
-                        <span class="wiz-topic-started-by">@LocalizationService.GetOrCreateDictionaryValue("Forums.Posts.Createdby","topic created by") <a href="/profile/?user=@post.Value("postCreator")">@post.Value("postCreator")</a> <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span></span>
+                        <span class="wiz-topic-started-by">@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Createdby","topic created by") <a href="/profile/?user=@post.Value("postCreator")">@post.Value("postCreator")</a> <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span></span>
                     }
                 </span>
             </div>
@@ -61,13 +60,13 @@
                     @if (!String.IsNullOrWhiteSpace(cacheInfo.lastpostAuthor))
                     {
                         <span class="wiz-topic-started-by">
-                            @LocalizationService.GetOrCreateDictionaryValue("Forums.Posts.Lastpostby", "last post by") <a href="/profile/?user=@cacheInfo.lastpostAuthor">@cacheInfo.lastpostAuthor</a>
-                            <span title="@cacheInfo.latestPost.ToDisplayDate()">@cacheInfo.latestPost.GetRelativeDate()</span> <a href="@cacheInfo.lastPostUrl" title="@LocalizationService.GetOrCreateDictionaryValue("Forums.Forum.Jumpto","Jump to latest post")"><i class="bi bi-chevron-double-right"></i></a>
+                            @Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Lastpostby", "last post by") <a href="/profile/?user=@cacheInfo.lastpostAuthor">@cacheInfo.lastpostAuthor</a>
+                            <span title="@cacheInfo.latestPost.ToDisplayDate()">@cacheInfo.latestPost.GetRelativeDate()</span> <a href="@cacheInfo.lastPostUrl" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Forum.Jumpto","Jump to latest post")"><i class="bi bi-chevron-double-right"></i></a>
                         </span>
                     }
                     else
                     {
-                        <span class="wiz-topic-started-by">@LocalizationService.GetOrCreateDictionaryValue("Forums.Posts.Createdby", "topic created by") <a href="/profile/?user=@post.Value("postCreator")">@post.Value("postCreator")</a> <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span></span>
+                        <span class="wiz-topic-started-by">@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Createdby", "topic created by") <a href="/profile/?user=@post.Value("postCreator")">@post.Value("postCreator")</a> <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span></span>
                     }
                 </span>
             </div>

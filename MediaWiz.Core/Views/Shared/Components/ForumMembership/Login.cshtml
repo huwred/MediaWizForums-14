@@ -5,7 +5,9 @@
 @using Umbraco.Cms.Core.Services
 @using Umbraco.Cms.Web.Common.Models
 @using Umbraco.Extensions
-@inject ILocalizationService LocalizationService
+@using Umbraco.Cms.Web.Common
+
+@inject UmbracoHelper umbracoHelper
 <div class="login-form">
 
     @using (Html.BeginUmbracoForm<ForumMemberController>(
@@ -30,7 +32,7 @@
             </label>
         </div>
 
-        <button type="submit" class="btn btn-dark">@LocalizationService.GetOrCreateDictionaryValue("Forums.Signin","Log in")</button>
+        <button type="submit" class="btn btn-dark">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Signin","Log in")</button>
 
 
         }

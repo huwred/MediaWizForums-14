@@ -9,10 +9,11 @@
 @using Umbraco.Cms.Core.Services
 @using Umbraco.Cms.Web.Website.Models
 @using Umbraco.Extensions
+
 @inject MemberModelBuilderFactory memberModelBuilderFactory;
 @inject IOptions<GlobalSettings> hostingSettings
-@inject ILocalizationService LocalizationService
-@inject IOptions<ForumConfigOptions> forumOptions;
+@inject IOptions<ForumConfigOptions> forumOptions
+
 @{
     // Build a registration model with parameters
     var registerModel = memberModelBuilderFactory
@@ -25,14 +26,14 @@
     var useCaptcha = Model.Value<bool>("useCaptcha");
     var success = TempData["FormSuccess"] != null;
     var _hostingSettings = hostingSettings.Value;
-    var warningMsg = LocalizationService.GetOrCreateDictionaryValue("Forums.Members.Register.Emailwarning", "The email will be coming from {0} so please add this domain to your whitelist. Should you not receive your validation email, please post on the Our Umbraco forums");
+    var warningMsg = Umbraco.GetDictionaryValueOrDefault("Forums.Members.Register.Emailwarning", "The email will be coming from {0} so please add this domain to your whitelist. Should you not receive your validation email, please post on the Our Umbraco forums");
 }
 
 
 @if (success)
 {
     @* This message will show if registerModel.RedirectUrl is not defined (default) *@
-    <p class="text-success">@LocalizationService.GetOrCreateDictionaryValue("Forums.Members.Register.Success","Your Registration was successful, you should now receive an email containing a validation link to verify your email address.")</p>
+    <p class="text-success">@Umbraco.GetDictionaryValueOrDefault("Forums.Members.Register.Success","Your Registration was successful, you should now receive an email containing a validation link to verify your email address.")</p>
     <p>@String.Format(warningMsg,_hostingSettings.Smtp.From)</p>
 }
 else
@@ -89,7 +90,7 @@ else
 
                         <span asp-validation-for="@registerModel.MemberProperties[i].Value" class="form-text text-danger"></span>
                         <div id="notifyHelp" class="form-text">
-                            @LocalizationService.GetOrCreateDictionaryValue("Forums.Profile.NotifyHelp","Receive an email when someone posts on the forum.")
+                            @Umbraco.GetDictionaryValueOrDefault("Forums.Profile.NotifyHelp","Receive an email when someone posts on the forum.")
                         </div>
                     </div>
                 }
@@ -105,7 +106,7 @@ else
             }
         }
 
-        <button type="submit" class="btn btn-dark" id="register-submit">@LocalizationService.GetOrCreateDictionaryValue("Forums.Members.Register","Register")</button>
+        <button type="submit" class="btn btn-dark" id="register-submit">@Umbraco.GetDictionaryValueOrDefault("Forums.Members.Register","Register")</button>
     }
 
 
