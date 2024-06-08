@@ -13,7 +13,13 @@
     bool TopicIslocked = !Model.Value<bool>("allowReplies");
     
     var post = Model;
-    bool isApproved = !post.Value<bool>("requireApproval") || post.Value<bool>("approved");
+    var forum = post;
+    if(post.Parent.ContentType.Alias == "forum"){
+        forum = post.Parent;
+    }else if (post.Parent.Parent.ContentType.Alias == "forum"){
+        forum = post.Parent.Parent;
+    }
+    bool isApproved = !forum.Value<bool>("requireApproval") || post.Value<bool>("approved");
     var topicClass = post.Value<bool>("postType") ? "topic" : "reply";
     if (TopicIslocked)
     {

@@ -148,16 +148,6 @@ namespace MediaWiz.Forums.Controllers
                     if (model.IsTopic)
                     {
                         post.SetValue("intPageSize",parent.GetValue<int>("intPageSize"));
-                    }
-
-                    if (!newPost)
-                    {
-                        post.SetValue("editDate",DateTime.UtcNow);
-                    }
-                    else
-                    {
-                        //does the post need approval
-                        post.SetValue("requireApproval", parent.GetValue<bool>("requireApproval"));
                         if (parent.GetValue<bool>("requireApproval"))
                         {
                             post.SetValue("approved", false);
@@ -167,6 +157,24 @@ namespace MediaWiz.Forums.Controllers
                             post.SetValue("approved", true);
                         }
                     }
+                    else //post is a reply so need to get the Forum
+                    {
+                        var forum = _contentService.GetById(parent.ParentId);
+                        if (forum.GetValue<bool>("requireApproval"))
+                        {
+                            post.SetValue("approved", false);
+                        }
+                        else
+                        {
+                            post.SetValue("approved", true);
+                        }
+                    }
+
+                    if (!newPost)
+                    {
+                        post.SetValue("editDate",DateTime.UtcNow);
+                    }
+
 
                     var saveresult = _contentService.Save(post);
                     var result = _contentService.Publish(post, new string[] { "*" });
