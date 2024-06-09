@@ -57,6 +57,22 @@ namespace MediaWiz.Forums.Extensions
                 return currentValue.Value;
             return $"[{key}]";
         }
-
+        public static string GetOrCreateDictionaryValue(this IDictionaryItemService localizationService, string key, string defaultValue,string isoCode = null)
+        {
+            var languageCode = isoCode ?? System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
+            if (languageCode.StartsWith("en_"))
+            {
+                languageCode = "en";
+            }
+            var dictionaryItem = localizationService.GetAsync(key).Result ?? key.Split('.').Aggregate((IDictionaryItem)null, (item, part) =>
+            {
+                var partKey = item is null ? part : $"{item.ItemKey}.{part}";
+                return localizationService.GetAsync(partKey).Result;
+            });
+            var currentValue = dictionaryItem.Translations?.FirstOrDefault(it => it.LanguageIsoCode == languageCode);
+            if (!string.IsNullOrWhiteSpace(currentValue?.Value))
+                return currentValue.Value;
+            return $"[{key}]";
+        }
     }
 }
