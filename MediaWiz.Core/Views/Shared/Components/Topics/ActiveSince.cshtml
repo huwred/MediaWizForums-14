@@ -7,43 +7,55 @@
     string activesince = Context.Request.Query["TopicsSince"];
     activesince ??= "7d";
 }
-<div class="row">
-    <div class="col-1">
-        <label class="form-label pt-2">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince", "Within the")</label>
-    </div>
-    <div class="col-6">
-        <form action="/Active-Topics" class="col-10 offset-1" id="topics-since">
-            <fieldset>
-                <select class="form-select" name="TopicsSince" id="active-since">
-                    <!option value="60m"
-                    @if (activesince == "60m")
-                    {
-                        @Html.Raw("selected")
-                    }>@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.LastHour", "Last hour")</!option>
-                    <!option value="1d"
-                    @if (activesince == "1d")
-                    {
-                        @Html.Raw("selected")
-                    }>@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.Yesterday", "Yesterday")</!option>
-                    <!option value="7d"
-                    @if (activesince == "7d")
-                    {
-                        @Html.Raw("selected")
-                    }>@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.LastWeek", "Last week")</!option>
-                    <!option value="1m"
-                    @if (activesince == "1m")
-                    {
-                        @Html.Raw("selected")
-                    }>@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.LastMonth", "Last month")</!option>
-                    <!option value="1y"
-                    @if (activesince == "1y")
-                    {
-                        @Html.Raw("selected")
-                    }>@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.LastYear", "Last year")</!option>
-                </select>
-            </fieldset>
-        </form>
+<form action="/Active-Topics" class="col-10 offset-1" id="topics-since">
+    <div class="row mb-3">
+        <div class="col-2">
+            <label class="form-label pt-2">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince", "Within the")</label>
+        </div>
+        <div class="col-6">
+                <fieldset>
+                    <select class="form-select" name="TopicsSince" id="active-since">
+                        <!option value="60m"
+                        @if (activesince == "60m")
+                        {
+                            @Html.Raw("selected")
+                        }>@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.LastHour", "Last hour")</!option>
+                        <!option value="1d"
+                        @if (activesince == "1d")
+                        {
+                            @Html.Raw("selected")
+                        }>@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.Yesterday", "Yesterday")</!option>
+                        <!option value="7d"
+                        @if (activesince == "7d")
+                        {
+                            @Html.Raw("selected")
+                        }>@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.LastWeek", "Last week")</!option>
+                        <!option value="1m"
+                        @if (activesince == "1m")
+                        {
+                            @Html.Raw("selected")
+                        }>@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.LastMonth", "Last month")</!option>
+                        <!option value="1y"
+                        @if (activesince == "1y")
+                        {
+                            @Html.Raw("selected")
+                        }>@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.LastYear", "Last year")</!option>
+                    </select>
+                </fieldset>
 
 
+        </div>
     </div>
-</div>
+    <fieldset>
+        <label class="mb-3">Filter By</label>
+        <div class="row">
+            <div class="col-6">
+                <a href="/active-topics/?showonly=unsolved" class="btn btn-light text-dark">SHOW ONLY UNSOLVED TOPICS</a>
+            </div>
+            <div class="col-6">
+                <a href="/active-topics/?showonly=noreply" class="btn btn-light text-dark">SHOW ONLY TOPICS WITH NO REPLIES</a>
+            </div>
+        </div>
+    </fieldset>    
+</form>
+

@@ -41,9 +41,9 @@
     {
         <div class="wiz-topics">
             <div class="d-flex flex-row flex-wrap mb-3 p-2 color-white bg-secondary">
-                <div class="col-8">Topic</div>
-                <div class="col-2">Replies</div>
-                <div class="col-2">Views</div>
+                <div class="col-7">@Umbraco.GetDictionaryValueOrDefault("Forums.Topic", "Topic")</div>
+                <div class="col-3">@Umbraco.GetDictionaryValueOrDefault("Forums.Forum", "Forum")</div>
+                <div class="col-2">@Umbraco.GetDictionaryValueOrDefault("Forums.Replies", "Replies")</div>
             </div>
             <div class="wiz-body">
                 @foreach (var result in Model.PagedResult)
@@ -63,9 +63,20 @@
     }
     else
     {
-        <p>No active Topics </p>
+        <p>@Umbraco.GetDictionaryValueOrDefault("Forums.NoTopics", "No active Topics") </p>
     }
-</div>]]></Design>
+</div>
+@section ForumScripts
+{
+    <script>
+        $(document).ready(function () {
+            MediaWiz.InitTinyMce("textarea.new-post");
+            $("#active-since").on("change", function () {
+                $("#topics-since").submit();
+            });
+        });
+    </script>
+}]]></Design>
     </Template>
     <Template>
       <Name>Forum</Name>
