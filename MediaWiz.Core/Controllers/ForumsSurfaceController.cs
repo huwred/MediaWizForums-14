@@ -228,8 +228,8 @@ namespace MediaWiz.Forums.Controllers
             return RedirectToCurrentUmbracoPage();
         }
         [HttpPost]
-        [Authorize(Roles = "ForumAdministrator")]
-        public IActionResult CreateForum([Bind(Prefix="Forum")]ForumsForumModel model)
+        //[Authorize(Roles = "ForumAdministrator")]
+        public IActionResult CreateForum(/*[Bind(Prefix="Forum")]*/ForumsForumModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -239,6 +239,8 @@ namespace MediaWiz.Forums.Controllers
 
             var parent = _contentService.GetById(model.ParentId);
             var forum = _contentService.CreateContent(model.Title, parent.GetUdi(), "forum");
+            forum.SetValue("hideChildrenFromNav",true);
+            forum.SetValue("umbracoNaviHide",false);
             forum.SetValue("forumTitle",model.Title);
             forum.SetValue("forumDescription",model.Introduction);
             forum.SetValue("postAtRoot", model.AllowPosts);
@@ -247,7 +249,7 @@ namespace MediaWiz.Forums.Controllers
             forum.SetValue("requireApproval",model.RequireApproval);
             var saveresult = _contentService.Save(forum);
             var result = _contentService.Publish(forum, new string[] { "*" });
-            TempData["ForumSaveResult"] = result.Result.ToString();
+            TempData["ForumSaveResult"] = result;
             return CurrentUmbracoPage();
         }
  
