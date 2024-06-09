@@ -53,7 +53,7 @@
             <div class="@topicClass @solved" style="overflow: auto">
 
                 <div class="d-flex wiz-reply-content" id="content_@post.Id" style="overflow: auto;">
-                    <div class="w-2 align-self-stretch d-flex bg-white">
+                            <div class="w-2 flex-md-column bg-white p-2">
                         <a href="/profile/?user=@post.Value("postCreator")" title="View @post.Value("postCreator")'s profile" class="wiz-author-link">
                             <span>
                                 @{
@@ -236,7 +236,16 @@
                             }
                         </a>
                     </li>
+                    @if(!post.Value<bool>("approved")){
+                        <li class="list-inline-item">
+                            <a class="post-approve" data-postid="@post.Id" href="#" rel="nofollow" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Approve","Approve Post")">
+                                    <i class="fs-5 bi-file-check" aria-hidden="true"></i> <span class="tool-label" style="display: none;">@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Approve","Approve Post")</span>
+                            </a>
+                        </li>
+                    }
+
                 }
+
             }
         }
     }

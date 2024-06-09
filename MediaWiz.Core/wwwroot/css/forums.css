@@ -575,3 +575,7 @@ blockquote {
     padding: 0 15px;
     color: #777;
 }
+
+.wiz-reply-content  .row {
+    --bs-gutter-x: -.5rem;
+}

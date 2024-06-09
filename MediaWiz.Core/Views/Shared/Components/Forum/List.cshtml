@@ -12,6 +12,7 @@
     (uses the cache, to get post count and latest post - without having to recurse everytime)
 -->
 @{
+
     var titleStr = umbracoHelper.GetDictionaryValueOrDefault("Forums.Forum.Viewprofile", "View {0}'s profile");
 
     if (Model.Forums.Any())
@@ -30,7 +31,7 @@
                         if (Model.CanView(forum))
                         {
                             var cachedForum = _cacheService.GetPost(forum, "forum_" + forum.Id);
-                            <div id="forum-@forum.Id" class="d-flex flex-row flex-wrap forum type-forum">
+                                            <div id="forum-@forum.Id" class="d-flex flex-row flex-wrap forum type-forum border-bottom border-dark mb-3">
                                 <div class="col-8 col-sm-5">
                                     <a class="wiz-forum-title" href="@forum.Url()">@forum.Value("forumTitle")</a>
                                     <div class="p-2">@Html.Raw(forum.Value("forumDescription"))</div>
@@ -61,10 +62,10 @@
                 {
                     <div class="d-flex flex-row text-right">
                         @if (TempData["ForumSaveResult"] != null)
-                    {
-                        var result = (PublishResult)TempData["ForumSaveResult"];
-                            @result.Success
-                    }
+                        {
+                            var result = (PublishResult)TempData["ForumSaveResult"];
+                            @umbracoHelper.GetDictionaryValueOrDefault(result.Result.ToString(),result.Result.ToString())
+                        }
                     </div>
                 }
             </div>
