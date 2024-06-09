@@ -7,6 +7,7 @@ using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Infrastructure.Examine;
+using Umbraco.Extensions;
 
 namespace MediaWiz.Forums.Indexing
 {
@@ -47,6 +48,8 @@ namespace MediaWiz.Forums.Indexing
                     ["edited"] = content.GetValue<DateTime?>("editDate"),
                     ["posttype"] = content.GetValue<int>("postType") == 1 ? "Topic" : content.ContentType.Alias == "forum" ? "Forum" : "Reply",
                     ["updated"] = content.UpdateDate.Ticks, //changed to Ticks
+                    ["replies"] = content.GetValue<int>("replyCount"),
+                    ["answered"] = content.GetValue<bool>("answer") ? 1 : 0,
                     ["lastpost"] = cacheInfo.latestPost == DateTime.MinValue ? content.CreateDate : cacheInfo.latestPost
                 };
 
