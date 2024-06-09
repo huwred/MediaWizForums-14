@@ -19,6 +19,7 @@ using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Web.Common.Controllers;
 using Umbraco.Cms.Web.Common.Security;
 using Umbraco.Extensions;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace MediaWiz.Forums.Controllers
 {
@@ -30,13 +31,14 @@ namespace MediaWiz.Forums.Controllers
     /// <summary>
     /// Summary description for ForumsApiController
     /// </summary>
-    public class ForumsApiController : UmbracoApiController
+    [ApiController]
+    public class ForumsApiController : ControllerBase
     {
         private const string uploadFolder = "forumuploads";
 
         private readonly IContentService _contentService;
         private readonly MemberManager _memberManager;
-        private readonly ILocalizationService _localizationService;
+        private readonly IDictionaryItemService _localizationService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<ForumsApiController> _logger;
         private readonly MediaFileManager _mediaFileManager;
@@ -53,7 +55,7 @@ namespace MediaWiz.Forums.Controllers
 
         public ForumsApiController(MediaFileManager mediaFileManager, ILogger<ForumsApiController> logger,
             IHttpContextAccessor httpContextAccessor,  IContentService contentservice,MemberManager memberManager, 
-            ILocalizationService localizationService, IMemberService memberService,IForumMailService forumMailService,
+            IDictionaryItemService localizationService, IMemberService memberService,IForumMailService forumMailService,
             IOptions<ForumConfigOptions> forumOptions,
             IWebHostEnvironment hostingEnvironment)
         {
@@ -87,7 +89,7 @@ namespace MediaWiz.Forums.Controllers
                 if (post != null)
                 {
                     var author = post.GetValue<string>("postAuthor");
-                    var currentMember = _memberManager.GetCurrentMemberAsync().Result;
+                    var currentMember = _memberManager.GetUserAsync(_httpContextAccessor.HttpContext?.User!).Result;
                     var roles =  _memberManager.GetRolesAsync(currentMember).Result;
 
                     if (author != "0" && author == currentMember.Id)
@@ -143,7 +145,7 @@ namespace MediaWiz.Forums.Controllers
         }
 
         [Route("markanswer/{id?}")]
-        [HttpGet]
+        [Microsoft.AspNetCore.Mvc.HttpGet]
         public bool MarkAsAnswer(int? id)
         {
             if (id != null)
@@ -153,7 +155,7 @@ namespace MediaWiz.Forums.Controllers
                 if (post != null)
                 {
                     var author = post.GetValue<string>("postAuthor");
-                    var currentMember =  _memberManager.GetCurrentMemberAsync().Result;
+                    var currentMember =  _memberManager.GetUserAsync(_httpContextAccessor.HttpContext?.User!).Result;
 
                     if (currentMember != null)
                     {
@@ -190,7 +192,7 @@ namespace MediaWiz.Forums.Controllers
                 if (post != null)
                 {
                     var author = post.GetValue<string>("postAuthor");
-                    var currentMember =  _memberManager.GetCurrentMemberAsync().Result;
+                    var currentMember =  _memberManager.GetUserAsync(_httpContextAccessor.HttpContext?.User!).Result;
                     var roles =  _memberManager.GetRolesAsync(currentMember).Result;
 
                     if ((author != "0" && author == currentMember.Id) || (roles.Contains("ForumAdministrator") || roles.Contains("ForumModerator")))
@@ -210,7 +212,40 @@ namespace MediaWiz.Forums.Controllers
 
             return false;
         }    
- 
+        [Route("approve/{id?}")]
+        public bool ApprovePost(int? id)
+        {
+            var currentMember =  _memberManager.GetUserAsync(_httpContextAccessor.HttpContext?.User!).Result;
+            var roles =  _memberManager.GetRolesAsync(currentMember).Result;
+            if (!roles.Contains("ForumAdministrator") && !roles.Contains("ForumModerator"))
+            {
+                return false;
+            }
+            if (id != null)
+            {
+                var post = _contentService.GetById(id.Value);
+
+                if (post != null)
+                {
+
+                    if (roles.Contains("ForumAdministrator") || roles.Contains("ForumModerator"))
+                    {
+                        if (post.HasProperty("approved"))
+                        {
+                            var currentState = post.GetValue<bool>("approved");
+                            post.SetValue("approved", !currentState);
+                        }
+                        var saveresult = _contentService.Save(post);
+                        _contentService.Publish(post, new string[] { "*" });
+                        return true;
+                    }
+
+                }
+            }
+
+            return false;
+        }    
+  
         [Route("lockuser/{id?}")]
         public bool LockUser(int? id)
         {
@@ -266,9 +301,9 @@ namespace MediaWiz.Forums.Controllers
         /// </summary>
         /// <returns></returns>
         [Route("forumupload/{id?}")]
-        public async Task<IActionResult> TinyMceUpload(int? id)
+        public async Task<string> TinyMceUpload(int? id)
         {
-            var currentMember =  _memberManager.GetCurrentMemberAsync().Result;
+            var currentMember =  _memberManager.GetUserAsync(_httpContextAccessor.HttpContext?.User!).Result;
             var path = "/" + Combine(uploadFolder, currentMember.Id); 
 
             var file = _httpContextAccessor.HttpContext.Request.Form.Files;
@@ -278,12 +313,12 @@ namespace MediaWiz.Forums.Controllers
                 location = "/media" + loc + "?width=800"
             };
             var test = Newtonsoft.Json.JsonConvert.SerializeObject(data);
-            return Content(test);
+            return test;
             
         }
 
         [Route("memberfiles/{id?}")]
-        public async Task<IActionResult> GetMemberFiles(int? id)
+        public async Task<string> GetMemberFiles(int? id)
         {
             string wwwroot = _hostingEnvironment.MapPathWebRoot("~/");
             string folderPath = _hostingEnvironment.MapPathWebRoot($"~/media/{uploadFolder}/" + id);
@@ -301,11 +336,11 @@ namespace MediaWiz.Forums.Controllers
 
                 content += "</ul>";
             }
-            return Content(content);
+            return content;
         }
 
         [Route("deletefile/{id?}")]
-        public IActionResult DeleteFile(string id)
+        public string DeleteFile(string id)
         {
             try
             {
@@ -314,14 +349,14 @@ namespace MediaWiz.Forums.Controllers
                 var memberidMatch = Regex.Match(id, @"(\\[0-9]+\\)");
                 if (memberidMatch.Success)
                 {
-                    return Content(memberidMatch.Value.Replace("\\",""));
+                    return memberidMatch.Value.Replace("\\","");
                 }                
-                return Content("");
+                return "";
             }
             catch (Exception e)
             {
                 _logger.LogError(e,"Member File delete error {0}",id);
-                return Content(e.Message);
+                return e.Message;
             }
         }
         /// <summary>
