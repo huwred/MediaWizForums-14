@@ -1355,7 +1355,7 @@ if (selection.Length > 0)
   <DictionaryItems />
   <Languages />
   <DataTypes>
-    <DataType Name="Forum - Member Group Picker" Id="Umbraco.MemberGroupPicker" EditorUiAlias="Umbraco.MemberGroupPicker" Definition="d1acd2f4-5ba8-440f-af31-e1ee16eb5fb6" DatabaseType="Ntext" Configuration="{}" />
+    <DataType Name="Forum - Member Group Picker" Id="Umbraco.MemberGroupPicker" EditorUiAlias="Umb.PropertyEditorUi.MemberGroupPicker" Definition="d1acd2f4-5ba8-440f-af31-e1ee16eb5fb6" DatabaseType="Ntext" Configuration="{}" />
     <DataType Name="Forum - Page Size - Search" Id="Umbraco.Slider" EditorUiAlias="Umb.PropertyEditorUi.Slider" Definition="cc9c0125-73ed-4bbe-b431-ad7cdcfa93b8" DatabaseType="Nvarchar" Configuration="{&quot;enableRange&quot;:false,&quot;initVal1&quot;:25.0,&quot;initVal2&quot;:0.0,&quot;minVal&quot;:10.0,&quot;maxVal&quot;:100.0,&quot;step&quot;:5.0}" />
     <DataType Name="Forum - Page Size - Topics" Id="Umbraco.Slider" EditorUiAlias="Umb.PropertyEditorUi.Slider" Definition="d62b131a-74c3-4f33-bf9a-3e1f5882fae9" DatabaseType="Nvarchar" Configuration="{&quot;enableRange&quot;:false,&quot;initVal1&quot;:10.0,&quot;initVal2&quot;:0.0,&quot;minVal&quot;:10.0,&quot;maxVal&quot;:100.0,&quot;step&quot;:5.0}" />
     <DataType Name="Forum - Post Type - Toggle" Id="Umbraco.TrueFalse" EditorUiAlias="Umb.PropertyEditorUi.Toggle" Definition="4d4c1220-72c9-42be-bf25-0c44dfdd5d1a" DatabaseType="Integer" Configuration="{&quot;default&quot;:true,&quot;showLabels&quot;:true,&quot;labelOn&quot;:&quot;Topic&quot;,&quot;labelOff&quot;:&quot;Reply&quot;}" />
