@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediaWiz.Forums.Models;
 using Microsoft.AspNetCore.Mvc;
+using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Security;
 using Umbraco.Cms.Core.Services;
@@ -17,11 +18,13 @@ namespace MediaWiz.Forums.ViewComponents
         private readonly IUmbracoContextAccessor _umbracoContextAccessor;
         private readonly IMemberManager _memberManager;
         private readonly IMemberGroupService _groupService;
-        public ForumViewComponent(IUmbracoContextAccessor umbracoContextAccessor, IMemberManager memberManager,IMemberGroupService groupService)
+        private readonly IdKeyMap _keyMap;
+        public ForumViewComponent(IUmbracoContextAccessor umbracoContextAccessor, IMemberManager memberManager,IMemberGroupService groupService,IdKeyMap keyMap)
         {
             _groupService = groupService;
             _memberManager = memberManager;
             _umbracoContextAccessor = umbracoContextAccessor;
+            _keyMap = keyMap;
             
         }
         public async Task<IViewComponentResult> InvokeAsync(string Template, Guid ParentId)
@@ -45,7 +48,7 @@ namespace MediaWiz.Forums.ViewComponents
                         roles = _memberManager.GetRolesAsync(user).Result;
                     }
 
-                    var model = new ForumListViewModel(_memberManager,_groupService)
+                    var model = new ForumListViewModel(_memberManager,_groupService,_keyMap)
                     {
                         Content = currentpage,
                         Forums = currentpage.Children.Where(x => x.IsDocumentType("Forum") && x.IsVisible() && x.Value<bool>("isActive") && (x.Value<int?>("membersOnly") != 1 || (x.Value<int?>("membersOnly") == 1 && _memberManager.IsLoggedIn()))).ToList(),
@@ -68,17 +71,19 @@ namespace MediaWiz.Forums.ViewComponents
         public IPublishedContent Content { get; set; }
         public List<IPublishedContent> Forums { get; set; }
 
-        public ForumListViewModel(IMemberManager memberManager, IMemberGroupService groupService)
+        public ForumListViewModel(IMemberManager memberManager, IMemberGroupService groupService,IdKeyMap keyMap)
         {
             _groupService = groupService;
             _memberManager = memberManager;
+            _keyMap = keyMap;
         }
         private readonly IMemberManager _memberManager;
         private readonly IMemberGroupService _groupService;
+        private readonly IdKeyMap _keyMap;
         public bool CanView(IPublishedContent model)
         {
 
-            var canViewGroups = model.Value<string>("canViewGroups");
+            var canViewGroups = model.Value<string>("canViewGroup");
             //all members allowed
             if (String.IsNullOrWhiteSpace(canViewGroups))
                 return true;
@@ -86,7 +91,9 @@ namespace MediaWiz.Forums.ViewComponents
             var allowedGroupList = new List<string>();
             foreach (var memberGroupStr in canViewGroups.Split(','))
             {
-                var memberGroup = _groupService.GetById(Convert.ToInt32(memberGroupStr));
+                var key = _keyMap.GetKeyForId(Convert.ToInt32(memberGroupStr),UmbracoObjectTypes.MemberGroup).Result;
+
+                var memberGroup = _groupService.GetAsync(key).Result;
                 if (memberGroup != null)
                 {
                     allowedGroupList.Add(memberGroup.Name);
@@ -99,7 +106,7 @@ namespace MediaWiz.Forums.ViewComponents
         public string PostRestriction(IPublishedContent item)
         {
 
-            var canPostGroups = item.Value<string>("canPostGroups");
+            var canPostGroups = item.Value<string>("canPostGroup");
 
             // default(blank list) is anyone can post
             if (string.IsNullOrWhiteSpace(canPostGroups))
@@ -110,7 +117,9 @@ namespace MediaWiz.Forums.ViewComponents
             var allowedGroupList = new List<string>();
             foreach (var memberGroupStr in canPostGroups.Split(','))
             {
-                var memberGroup = _groupService.GetById(Convert.ToInt32(memberGroupStr));
+                var key = _keyMap.GetKeyForId(Convert.ToInt32(memberGroupStr),UmbracoObjectTypes.MemberGroup).Result;
+
+                var memberGroup = _groupService.GetAsync(key).Result;
                 if (memberGroup != null)
                 {
                     allowedGroupList.Add(memberGroup.Name);

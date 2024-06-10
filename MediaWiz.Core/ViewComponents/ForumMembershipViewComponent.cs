@@ -6,19 +6,20 @@ using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Web.Common.Models;
 using Umbraco.Cms.Web.Website.Models;
 using Umbraco.Cms.Core.Security;
+using Umbraco.Cms.Web.Common;
 
 namespace MediaWiz.Forums.ViewComponents
 {
     public class ForumMembershipViewComponent : ViewComponent
     {
-        private readonly ILocalizationService _localizationService;
+        private readonly UmbracoHelper _umbracoHelper;
         private readonly MemberModelBuilderFactory _memberModelBuilderFactory;
         private readonly IMemberService _memberService;
         private readonly IMemberManager _memberManager;
 
-        public ForumMembershipViewComponent(ILocalizationService localizationService,MemberModelBuilderFactory memberModelBuilderFactory,IMemberService memberService, IMemberManager memberManager)
+        public ForumMembershipViewComponent(UmbracoHelper umbracoHelper,MemberModelBuilderFactory memberModelBuilderFactory,IMemberService memberService, IMemberManager memberManager)
         {
-            _localizationService = localizationService;
+            _umbracoHelper = umbracoHelper;
             _memberModelBuilderFactory = memberModelBuilderFactory;
 
             _memberManager = memberManager;
@@ -38,7 +39,7 @@ namespace MediaWiz.Forums.ViewComponents
                 case "Login" :
                     var loginModel = new LoginModel();
 
-                    string forumUrl = _localizationService.GetOrCreateDictionaryValue("Forums.ForumUrl","/");
+                    string forumUrl = _umbracoHelper.GetDictionaryValueOrDefault("Forums.ForumUrl","/");
                     loginModel.RedirectUrl = forumUrl;
                     return await Task.FromResult((IViewComponentResult)View(Template,loginModel));
 
