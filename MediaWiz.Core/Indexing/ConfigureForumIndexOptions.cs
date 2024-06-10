@@ -5,9 +5,9 @@ using Lucene.Net.Index;
 using Lucene.Net.Util;
 using Microsoft.Extensions.Options;
 using Umbraco.Cms.Core.Configuration.Models;
-using Umbraco.Cms.Core.Scoping;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Infrastructure.Examine;
+using Umbraco.Cms.Infrastructure.Scoping;
 
 namespace MediaWiz.Forums.Indexing
 {
@@ -49,7 +49,7 @@ namespace MediaWiz.Forums.Indexing
                     );
 
                 options.UnlockIndex = true;
-                options.Validator = new ContentValueSetValidator(true, false, _publicAccessService, _scopeProvider, includeItemTypes: new[] { "forumPost" });
+                options.Validator = new ContentValueSetValidator(true,null,new[] { "forumPost" },null); //(true, null, _publicAccessService,  includeItemTypes: new[] { "forumPost" });
 
                 if (_settings.Value.LuceneDirectoryFactory == LuceneDirectoryFactory.SyncedTempFileSystemDirectoryFactory)
                 {
