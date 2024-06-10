@@ -16,10 +16,10 @@ namespace MediaWiz.Forums.Controllers
 {
     public class JavascriptSurfaceController : SurfaceController
     {
-        private readonly ILocalizationService _localizationService;
+        private readonly IDictionaryItemService _localizationService;
 
         public JavascriptSurfaceController(IUmbracoContextAccessor umbracoContextAccessor, IUmbracoDatabaseFactory databaseFactory, ServiceContext services, AppCaches appCaches, IProfilingLogger profilingLogger, IPublishedUrlProvider publishedUrlProvider,
-            ILocalizationService localizationService) : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
+            IDictionaryItemService localizationService) : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
         {
             _localizationService = localizationService;
 
@@ -36,16 +36,16 @@ namespace MediaWiz.Forums.Controllers
             StringBuilder local = new StringBuilder("var local = {};");
             if(keys == null)
             {
-                var rootItems = _localizationService.GetRootDictionaryItems();
+                var rootItems = _localizationService.GetAtRootAsync().Result;
                 foreach (var item in rootItems)
                 {
-                    var dictionaryDescendants = _localizationService.GetDictionaryItemDescendants(item.Key);
+                    var dictionaryDescendants = _localizationService.GetDescendantsAsync(item.Key).Result;
                     var descendantDictionaryItems = dictionaryDescendants.ToList();
                     if(descendantDictionaryItems.Any())
                     {
                         foreach(var descendantItem in descendantDictionaryItems)
                         {
-                            var translation = _localizationService.GetDictionaryItemByKey(descendantItem.ItemKey);
+                            var translation = _localizationService.GetAsync(descendantItem.ItemKey).Result;
 
                             local.AppendLine($"local.{descendantItem.ItemKey.Replace(".","")} = \"{HttpUtility.HtmlEncode(translation.GetTranslatedValue(CultureInfo.CurrentCulture.TwoLetterISOLanguageName))}\";");
                         }
@@ -55,7 +55,7 @@ namespace MediaWiz.Forums.Controllers
             }
             foreach (var item in keys.Split(","))
             {
-                local.AppendLine($"local.{item.Replace(".","")} = \"{_localizationService.GetDictionaryItemByKey(item)}\";");
+                local.AppendLine($"local.{item.Replace(".","")} = \"{_localizationService.GetAsync(item)}\";");
             }
 
             return new  JavaScriptResult(local.ToString());

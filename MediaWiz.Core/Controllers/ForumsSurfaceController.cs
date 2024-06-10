@@ -43,15 +43,17 @@ namespace MediaWiz.Forums.Controllers
         private readonly IForumMailService _mailService;
 
         private readonly IHttpContextAccessor _contextAccessor;
-        private readonly ILocalizationService _localizationService;
-        
+        private readonly IDictionaryItemService _localizationService;
+        private readonly ILanguageService _languageService;
+        private readonly IdKeyMap _keyMap;
         public ForumsSurfaceController(IUmbracoContextAccessor umbracoContextAccessor, IUmbracoDatabaseFactory databaseFactory, ServiceContext services, AppCaches appCaches, IProfilingLogger profilingLogger, IPublishedUrlProvider publishedUrlProvider,
             IMemberService memberService,
             IMemberSignInManager signInManager,
             IPublishedContentQuery publishedContentQuery,
             IMemberManager memberManager,
             IContentService contentService,
-            IForumMailService mailService,IHttpContextAccessor httpContextAccessor,ILocalizationService localizationService) 
+            IForumMailService mailService,IHttpContextAccessor httpContextAccessor,IDictionaryItemService localizationService,
+            ILanguageService languageService,IdKeyMap keyMap) 
             : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
         {
             _memberService = memberService;
@@ -63,7 +65,8 @@ namespace MediaWiz.Forums.Controllers
 
             _contextAccessor = httpContextAccessor;
             _localizationService = localizationService;
-
+            _languageService = languageService;
+            _keyMap = keyMap;
         }
         [HttpGet]
         public IActionResult EditPost(int id)
@@ -76,21 +79,18 @@ namespace MediaWiz.Forums.Controllers
         [HttpPost]
         public async Task<IActionResult> PostReply([Bind(Prefix="Post")]ForumsPostModel model)
         {
-            IEnumerable<ILanguage> languages = _localizationService.GetAllLanguages();
+            if (await CanPost(model) == false)
+            {
+                ModelState.AddModelError("Reply",_localizationService.GetOrCreateDictionaryValue("Forums.Error.PostPermission","You do not have permissions to post here") );
+                return CurrentUmbracoPage();
+            }            
+            IEnumerable<ILanguage> languages = _languageService.GetAllAsync().Result;
 
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("Reply",_localizationService.GetOrCreateDictionaryValue("Forums.Error.InvalidReply","Error posting (invalid model)") );
                 return  CurrentUmbracoPage();
             }
-
-            if (await CanPost(model) == false)
-            {
-                ModelState.AddModelError("Reply",_localizationService.GetOrCreateDictionaryValue("Forums.Error.PostPermission","You do not have permissions to post here") );
-                return CurrentUmbracoPage();
-            }
-
-            var posttype = model.IsTopic ? "topic" : "reply";
 
             var postName =
                 $"reply_{DateTime.UtcNow:yyyyMMddhhmmss}";
@@ -314,9 +314,13 @@ namespace MediaWiz.Forums.Controllers
             if ( model.ParentId > 0 ) 
             {
                 var parent = _publishedContentQuery.Content(model.ParentId);
+                if ( parent.ContentType.Alias != "forum" )
+                {
+                    parent = parent.Parent;
+                }
                 if ( parent != null )
                 {
-                    var canPostGroups = parent.Value<string>("canPostGroups");
+                    var canPostGroups = parent.Value<string>("canPostGroup");
 
                     // default is any one logged on...
                     if (string.IsNullOrWhiteSpace(canPostGroups))
@@ -326,7 +330,9 @@ namespace MediaWiz.Forums.Controllers
                     var allowedGroupList = new List<string>();
                     foreach (string memberGroupStr in canPostGroups.Split(','))
                     {
-                        var memberGroup = Services.MemberGroupService.GetById(Convert.ToInt32(memberGroupStr));
+                var key = _keyMap.GetKeyForId(Convert.ToInt32(memberGroupStr),UmbracoObjectTypes.MemberGroup).Result;
+
+                        var memberGroup = Services.MemberGroupService.GetAsync(key).Result;
                         if (memberGroup != null)
                         {
                             allowedGroupList.Add(memberGroup.Name);

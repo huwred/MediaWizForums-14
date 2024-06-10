@@ -16,7 +16,6 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using Umbraco.Cms.Core.IO;
 using Umbraco.Cms.Core.Services;
-using Umbraco.Cms.Web.Common.Controllers;
 using Umbraco.Cms.Web.Common.Security;
 using Umbraco.Extensions;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
@@ -280,17 +279,15 @@ namespace MediaWiz.Forums.Controllers
         }    
         #region Installation
 
-        [Route("sendvalidation")]
-        [HttpPost]
-        public void ResendValidation(JObject jobj)
+        [Route("sendvalidation/{id?}")]
+        //[HttpPost]
+        public void ResendValidation(Guid? id)
         {
-            var id = jobj["id"].Value<int?>();
-
             if (id == null)
             {
                 return;
             }
-            var member = _memberService.GetById(id.Value);
+            var member = _memberService.GetByKey(id.Value);
             
             var result =  _mailService.SendVerifyAccount(member.Email,member.GetValue<string>("resetGuid")).Result;
         }
@@ -318,7 +315,7 @@ namespace MediaWiz.Forums.Controllers
         }
 
         [Route("memberfiles/{id?}")]
-        public async Task<string> GetMemberFiles(int? id)
+        public Task<string> GetMemberFiles(int? id)
         {
             string wwwroot = _hostingEnvironment.MapPathWebRoot("~/");
             string folderPath = _hostingEnvironment.MapPathWebRoot($"~/media/{uploadFolder}/" + id);
@@ -336,7 +333,7 @@ namespace MediaWiz.Forums.Controllers
 
                 content += "</ul>";
             }
-            return content;
+            return Task.FromResult(content);
         }
 
         [Route("deletefile/{id?}")]

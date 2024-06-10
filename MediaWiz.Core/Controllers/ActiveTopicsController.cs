@@ -2,8 +2,6 @@
 using System.Linq;
 using Examine;
 using Examine.Search;
-using Lucene.Net.Index;
-using Lucene.Net.Search;
 using MediaWiz.Forums.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
@@ -14,7 +12,6 @@ using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Infrastructure.Examine;
 using Umbraco.Cms.Web.Common.Controllers;
-using Umbraco.Cms.Web.Common.UmbracoContext;
 using Umbraco.Extensions;
 
 

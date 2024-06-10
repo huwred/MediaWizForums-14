@@ -18,9 +18,9 @@ namespace MediaWiz.Forums.Controllers
         private readonly IMemberService _memberService;
         private readonly IVariationContextAccessor _variationContextAccessor;
         private readonly ServiceContext _serviceContext;
-        private readonly ILocalizationService _localizationService;
+        private readonly IDictionaryItemService _localizationService;
 
-        public VerifyController(ILogger<VerifyController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor,IMemberService memberService, IVariationContextAccessor variationContextAccessor,ServiceContext context,ILocalizationService localizationService) : base(logger, compositeViewEngine, umbracoContextAccessor)
+        public VerifyController(ILogger<VerifyController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor,IMemberService memberService, IVariationContextAccessor variationContextAccessor,ServiceContext context,IDictionaryItemService localizationService) : base(logger, compositeViewEngine, umbracoContextAccessor)
         {
             _memberService = memberService;
             _variationContextAccessor = variationContextAccessor;
@@ -80,9 +80,9 @@ namespace MediaWiz.Forums.Controllers
         private readonly IMemberService _memberService;
         private readonly IVariationContextAccessor _variationContextAccessor;
         private readonly ServiceContext _serviceContext;
-        private readonly ILocalizationService _localizationService;
+        private readonly IDictionaryItemService _localizationService;
 
-        public ForumVerifyController(ILogger<ForumVerifyController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor,IMemberService memberService, IVariationContextAccessor variationContextAccessor,ServiceContext context,ILocalizationService localizationService) : base(logger, compositeViewEngine, umbracoContextAccessor)
+        public ForumVerifyController(ILogger<ForumVerifyController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor,IMemberService memberService, IVariationContextAccessor variationContextAccessor,ServiceContext context,IDictionaryItemService localizationService) : base(logger, compositeViewEngine, umbracoContextAccessor)
         {
             _memberService = memberService;
             _variationContextAccessor = variationContextAccessor;
