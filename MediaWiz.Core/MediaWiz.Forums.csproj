@@ -52,7 +52,6 @@
   </ItemGroup>
 
 	<ItemGroup>
-    <None Remove="Views\activeTopics.cshtml" />
     <None Remove="views\Shared\Components\Topics\ActiveSince.cshtml" />
     <None Remove="Views\Shared\Components\_ViewImports.cshtml" />
 	</ItemGroup>
@@ -99,5 +98,8 @@
 	  <PackageReference Include="Umbraco.Cms.Web.Website" Version="14.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\MediaWiz.Client\MediaWiz.Client.csproj" />
+	</ItemGroup>
 
 </Project>
