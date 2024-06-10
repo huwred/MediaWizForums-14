@@ -25,7 +25,6 @@ namespace MediaWiz.Forums.Migrations
         private readonly IContentTypeService _contentTypeService;
         private readonly IExamineManager _examine;
         private readonly IMemberService _memberService;
-        private readonly ILocalizationService _localizationService;
         private readonly IOptions<ForumConfigOptions> _forumOptions;
 
         public PublishRootBranchPostMigration(
@@ -38,7 +37,7 @@ namespace MediaWiz.Forums.Migrations
             IShortStringHelper shortStringHelper,
             IExamineManager examine,
             IContentTypeService contentTypeService,
-            IMemberService memberService,ILocalizationService localizationService,
+            IMemberService memberService,
             IOptions<ForumConfigOptions> forumOptions) : base(context)
         {
             _logger = logger;
@@ -50,7 +49,6 @@ namespace MediaWiz.Forums.Migrations
             _examine = examine;
             _contentTypeService = contentTypeService;
             _memberService = memberService;
-            _localizationService = localizationService;
             _forumOptions = forumOptions;
         }
 
@@ -64,9 +62,9 @@ namespace MediaWiz.Forums.Migrations
                 AddForumMemberType();
                 AddMemberGroups();
                 UpdatePostCounts();
-                //AddDictionaryItems();
                 //Make sure the Forum root has been published
-                _contentService.SaveAndPublishBranch(contentForum, true);
+                _contentService.Save(contentForum);
+                _contentService.PublishBranch(contentForum, true,new string[]{"*"});
             }
             else
             {
@@ -81,7 +79,7 @@ namespace MediaWiz.Forums.Migrations
         {
             try
             {
-                var dataTypeDefinitions = _dataTypeService.GetAll().ToArray(); //.ToArray() because arrays are fast and easy.
+                var dataTypeDefinitions = _dataTypeService.GetAllAsync().Result.ToArray(); //.ToArray() because arrays are fast and easy.
                 var truefalse = dataTypeDefinitions.FirstOrDefault(p => p.EditorAlias.ToLower() == "umbraco.truefalse" && p.Name.Contains("Resolved")); //we want the TrueFalse data type.
                 
                 var forumPost = _contentTypeService.Get("forumPost");
@@ -116,7 +114,7 @@ namespace MediaWiz.Forums.Migrations
         {
             try
             {
-                var dataTypeDefinitions = _dataTypeService.GetAll().ToArray(); //.ToArray() because arrays are fast and easy.
+                var dataTypeDefinitions = _dataTypeService.GetAllAsync().Result.ToArray(); //.ToArray() because arrays are fast and easy.
                 var integerDataType = dataTypeDefinitions.FirstOrDefault(p => p.EditorAlias.ToLower() == "umbraco.integer"); //we want the Intiger data type.
                 
                 var forumPost = _contentTypeService.Get("forumPost");
@@ -177,7 +175,7 @@ namespace MediaWiz.Forums.Migrations
             }
 
 
-            var dataTypeDefinitions = _dataTypeService.GetAll().ToArray(); //.ToArray() because arrays are fast and easy.
+            var dataTypeDefinitions = _dataTypeService.GetAllAsync().Result.ToArray(); //.ToArray() because arrays are fast and easy.
             var truefalse = dataTypeDefinitions.FirstOrDefault(p => p.EditorAlias.ToLower() == "umbraco.truefalse"); //we want the TrueFalse data type.
             var textbox = dataTypeDefinitions.FirstOrDefault(p => p.EditorAlias.ToLower() == "umbraco.textbox"); //we want the TextBox data type.
             var datepicker = dataTypeDefinitions.FirstOrDefault(p => p.EditorAlias.ToLower() == "umbraco.datetime");
@@ -290,21 +288,21 @@ namespace MediaWiz.Forums.Migrations
                 IMemberGroup membergroup = new MemberGroup();
                 membergroup.Key = Guid.Parse("3BE527DD-E71A-4DC3-9768-B769780088F5");
                 membergroup.Name = "ForumMember";
-                _memberGroupService.Save(membergroup);
+                _memberGroupService.UpdateAsync(membergroup);
             }
             if (_memberGroupService.GetByName("ForumAdministrator") == null)
             {
                 IMemberGroup admingroup = new MemberGroup();
                 admingroup.Key = Guid.Parse("B81100F8-8622-4B09-B832-00741A9C46A5");
                 admingroup.Name = "ForumAdministrator";
-                _memberGroupService.Save(admingroup);
+                _memberGroupService.UpdateAsync(admingroup);
             }
             if (_memberGroupService.GetByName("ForumModerator") == null)
             {
                 IMemberGroup modgroup = new MemberGroup();
                 modgroup.Key = Guid.Parse("E0B79277-01C8-458F-A9C8-88AA60E2876E");
                 modgroup.Name = "ForumModerator";
-                _memberGroupService.Save(modgroup);
+                _memberGroupService.UpdateAsync(modgroup);
             }            
 
         }
@@ -370,48 +368,6 @@ namespace MediaWiz.Forums.Migrations
             {
                 _logger.LogError( e, "Executing ForumInstallHandler:UpdatePostCounts");
             }
-        }
-        private void AddDictionaryItems()
-        {
-            try
-            {
-                var defLang = _localizationService.GetDefaultLanguageId();
-                ILanguage lang = _localizationService.GetLanguageById(defLang.Value);
-                if(!_localizationService.DictionaryItemExists("MediaWizForums"))
-                {
-                    var parentnode = new DictionaryItem("MediaWizForums");
-
-                    var newitem = _localizationService.GetDictionaryItemByKey("Forums.ForgotPasswordView") ?? new DictionaryItem(parentnode.Key,"Forums.ForgotPasswordView");
-                    _localizationService.AddOrUpdateDictionaryValue(newitem,lang, "/reset" );
-                    _localizationService.Save(newitem);
-
-                    newitem = _localizationService.GetDictionaryItemByKey("Forums.ForumUrl") ?? new DictionaryItem(parentnode.Key,"Forums.ForumUrl");
-                    _localizationService.AddOrUpdateDictionaryValue(newitem,lang,"/" );
-                    _localizationService.Save(newitem);
-
-                    newitem = _localizationService.GetDictionaryItemByKey("Forums.LoginUrl") ?? new DictionaryItem(parentnode.Key,"Forums.LoginUrl");
-                    _localizationService.AddOrUpdateDictionaryValue(newitem,lang,"/login" );
-                    _localizationService.Save(newitem);
-                    newitem = _localizationService.GetDictionaryItemByKey("Forums.CaptchaErrMsg") ?? new DictionaryItem(parentnode.Key,"Forums.LoginUrl");
-                    _localizationService.AddOrUpdateDictionaryValue(newitem,lang,"Incorrect answer" );
-                    _localizationService.Save(newitem);
-                    newitem = _localizationService.GetDictionaryItemByKey("Forums.RegisterUrl") ?? new DictionaryItem(parentnode.Key,"Forums.RegisterUrl");
-                    _localizationService.AddOrUpdateDictionaryValue(newitem,lang,"/register" );
-                    _localizationService.Save(newitem);
-                    newitem = _localizationService.GetDictionaryItemByKey("Forums.VerifyUrl") ?? new DictionaryItem(parentnode.Key,"Forums.VerifyUrl");
-                    _localizationService.AddOrUpdateDictionaryValue(newitem,lang,"/verify" );
-                    _localizationService.Save(newitem);
-                    _localizationService.Save(lang);
-                }
-
-
-            }
-            catch (Exception e)
-            {
-                _logger.LogError( e, "Executing AddDictionaryItems");
-
-            }
-
         }
 
     }

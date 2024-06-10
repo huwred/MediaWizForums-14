@@ -34,7 +34,7 @@ namespace MediaWiz.Forums.Migrations
         {
             try
             {
-                var dataTypeDefinitions = _dataTypeService.GetAll().ToArray(); //.ToArray() because arrays are fast and easy.
+                var dataTypeDefinitions = _dataTypeService.GetAllAsync().Result.ToArray(); //.ToArray() because arrays are fast and easy.
                 var truefalse = dataTypeDefinitions.FirstOrDefault(p => p.EditorAlias.ToLower() == "umbraco.truefalse" && p.Name.Contains("True")); //we want the TrueFalse data type.
                 
                 var forumPost = _contentTypeService.Get("forumPost");
@@ -55,21 +55,7 @@ namespace MediaWiz.Forums.Migrations
                         forumPost.AddPropertyType(approvedPropertyType,"general");
                         _contentTypeService.Save(forumPost);
                     }
-                    //if (!forumPost.PropertyTypes.Any(p => p.Alias == "requireapproval"))
-                    //{
-                    //    var approvalPropertyType = new PropertyType(_shortStringHelper, truefalse)
-                    //    {
-                    //        Key = Guid.Parse("FBF4EB1E-ECD3-438C-B36B-472B59E983B8"),
-                    //        Name = "Require Approval",
-                    //        Alias = "requireapproval",
-                    //        Description = "Post requires approval.",
-                    //        PropertyEditorAlias = "Umb.PropertyEditorUi.Toggle"
-                            
-                    //    };
-                        
-                    //    forumPost.AddPropertyType(approvalPropertyType,"general");
-                    //    _contentTypeService.Save(forumPost);
-                    //}
+
                 }
             }
             catch (Exception e)
@@ -83,7 +69,7 @@ namespace MediaWiz.Forums.Migrations
         {
             try
             {
-                var dataTypeDefinitions = _dataTypeService.GetAll().ToArray(); //.ToArray() because arrays are fast and easy.
+                var dataTypeDefinitions = _dataTypeService.GetAllAsync().Result.ToArray(); //.ToArray() because arrays are fast and easy.
                 var truefalse = dataTypeDefinitions.FirstOrDefault(p => p.EditorAlias.ToLower() == "umbraco.truefalse" && p.Name.Contains("True")); //we want the TrueFalse data type.
                 
                 var forum = _contentTypeService.Get("forum");
