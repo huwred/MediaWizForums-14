@@ -1,0 +1,11 @@
+{
+    "name": "MediaWiz.Forums",
+    "private": "true",
+    "version": "0.0.0",
+    "type": "commonjs",
+    "description": "proxy package.json, so NPM Taskrunner extension in visual studio can find the commands",
+    "scripts": {
+        "build": "cd ./Assets/ && npm run build",
+        "watch": "cd ./Assets/ && npm run watch"
+    }
+}

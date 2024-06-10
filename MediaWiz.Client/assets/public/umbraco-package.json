@@ -1,0 +1,15 @@
+{
+    "$schema": "../umbraco-package-schema.json",
+    "name": "MediaWiz.Forums",
+    "id": "MediaWiz.Forums",
+    "version": "0.1.0",
+    "allowTelemetry": true,
+    "extensions": [
+        {
+            "name": "MediaWiz.Forums.entrypoint",
+            "alias": "MediaWiz.Forums.EntryPoint",
+            "type": "entryPoint",
+            "js": "/app_plugins/MediaWiz.Forums/assets.js"
+        }
+    ]
+}
