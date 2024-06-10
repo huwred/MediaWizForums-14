@@ -39,6 +39,7 @@ namespace MediaWiz.Forums.Extensions
         /// <param name="defaultValue">Value to use if not in dictionary</param>
         /// <param name="isoCode">Override the CurrentUI language</param>
         /// <returns></returns>
+        [Obsolete("GetOrCreateDictionaryValue is Obsolete")]
         public static string GetOrCreateDictionaryValue(this ILocalizationService localizationService, string key, string defaultValue,string isoCode = null)
         {
             var languageCode = isoCode ?? System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
@@ -69,6 +70,10 @@ namespace MediaWiz.Forums.Extensions
                 var partKey = item is null ? part : $"{item.ItemKey}.{part}";
                 return localizationService.GetAsync(partKey).Result;
             });
+            if(dictionaryItem == null)
+            {
+                return defaultValue;
+            }
             var currentValue = dictionaryItem.Translations?.FirstOrDefault(it => it.LanguageIsoCode == languageCode);
             if (!string.IsNullOrWhiteSpace(currentValue?.Value))
                 return currentValue.Value;
