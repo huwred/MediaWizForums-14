@@ -25,19 +25,19 @@ namespace MediaWiz.Core.Services
         private readonly ILogger _logger;
         private readonly IEmailSender _emailSender;
         private readonly IHostingEnvironment _hostingEnvironment;
-        private readonly ILocalizationService _localisation;
+        private readonly IDictionaryItemService _dictionaryItemService;
         private readonly IMemberService _memberService;
 
 
         public ForumMailService(IHostingEnvironment hostingEnvironment, IOptions<GlobalSettings> globalSettings,IEmailSender emailSender, 
-            ILocalizationService localisation,ILogger<MailMessage> logger,IMemberService memberService,IOptions<ContentSettings> contentSettings,
+            IDictionaryItemService dictionaryItemService,ILogger<MailMessage> logger,IMemberService memberService,IOptions<ContentSettings> contentSettings,
             IOptions<HostingSettings> hostingSettings)
         {
 
             _logger = logger;
             _emailSender = emailSender;
             _hostingEnvironment = hostingEnvironment;
-            _localisation = localisation;
+            _dictionaryItemService = dictionaryItemService;
             _memberService = memberService;
             _hostingSettings = hostingSettings.Value;
 
@@ -57,18 +57,18 @@ namespace MediaWiz.Core.Services
             {
 
                 string baseURL = _hostingEnvironment.ApplicationMainUrl.AbsoluteUri;
-                var resetUrl = baseURL + _localisation.GetOrCreateDictionaryValue("Forums.VerifyUrl","/verify").TrimEnd('/') + "/?verifyGUID=" + guid;
+                var resetUrl = baseURL + _dictionaryItemService.GetOrCreateDictionaryValue("Forums.VerifyUrl","/verify").TrimEnd('/') + "/?verifyGUID=" + guid;
                 Dictionary<string, string> parameters = new Dictionary<string, string>
                 {
                     {"{resetUrl}", resetUrl}
                 };
-                var messageTemplate = _localisation.GetOrCreateDictionaryValue("Forums.VerifyBody",@"<h2>Verify your account</h2>
+                var messageTemplate = _dictionaryItemService.GetOrCreateDictionaryValue("Forums.VerifyBody",@"<h2>Verify your account</h2>
             <p>in order to use your account, you first need to verify your email address using the link below.</p>
             <p><a href='{resetUrl}'>Verify your account</a></p>");
 
                 var messageBody = GetEmailTemplate(messageTemplate, "Forums.NotificationBody", parameters);
                 EmailMessage message = new EmailMessage(_fromEmail, email,
-                    _localisation.GetOrCreateDictionaryValue("Forums.VerifySubject", "Verifiy your account"), messageBody, true);
+                    _dictionaryItemService.GetOrCreateDictionaryValue("Forums.VerifySubject", "Verifiy your account"), messageBody, true);
 
 
                 await _emailSender.SendAsync(message, emailType: "Contact");
@@ -186,7 +186,7 @@ namespace MediaWiz.Core.Services
 
         public string GetEmailTemplate(string template, string dictionaryString, Dictionary<string,string> parameters)
         {
-            var dictionaryTemplate = _localisation.GetDictionaryItemByKey(dictionaryString);
+            var dictionaryTemplate = _dictionaryItemService.GetAsync(dictionaryString).Result;
             if (dictionaryTemplate != null && !string.IsNullOrWhiteSpace(dictionaryTemplate.Translations.FirstOrDefault()?.Value))
             {
                 template = dictionaryTemplate.Translations.FirstOrDefault()?.Value;
