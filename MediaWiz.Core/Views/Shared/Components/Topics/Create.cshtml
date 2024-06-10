@@ -2,9 +2,11 @@
 @using Umbraco.Cms.Core.Models.PublishedContent
 @using Umbraco.Cms.Core.Security
 @using Umbraco.Cms.Core.Services
+@using Umbraco.Cms.Core.Models
 @using Umbraco.Extensions
 @inject IMemberManager _memberManager
 @inject IMemberGroupService MemberGroupService
+@inject IdKeyMap keyMap
 
 @{ var create = Context.Request.Query["create"];
 
@@ -38,7 +40,8 @@
         var allowedGroupList = new List<string>();
         foreach (var memberGroupStr in canPostGroups.Split(','))
         {
-            var memberGroup = MemberGroupService.GetById(Convert.ToInt32(memberGroupStr));
+            var key = keyMap.GetKeyForId(Convert.ToInt32(memberGroupStr),UmbracoObjectTypes.MemberGroup).Result;
+            var memberGroup = MemberGroupService.GetAsync(key).Result;
             if (memberGroup != null)
             {
                 allowedGroupList.Add(memberGroup.Name);

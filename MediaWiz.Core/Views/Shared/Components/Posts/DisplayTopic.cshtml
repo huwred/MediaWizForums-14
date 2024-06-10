@@ -13,7 +13,7 @@
 @inject IViewCounterService _viewCounter
 @inject IForumCacheService _cacheService
 @{
-    var activetopics = TempData["ActiveTopics"] == "true";
+    var activetopics = TempData["ActiveTopics"].ToString() == "true";
     var currentUser = _memberManager.GetCurrentMemberAsync().Result;
     IList<string> roles = new List<string>();
     if (currentUser != null)
