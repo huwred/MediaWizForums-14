@@ -18,8 +18,8 @@ namespace MediaWiz.Forums.ViewComponents
         private readonly IUmbracoContextAccessor _umbracoContextAccessor;
         private readonly IMemberManager _memberManager;
         private readonly IMemberGroupService _groupService;
-        private readonly IdKeyMap _keyMap;
-        public ForumViewComponent(IUmbracoContextAccessor umbracoContextAccessor, IMemberManager memberManager,IMemberGroupService groupService,IdKeyMap keyMap)
+        private readonly IIdKeyMap _keyMap;
+        public ForumViewComponent(IUmbracoContextAccessor umbracoContextAccessor, IMemberManager memberManager,IMemberGroupService groupService,IIdKeyMap keyMap)
         {
             _groupService = groupService;
             _memberManager = memberManager;
@@ -71,7 +71,7 @@ namespace MediaWiz.Forums.ViewComponents
         public IPublishedContent Content { get; set; }
         public List<IPublishedContent> Forums { get; set; }
 
-        public ForumListViewModel(IMemberManager memberManager, IMemberGroupService groupService,IdKeyMap keyMap)
+        public ForumListViewModel(IMemberManager memberManager, IMemberGroupService groupService,IIdKeyMap keyMap)
         {
             _groupService = groupService;
             _memberManager = memberManager;
@@ -79,7 +79,7 @@ namespace MediaWiz.Forums.ViewComponents
         }
         private readonly IMemberManager _memberManager;
         private readonly IMemberGroupService _groupService;
-        private readonly IdKeyMap _keyMap;
+        private readonly IIdKeyMap _keyMap;
         public bool CanView(IPublishedContent model)
         {
 

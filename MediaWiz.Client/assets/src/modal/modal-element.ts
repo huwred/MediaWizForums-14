@@ -12,21 +12,19 @@ export class MemberCustomModalElement extends
     }
 
     connectedCallback(): void {
-        super.connectedCallback();
-        console.log('connectedCallback');
-        //this.updateValue({content: this.data?.content});       
+        super.connectedCallback();    
     }
 
     @state()
     content: string = '';
 
     #handleConfirm() {
+        
 		this.modalContext?.submit();      
 
 	}
 
 	#handleCancel() {
-        console.log('handleCancel');
 		this.modalContext?.reject();
 	}
 

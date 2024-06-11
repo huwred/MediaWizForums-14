@@ -280,7 +280,6 @@ namespace MediaWiz.Forums.Controllers
         #region Installation
 
         [Route("sendvalidation/{id?}")]
-        //[HttpPost]
         public void ResendValidation(Guid? id)
         {
             if (id == null)
@@ -288,8 +287,11 @@ namespace MediaWiz.Forums.Controllers
                 return;
             }
             var member = _memberService.GetByKey(id.Value);
-            
-            var result =  _mailService.SendVerifyAccount(member.Email,member.GetValue<string>("resetGuid")).Result;
+                string resetGuid = ForumHelper.GenerateUniqueCode(16);
+                member.SetValue("resetGuid", resetGuid);    
+            _memberService.Save(member);
+
+            var result =  _mailService.SendVerifyAccount(member.Email,resetGuid).Result;
         }
         #endregion
 

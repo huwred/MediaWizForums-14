@@ -1,22 +1,18 @@
 import { UmbControllerHostElement } from "@umbraco-cms/backoffice/controller-api";
 import { UmbEntityActionArgs, UmbEntityActionBase } from "@umbraco-cms/backoffice/entity-action";
-//import { UMB_NOTIFICATION_CONTEXT, UmbNotificationContext } from "@umbraco-cms/backoffice/notification";
 import { UMB_MODAL_MANAGER_CONTEXT, UmbModalManagerContext } from "@umbraco-cms/backoffice/modal";
 import { MEMBER_CUSTOM_MODAL } from "../../modal/modal-token.ts";
-
-export class MemberEntityAction extends UmbEntityActionBase<never> {
-    //#notificationContext? : UmbNotificationContext;
+import { UmbMemberDetailRepository  } from '@umbraco-cms/backoffice/member';
+export class MemberEntityAction extends UmbEntityActionBase<UmbMemberDetailRepository> {
     #modalManagerContext?: UmbModalManagerContext;
-    constructor(host: UmbControllerHostElement, args: UmbEntityActionArgs<never>)
+    constructor(host: UmbControllerHostElement, args: UmbEntityActionArgs<UmbMemberDetailRepository>)
     {
         super(host, args)
-                // Fetch/consume the contexts & assign to the private fields
+        // Fetch/consume the contexts & assign to the private fields
         this.consumeContext(UMB_MODAL_MANAGER_CONTEXT, (instance) => {
             this.#modalManagerContext = instance;
         });
-        //this.consumeContext(UMB_NOTIFICATION_CONTEXT, (instance) => {
-        //    this.#notificationContext = instance;
-        //});
+
     }
     
     async execute() {
@@ -32,8 +28,8 @@ export class MemberEntityAction extends UmbEntityActionBase<never> {
             const headers: Headers = new Headers()
             headers.set('Content-Type', 'application/json')
             headers.set('Accept', 'application/json')
-            //339fe5d9-3136-42e1-b10f-f3c76bedc315
-            const request: RequestInfo = new Request('/sendvalidation', {
+
+            const request: RequestInfo = new Request('/sendvalidation/' + this.args.unique?.toString(), {
                 method: 'GET',
                 headers: headers,
             })
@@ -43,17 +39,9 @@ export class MemberEntityAction extends UmbEntityActionBase<never> {
                 console.log("got response:", res)
             })
         }).catch(() => {
-            // User clicked close/cancel and no data was submitted
-            console.log('rejected:')
             return;
-        }).finally(() => {console.log('done'); });
+        });
 
-        //this.#notificationContext?.peek('warning', {
-        //    data: {
-        //        headline: 'A thing has happened !',
-        //        message: 'What that thing is? only time will tell.'
-        //    }
-        //});
     }
 
 }

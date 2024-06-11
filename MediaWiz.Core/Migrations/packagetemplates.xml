@@ -741,7 +741,7 @@ else
     <meta name="robots" content="noindex,nofollow" />
     @if (success)
     {
-        <meta http-equiv="Refresh" content="5;url=/Forums" />
+        <meta http-equiv="Refresh" content="5;url=@Umbraco.GetDictionaryValueOrDefault("Forums.ForumUrl", "/").TrimEnd('/')" />
     }
 
 }

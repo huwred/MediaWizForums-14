@@ -42,26 +42,43 @@ namespace MediaWiz.Forums.Controllers
             if (guid != null)
             {
                 var member = _memberService.GetMembersByPropertyValue("resetGuid", guid, StringPropertyMatchType.Exact);
-                var enumerable = member as IMember[] ?? member.ToArray();
                 VerifyViewModel pageViewModel = new VerifyViewModel(CurrentPage,
                     new PublishedValueFallback(_serviceContext, _variationContextAccessor));
-                if (enumerable.Count()==1)
+                if (member.Count() == 1)
                 {
-                    var memberToValidate = enumerable.First();
+                    var memberToValidate = member.First();
+                    pageViewModel.ValidatedMember = memberToValidate;
                     memberToValidate.SetValue("resetGuid",null);
                     memberToValidate.SetValue("joinedDate",DateTime.UtcNow);
                     memberToValidate.SetValue("hasVerifiedAccount",true);
                     memberToValidate.IsApproved = true;
-                    _memberService.Save(memberToValidate);
-                    _memberService.AssignRole(memberToValidate.Email, "ForumMember");
-                    TempData["ValidationSuccess"] = true;
+                    try
+                    {
+                        var members = _memberService.GetMembersInRole("ForumMember");
+                        if (!members.Contains(memberToValidate))
+                        {
+                            _memberService.AssignRole(memberToValidate.Username, "ForumMember");
+                        }
+                        var result = _memberService.Save(memberToValidate);
+                        if(result.Success)
+                        {
+                            pageViewModel.Success = true;
+                            return CurrentTemplate(pageViewModel);
+                        }
 
-                    pageViewModel.ValidatedMember = memberToValidate;
+                    }
+                    catch (Exception e)
+                    {
+                        var test = e.Message;
+                        //throw;
+                    }
+                    pageViewModel.Success = true;
+
                 }
                 else
                 {
-                    TempData["ValidationSuccess"] = null;
-                    TempData["ValidationError"] = _localizationService.GetOrCreateDictionaryValue("Forums.Error.Verification","Verification code was not found or has expired");
+                    pageViewModel.Success = false;
+                    pageViewModel.Error = _localizationService.GetOrCreateDictionaryValue("Forums.Error.Verification","Verification code was not found or has expired");
                 }
                 return CurrentTemplate(pageViewModel);
             }
@@ -99,7 +116,7 @@ namespace MediaWiz.Forums.Controllers
             return CurrentTemplate(pageViewModel);
         }
         [HttpGet]
-        public IActionResult Index([FromQuery(Name = "verifyGuid")] string guid)
+        public IActionResult Index([FromQuery(Name = "verifyGUID")] string guid)
         {
             if (guid != null)
             {
@@ -145,6 +162,8 @@ namespace MediaWiz.Forums.Controllers
         public string ConfirmPassword;
         public string ResetToken;
         public string MemberId;
+        public bool Success;
+        public string Error;
         public VerifyViewModel(IPublishedContent content, IPublishedValueFallback publishedValueFallback) : base(content, publishedValueFallback)
         {
         }

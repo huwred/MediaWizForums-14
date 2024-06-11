@@ -56,7 +56,7 @@ namespace MediaWiz.Core.Services
             try
             {
 
-                string baseURL = _hostingEnvironment.ApplicationMainUrl.AbsoluteUri;
+                string baseURL = _hostingEnvironment.ApplicationMainUrl.AbsoluteUri.TrimEnd('/');
                 var resetUrl = baseURL + _dictionaryItemService.GetOrCreateDictionaryValue("Forums.VerifyUrl","/verify").TrimEnd('/') + "/?verifyGUID=" + guid;
                 Dictionary<string, string> parameters = new Dictionary<string, string>
                 {

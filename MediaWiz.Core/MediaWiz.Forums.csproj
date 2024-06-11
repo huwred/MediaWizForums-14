@@ -43,18 +43,11 @@
     <None Include="wwwroot\**" />
 	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="Events\MemberTreeNotificationHandler.cs" />
-    <Compile Remove="Helpers\MediaWizManifestFilter.cs" />
-  </ItemGroup>
 	<ItemGroup>
     <Content Remove="bundleconfig.json" />
+    <Content Remove="package-lock.json" />
   </ItemGroup>
 
-	<ItemGroup>
-    <None Remove="views\Shared\Components\Topics\ActiveSince.cshtml" />
-    <None Remove="Views\Shared\Components\_ViewImports.cshtml" />
-	</ItemGroup>
 
 	<ItemGroup>
 	  <EmbeddedResource Include="Migrations\forumpackage.xml" />
@@ -71,13 +64,6 @@
     <None Include=".\icon.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <UpToDateCheckInput Remove="Views\Shared\Components\Topics\ActiveSince.cshtml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <_ContentIncludedByDefault Remove="Views\Shared\Components\Topics\ActiveSince.cshtml" />
-	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
 	  <PackageReference Include="Umbraco.Cms.Core">
@@ -101,5 +87,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\MediaWiz.Client\MediaWiz.Client.csproj" />
 	</ItemGroup>
+  
+
 
 </Project>

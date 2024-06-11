@@ -45,7 +45,7 @@ namespace MediaWiz.Forums.Controllers
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly IDictionaryItemService _localizationService;
         private readonly ILanguageService _languageService;
-        private readonly IdKeyMap _keyMap;
+        private readonly IIdKeyMap _keyMap;
         public ForumsSurfaceController(IUmbracoContextAccessor umbracoContextAccessor, IUmbracoDatabaseFactory databaseFactory, ServiceContext services, AppCaches appCaches, IProfilingLogger profilingLogger, IPublishedUrlProvider publishedUrlProvider,
             IMemberService memberService,
             IMemberSignInManager signInManager,
@@ -53,7 +53,7 @@ namespace MediaWiz.Forums.Controllers
             IMemberManager memberManager,
             IContentService contentService,
             IForumMailService mailService,IHttpContextAccessor httpContextAccessor,IDictionaryItemService localizationService,
-            ILanguageService languageService,IdKeyMap keyMap) 
+            ILanguageService languageService,IIdKeyMap keyMap) 
             : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
         {
             _memberService = memberService;
