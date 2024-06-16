@@ -90,6 +90,10 @@ namespace MediaWiz.Forums.Controllers
                     var author = post.GetValue<string>("postAuthor");
                     var currentMember = _memberManager.GetUserAsync(_httpContextAccessor.HttpContext?.User!).Result;
                     var roles =  _memberManager.GetRolesAsync(currentMember).Result;
+                    if(!roles.Contains("ForumAdministrator") && !roles.Contains("ForumModerator") && !(author != "0" && author == currentMember.Id))
+                    {
+                        return false;
+                    }
 
                     if (author != "0" && author == currentMember.Id)
                     {
@@ -233,6 +237,19 @@ namespace MediaWiz.Forums.Controllers
                         {
                             var currentState = post.GetValue<bool>("approved");
                             post.SetValue("approved", !currentState);
+                            post.SetValue("umbracoNaviHide",currentState);
+                        }
+                        var parent = _contentService.GetParent(post);
+                        if (parent.HasProperty("unapprovedReplies"))
+                        {
+                             var counter = parent.GetValue<int>("unapprovedReplies");
+                             if(counter > 0)
+                            {
+                                counter -= 1;
+                            }
+                             parent.SetValue("unapprovedReplies", counter);
+                             _contentService.Save(parent);
+                            _contentService.Publish(parent, new string[] { "*" });
                         }
                         var saveresult = _contentService.Save(post);
                         _contentService.Publish(post, new string[] { "*" });
