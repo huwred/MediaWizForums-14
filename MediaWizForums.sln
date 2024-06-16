@@ -3,12 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaWiz.Forums", "MediaWiz.Core\MediaWiz.Forums.csproj", "{F5D9B20E-8B35-4E9A-A014-EBAB045DC427}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaWiz.Core", "MediaWiz.Core\MediaWiz.Forums.csproj", "{F5D9B20E-8B35-4E9A-A014-EBAB045DC427}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaWiz.Forums14", "MediaWiz.Forums14\MediaWiz.Forums14.csproj", "{C4512ABD-495B-4C5F-A8E2-614137F5FFF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaWiz.Client", "MediaWiz.Client\MediaWiz.Client.csproj", "{C4512ABD-495B-4C5F-A8E2-614137F5FFF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WWWTest", "WWWTest\WWWTest.csproj", "{2CCC5607-E237-4CBF-BF71-6A83908F41BD}"
-EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
