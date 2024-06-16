@@ -35,8 +35,9 @@ namespace MediaWiz.Forums.Migrations
             try
             {
                 var dataTypeDefinitions = _dataTypeService.GetAllAsync().Result.ToArray(); //.ToArray() because arrays are fast and easy.
-                var truefalse = dataTypeDefinitions.FirstOrDefault(p => p.EditorAlias.ToLower() == "umbraco.truefalse" && p.Name.Contains("True")); //we want the TrueFalse data type.
-                
+                var truefalse = dataTypeDefinitions.FirstOrDefault(p => p.EditorAlias.ToLower() == "umbraco.truefalse" && p.Name.Contains("Approved")); //we want the TrueFalse data type.
+                var numeric = dataTypeDefinitions.FirstOrDefault(p => p.EditorAlias.ToLower() == "umbraco.integer");
+
                 var forumPost = _contentTypeService.Get("forumPost");
                 if (forumPost != null && truefalse != null)
                 {
@@ -55,7 +56,22 @@ namespace MediaWiz.Forums.Migrations
                         forumPost.AddPropertyType(approvedPropertyType,"general");
                         _contentTypeService.Save(forumPost);
                     }
+                    if (!forumPost.PropertyTypes.Any(p => p.Alias == "unapprovedReplies"))
+                    {
+                        var unapprovedPropertyType = new PropertyType(_shortStringHelper, numeric)
+                        {
+                            PropertyEditorAlias = "Umb.PropertyEditorUi.Integer",
+                            Key = Guid.Parse("26DF91A2-5F8B-4F37-A1C8-A8448120951C"),
+                            Name = "Unapproved Replies",
+                            Alias = "unapprovedReplies",
+                        
+                            Description = "Number of UnApproved replies.",
 
+                        };
+                        
+                        forumPost.AddPropertyType(unapprovedPropertyType,"general");
+                        _contentTypeService.Save(forumPost);
+                    }
                 }
             }
             catch (Exception e)
@@ -70,7 +86,7 @@ namespace MediaWiz.Forums.Migrations
             try
             {
                 var dataTypeDefinitions = _dataTypeService.GetAllAsync().Result.ToArray(); //.ToArray() because arrays are fast and easy.
-                var truefalse = dataTypeDefinitions.FirstOrDefault(p => p.EditorAlias.ToLower() == "umbraco.truefalse" && p.Name.Contains("True")); //we want the TrueFalse data type.
+                var truefalse = dataTypeDefinitions.FirstOrDefault(p => p.EditorAlias.ToLower() == "umbraco.truefalse" && p.Name.Contains("Require")); //we want the TrueFalse data type.
                 
                 var forum = _contentTypeService.Get("forum");
                 if (forum != null && truefalse != null)
@@ -81,7 +97,7 @@ namespace MediaWiz.Forums.Migrations
                         {
                             PropertyEditorAlias = "Umb.PropertyEditorUi.Toggle",
                             Key = Guid.Parse("84C6263A-E95D-4C0D-B425-30AE795A4A6C"),
-                            Name = "Require Approval",
+                            Name = "Approval",
                             Alias = "requireApproval",
                             Description = "Posts require approval."
                         };

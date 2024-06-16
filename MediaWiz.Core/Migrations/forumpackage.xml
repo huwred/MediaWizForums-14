@@ -31,7 +31,7 @@
           <forumPost id="1290" key="e7e38b9c-dc96-4be1-9372-2124358bfd60" parentID="1090" level="3" creatorID="-1" sortOrder="0" createDate="2022-12-07T16:56:04" updateDate="2022-12-07T16:56:04" nodeName="test Post" urlName="test-post" path="-1,1089,1090,1290" isDoc="" nodeType="1067" nodeTypeAlias="forumPost" creatorName="Huw Reddick" writerName="Huw Reddick" writerID="-1" template="" isPublished="true">
             <postTitle><![CDATA[test Post]]></postTitle>
             <postBody><![CDATA[<p>Just a test for quotes</p>]]></postBody>
-            <postAuthor><![CDATA[1179]]></postAuthor>
+            <postAuthor></postAuthor>
             <postType>1</postType>
             <postCreator><![CDATA[Huw Reddick]]></postCreator>
             <allowReplies>1</allowReplies>
@@ -41,7 +41,7 @@
 <p>Just a test for quotes</p>
 </blockquote>
 <p>Reply with quote</p>]]></postBody>
-              <postAuthor><![CDATA[1179]]></postAuthor>
+              <postAuthor></postAuthor>
               <postType>0</postType>
               <postCreator><![CDATA[Huw Reddick]]></postCreator>
               <allowReplies>1</allowReplies>
@@ -1360,7 +1360,9 @@ if (selection.Length > 0)
     <DataType Name="Forum - Page Size - Topics" Id="Umbraco.Slider" EditorUiAlias="Umb.PropertyEditorUi.Slider" Definition="d62b131a-74c3-4f33-bf9a-3e1f5882fae9" DatabaseType="Nvarchar" Configuration="{&quot;enableRange&quot;:false,&quot;initVal1&quot;:10.0,&quot;initVal2&quot;:0.0,&quot;minVal&quot;:10.0,&quot;maxVal&quot;:100.0,&quot;step&quot;:5.0}" />
     <DataType Name="Forum - Post Type - Toggle" Id="Umbraco.TrueFalse" EditorUiAlias="Umb.PropertyEditorUi.Toggle" Definition="4d4c1220-72c9-42be-bf25-0c44dfdd5d1a" DatabaseType="Integer" Configuration="{&quot;default&quot;:true,&quot;showLabels&quot;:true,&quot;labelOn&quot;:&quot;Topic&quot;,&quot;labelOff&quot;:&quot;Reply&quot;}" />
     <DataType Name="Forum - Resolved - Toggle" Id="Umbraco.TrueFalse" EditorUiAlias="Umb.PropertyEditorUi.Toggle" Definition="dc500a08-593c-44bd-9e46-905d859c9adb" DatabaseType="Integer" Configuration="{&quot;default&quot;:false,&quot;showLabels&quot;:true,&quot;labelOn&quot;:&quot;Answered&quot;,&quot;labelOff&quot;:&quot;Not Answered&quot;}" />
-    <DataType Name="List View - Members" Id="Umbraco.ListView" EditorUiAlias="Umbraco.PropertyEditorUi.Collection" Definition="aa2c52a0-ce87-4e65-a47c-7df09358585d" DatabaseType="Nvarchar" Configuration="{&quot;pageSize&quot;:10,&quot;orderBy&quot;:&quot;username&quot;,&quot;orderDirection&quot;:&quot;asc&quot;,&quot;includeProperties&quot;:[{&quot;alias&quot;:&quot;username&quot;,&quot;isSystem&quot;:1},{&quot;alias&quot;:&quot;email&quot;,&quot;isSystem&quot;:1},{&quot;alias&quot;:&quot;updateDate&quot;,&quot;header&quot;:&quot;Last edited&quot;,&quot;isSystem&quot;:1}],&quot;layouts&quot;:[{&quot;name&quot;:&quot;List&quot;,&quot;path&quot;:&quot;views/propertyeditors/listview/layouts/list/list.html&quot;,&quot;icon&quot;:&quot;icon-list&quot;,&quot;isSystem&quot;:1,&quot;selected&quot;:true},{&quot;name&quot;:&quot;Grid&quot;,&quot;path&quot;:&quot;views/propertyeditors/listview/layouts/grid/grid.html&quot;,&quot;icon&quot;:&quot;icon-thumbnails-small&quot;,&quot;isSystem&quot;:1,&quot;selected&quot;:true}],&quot;bulkActionPermissions&quot;:{&quot;allowBulkPublish&quot;:true,&quot;allowBulkUnpublish&quot;:true,&quot;allowBulkCopy&quot;:true,&quot;allowBulkMove&quot;:true,&quot;allowBulkDelete&quot;:true},&quot;showContentFirst&quot;:false,&quot;useInfiniteEditor&quot;:false}" />
+    <DataType Name="List View - Members" Id="Umbraco.ListView" EditorUiAlias="Umb.PropertyEditorUi.Collection" Definition="aa2c52a0-ce87-4e65-a47c-7df09358585d" DatabaseType="Nvarchar" Configuration="{&quot;pageSize&quot;:10,&quot;orderBy&quot;:&quot;username&quot;,&quot;orderDirection&quot;:&quot;asc&quot;,&quot;includeProperties&quot;:[{&quot;alias&quot;:&quot;username&quot;,&quot;isSystem&quot;:1},{&quot;alias&quot;:&quot;email&quot;,&quot;isSystem&quot;:1},{&quot;alias&quot;:&quot;updateDate&quot;,&quot;header&quot;:&quot;Last edited&quot;,&quot;isSystem&quot;:1}],&quot;layouts&quot;:[{&quot;name&quot;:&quot;List&quot;,&quot;path&quot;:&quot;views/propertyeditors/listview/layouts/list/list.html&quot;,&quot;icon&quot;:&quot;icon-list&quot;,&quot;isSystem&quot;:1,&quot;selected&quot;:true},{&quot;name&quot;:&quot;Grid&quot;,&quot;path&quot;:&quot;views/propertyeditors/listview/layouts/grid/grid.html&quot;,&quot;icon&quot;:&quot;icon-thumbnails-small&quot;,&quot;isSystem&quot;:1,&quot;selected&quot;:true}],&quot;bulkActionPermissions&quot;:{&quot;allowBulkPublish&quot;:true,&quot;allowBulkUnpublish&quot;:true,&quot;allowBulkCopy&quot;:true,&quot;allowBulkMove&quot;:true,&quot;allowBulkDelete&quot;:true},&quot;showContentFirst&quot;:false,&quot;useInfiniteEditor&quot;:false}" />
+    <DataType Name="Forum - Approved - Toggle" Id="Umbraco.TrueFalse" EditorUiAlias="Umb.PropertyEditorUi.Toggle" Definition="dc500a08-593c-44bd-9e46-905d859c9adb" DatabaseType="Integer" Configuration="{&quot;default&quot;:false,&quot;showLabels&quot;:true,&quot;labelOn&quot;:&quot;Approved&quot;,&quot;labelOff&quot;:&quot;Not Approved&quot;}" />
+    <DataType Name="Forum - Require - Toggle" Id="Umbraco.TrueFalse" EditorUiAlias="Umb.PropertyEditorUi.Toggle" Definition="dc500a08-593c-44bd-9e46-905d859c9adb" DatabaseType="Integer" Configuration="{&quot;default&quot;:false,&quot;showLabels&quot;:true,&quot;labelOn&quot;:&quot;Required&quot;,&quot;labelOff&quot;:&quot;Not Required&quot;}" />
   </DataTypes>
   <MediaItems/>
 </umbPackage>

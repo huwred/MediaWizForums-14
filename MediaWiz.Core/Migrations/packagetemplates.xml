@@ -40,7 +40,7 @@
     @if (Model.PagedResult.Any())
     {
         <div class="wiz-topics">
-            <div class="d-flex flex-row flex-wrap mb-3 p-2 color-white bg-secondary">
+            <div class="d-flex flex-row flex-wrap mb-3 p-2 color_dark bold">
                 <div class="col-7">@Umbraco.GetDictionaryValueOrDefault("Forums.Topic", "Topic")</div>
                 <div class="col-3">@Umbraco.GetDictionaryValueOrDefault("Forums.Forum", "Forum")</div>
                 <div class="col-2">@Umbraco.GetDictionaryValueOrDefault("Forums.Replies", "Replies")</div>
@@ -49,7 +49,7 @@
                 @foreach (var result in Model.PagedResult)
                 {
                     var post = Umbraco.Content(result.Id);
-                    @await Component.InvokeAsync("Posts",new {Template = "DisplayTopic",Model = post,showTitle = true})
+                    @await Component.InvokeAsync("Posts", new { Template = "DisplayTopic", Model = post, showTitle = true, activeTopics = true})
 
                 }
                 @if (totalPages > 1)
@@ -315,11 +315,17 @@ else
       <Design><![CDATA[@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<MediaWiz.Forums.ViewModels.SearchViewModel>
 @using MediaWiz.Forums.Interfaces
 @using System.Text.RegularExpressions
+@using Umbraco.Cms.Core.Security
 @using Umbraco.Extensions
 @inject IForumCacheService _forumCache;
-
+@inject IMemberManager _memberManager
 @{ Layout = "forumMaster.cshtml";
-
+    var currentUser = _memberManager.GetUserAsync(Context.User).Result;
+    IList<string> roles = new List<string>();
+    if (currentUser != null)
+    {
+        roles = _memberManager.GetRolesAsync(currentUser).Result;
+    }
     int.TryParse(Context.Request.Query["page"], out var pagenum);
     if (pagenum == 0)
     {
@@ -330,62 +336,92 @@ else
     ViewBag.Page = pagenum;
     ViewBag.TotalPages = totalPages;
 }
-<div class="row">
-    @await Component.InvokeAsync("Forum",new {Template = "Search"})
+<div class="wiz-forum-info">
+    <div class="page-header">
+        <h3>@Model.Value("title")</h3>
+    </div>
+    <div class="forum-intro">
+        @await Component.InvokeAsync("Forum", new { Template = "Search" })
+    </div>
 </div>
+
 <div class="row">
     @{ if (Model.PagedResult != null && Model.PagedResult.Any())
         {
             <div class="forum-posts col-sm-12">
                 <div class="wiz-topics">
-
+                    <div class="wiz-body">
                         @foreach (var result in Model.PagedResult)
                         {
                             var post = Umbraco.Content(result.Id);
+                            var forum = post;
+                            if (post.Parent.ContentType.Alias == "forum")
+                            {
+                                forum = post.Parent;
+                            }
+                            else if (post.Parent.Parent.ContentType.Alias == "forum")
+                            {
+                                forum = post.Parent.Parent;
+                            }
+                            bool isApproved = !forum.Value<bool>("requireApproval") || post.Value<bool>("approved");
                             string locked = post.Value<bool>("allowReplies") ? "" : "locked";
                             string solved = post.Value<bool>("answer") ? "solved" : "";
+                            string approvereplies = "notapproved";
+                            if (isApproved )
+                            {
+                                approvereplies = "";
+                                if (post.Value<int>("unapprovedReplies") > 0)
+                                {
+                                    approvereplies = "require-approval";
+                                };
+                            }
+                            isApproved = isApproved && post.Value<int>("unapprovedReplies") == 0;
                             var cacheInfo = _forumCache.GetPost(post, "Topic_" + post.Id);
-                            <div class="d-flex flex-row flex-wrap topic @locked @solved p-3 mb-2 bg-light">
-                                <div class="col-7">
-                                @if (post.Value<int>("stickiness") > 0)
-                                {
-                                    <i class="bi bi-star"></i>
-                                }
-                                @if (!post.Value<bool>("postType"))
-                                {
-                                    <a href="@post.Parent.Url()" style="display: block;" title="Navigate to @post.Parent.Value("postTitle")">@post.Parent.Value("postTitle")</a>
-                                }
-                                else
-                                {
-                                    <a href="@post.Url()" title="View post @post.Value("postTitle")" style="display: block;">@post.Value("postTitle")</a>
+                            @if (isApproved || roles.Contains("ForumAdministrator") || roles.Contains("ForumMederator"))
+                            {
+                            <div class="d-flex flex-row flex-wrap topic @locked @solved mb-2 p-3 @approvereplies rounded-3">
+                                <div class="col-7 ">
+                                    @if (post.Value<int>("stickiness") > 0)
+                                    {
+                                        <i class="bi bi-star"></i>
+                                    }
+                                    @if (!post.Value<bool>("postType"))
+                                    {
+                                        <a href="@post.Parent.Url()" style="display: block;" title="Navigate to @post.Parent.Value("postTitle")">@post.Parent.Value("postTitle")</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@post.Url()" title="View post @post.Value("postTitle")" style="display: block;">@post.Value("postTitle")</a>
 
-                                }
-                            </div>
+                                    }
+                                </div>
                                 <div class="col-5">
                                     Created: @post.CreateDate.ToString("MMM dd, yyyy")
                                     @if (cacheInfo.latestPost != DateTime.MinValue)
                                     {
-                                        <span> - Last update:</span>@cacheInfo.latestPost.ToString("MMM dd, yyyy")
+                                        <span> - Last update:</span>
+
+                                        @cacheInfo.latestPost.ToString("MMM dd, yyyy")
                                     }
                                 </div>
-                            
                                 <div class="col-12 topic-summary pt-1">
-                                @if (post.Value<bool>("postType"))
-                                {
-                                    @Regex.Replace(post.Value<string>("postBody"), "<[^>]*(>|$)", string.Empty)
-
-                                }
-                                else
-                                {
-                                    @Regex.Replace(post.Parent.Value<string>("postBody"), "<[^>]*(>|$)", string.Empty)
-                                }
-                                    
+                                    @if (post.Value<bool>("postType"))
+                                    {
+                                        @Regex.Replace(post.Value<string>("postBody"), "<[^>]*(>|$)", string.Empty)
+                                    }
+                                    else
+                                    {
+                                        @Regex.Replace(post.Parent.Value<string>("postBody"), "<[^>]*(>|$)", string.Empty)
+                                    }
                                 </div>
                             </div>
-
+                                
+                            }
                         }
-                </div>
 
+                    </div>
+
+                </div>
                 @if (totalPages > 1)
                 {
                     @await Component.InvokeAsync("Navigation", new { Template = "PagerView", Model = Model })
@@ -520,7 +556,8 @@ else
       <Name>Profile</Name>
       <Key>bb5f1512-2163-476c-9afa-c95e9d6dcaa4</Key>
       <Alias>profile</Alias>
-      <Design><![CDATA[@using Umbraco.Extensions
+      <Design><![CDATA[@using System.Text.RegularExpressions
+@using Umbraco.Extensions
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 
 @{
@@ -535,7 +572,18 @@ else
         <h3>@Model.Value("title")</h3>
     </div>
     <div class="forum-intro">
-        @Html.Raw(Model.Value("message"))
+        @{
+            var res = Regex.Match(Context.Request.Query["user"].ToString(), @"^\d+$");
+            if (res.Success)
+            {
+                
+            }
+            else
+            {
+                @Html.Raw(Model.Value("message"))
+            }
+        }
+        
     </div>
 </div>
 @await Component.InvokeAsync("ForumMembership",new {Template = "EditProfile",qryUser = Context.Request.Query["user"].ToString()})
@@ -546,7 +594,6 @@ else
 
             var x = $(event.target).text();         // active tab
             var y = $(event.relatedTarget).text();  // previous tab console.log($(event));
-            console.log(x);
             if (x === "Files") {
                 $("#nav-files").load("/memberfiles/" + $("#nav-files").data("id"));
             }
@@ -734,14 +781,14 @@ else
 
 @{
     Layout = "forumMaster.cshtml";
-    var success = TempData["ValidationSuccess"] != null;
-    var error = TempData["ValidationError"] != null;
+    var success = Model.Success;
+    var error = Model.Error != null;
 }
 @section ForumHeader{
     <meta name="robots" content="noindex,nofollow" />
     @if (success)
     {
-        <meta http-equiv="Refresh" content="5;url=@Umbraco.GetDictionaryValueOrDefault("Forums.ForumUrl", "/").TrimEnd('/')" />
+        <meta http-equiv="Refresh" content="5;url=@Umbraco.GetDictionaryValueOrDefault("Forums.ForumUrl", "/")" />
     }
 
 }
@@ -760,7 +807,7 @@ else
 }
 @if (error)
 {
-    <p class="text-warning">Validation failed. @TempData["ValidationError"]</p>
+    <p class="text-warning">Validation failed. @Model.Error</p>
 }]]></Design>
     </Template>
   </Templates>
