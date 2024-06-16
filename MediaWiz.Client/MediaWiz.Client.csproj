@@ -7,6 +7,19 @@
     <Nullable>enable</Nullable>
     <PackageId>MediaWiz.Client</PackageId>
     <StaticWebAssetBasePath>/</StaticWebAssetBasePath>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\App_Plugins\" />
+  </ItemGroup>
+
+  	<ItemGroup>
+	  <None Update="readme.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+    <None Include=".\icon.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
 </Project>
