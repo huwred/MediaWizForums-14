@@ -652,7 +652,7 @@ a.blogpost {
 	margin-left: 3px !important;
 }
 
-article.pageBox, .wiz-forums, .wiz-topics, .mediawiz-wrapper {
+article.pageBox {
 	background-color: white;
 }
 p.caption {
