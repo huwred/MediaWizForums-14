@@ -1,4 +1,4 @@
-# For versions of Umbraco prior to 14 please use https://github.com/huwred/MediaWizForums #
+## For versions of Umbraco prior to 14 please use https://github.com/huwred/MediaWizForums ##
 
 # MediaWizForums 14 #
 Simple Forum add on for Umbraco 14. 
