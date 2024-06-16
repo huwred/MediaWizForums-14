@@ -1,5 +1,6 @@
 ﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.PublishedContent.IPublishedContent>
 
+@using Umbraco.Cms.Core.Models
 @using Umbraco.Cms.Core.Models.PublishedContent
 @using MediaWiz.Forums.Helpers
 @using MediaWiz.Forums.Interfaces
@@ -36,9 +37,9 @@
     }
 
 
-    <li class="@topicClass mt-3" style="overflow: auto">
+    <li class="@topicClass mt-3 rounded-3" style="overflow: auto">
 
-        @if ((post.IsVisible() && isApproved) || roles.Contains("ForumAdministrator"))
+        @if ((post.IsVisible() && isApproved) || roles.Contains("ForumAdministrator") || roles.Contains("ForumMederator") || (user.Id == post.Value<IPublishedContent>("postAuthor").Id.ToString()))
         {
             var alertwarning = "";
             var author = post.Value<IPublishedContent>("postAuthor");
@@ -50,10 +51,10 @@
             {
                 alertwarning = "notapproved";
             }
-            <div class="@topicClass @solved" style="overflow: auto">
+            <div class="@topicClass @solved @alertwarning" style="overflow: auto">
 
                 <div class="d-flex wiz-reply-content" id="content_@post.Id" style="overflow: auto;">
-                            <div class="w-2 flex-md-column bg-white p-2">
+                            <div class="w-2 flex-md-column p-2">
                         <a href="/profile/?user=@post.Value("postCreator")" title="View @post.Value("postCreator")'s profile" class="wiz-author-link">
                             <span>
                                 @{
@@ -94,7 +95,10 @@
                                 @{
                                     DisplayPostTools(post);
                                 }
-                                <li class="list-inline-item"><a href="#post_@post.Id" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Link.Title","Direct link to post")"><i class="fs-5 bi-link-45deg"></i><span class="tool-label" style="display: none;">@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Link.Text","Copy link")</span></a> </li>
+                                @if (isApproved)
+                                {
+                                    <li class="list-inline-item"><a href="#post_@post.Id" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Link.Title","Direct link to post")"><i class="fs-5 bi-link-45deg"></i><span class="tool-label" style="display: none;">@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Link.Text","Copy link")</span></a> </li>               
+                                }
                             </ul>
                         </div>
                     </div>
@@ -102,8 +106,9 @@
             </div>
 
         }
-        else if (roles.Contains("ForumAdministrator"))
+        else if (roles.Contains("ForumAdministrator") || roles.Contains("ForumMederator"))
         {
+
                 // hidden posts are deleted
             <div class="wiz-reply-header post-deleted">
                 @if (post.Value<bool>("deletedByAuthor"))
@@ -192,13 +197,16 @@
         {
             var memberById = _memberManager.FindByIdAsync(user.Id).Result;
             IPublishedContent member = _memberManager.AsPublishedMember(memberById);
+            @if (isApproved)
+            {
+                <li class="list-inline-item">
+                    <a class="post-quote" data-postid="@post.Id" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.QuoteLink.Title","Reply with Quote")" href="#">
+                        <i class="fs-5 bi-chat-quote" aria-hidden="true"></i> <span class="tool-label" style="display: none;">@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.QuoteLink.Text","Quote")</span>
+                    </a>
+                </li>                
+            }
 
-            <li class="list-inline-item">
-                <a class="post-quote" data-postid="@post.Id" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.QuoteLink.Title","Reply with Quote")" href="#">
-                    <i class="fs-5 bi-chat-quote" aria-hidden="true"></i> <span class="tool-label" style="display: none;">@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.QuoteLink.Text","Quote")</span>
-                </a>
-            </li>
-            @if (!post.Value<bool>("postType") && !isSolved)
+            @if (!post.Value<bool>("postType") && !isSolved && isApproved)
             {
                 <li class="list-inline-item">
                     <a href="#" class="post-answer" data-postid="@post.Id" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.SolutionLink.Title","Mark as solution")">
@@ -206,7 +214,7 @@
                     </a>
                 </li>
             }
-            if ((member.Id == authorId) || roles.Contains("ForumAdministrator"))
+            if ((member.Id == authorId) || roles.Contains("ForumAdministrator") || roles.Contains("ForumMederator"))
             {
                 @if (post.CreateDate >= lastpostDate || roles.Contains("ForumAdministrator"))
                 {
@@ -236,16 +244,22 @@
                             }
                         </a>
                     </li>
-                    @if(!post.Value<bool>("approved")){
+
+
+                }
+                @if ((roles.Contains("ForumAdministrator") || roles.Contains("ForumModerator")))
+                {
+
+                    @if (!post.Value<bool>("approved"))
+                    {
                         <li class="list-inline-item">
                             <a class="post-approve" data-postid="@post.Id" href="#" rel="nofollow" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Approve","Approve Post")">
-                                    <i class="fs-5 bi-file-check" aria-hidden="true"></i> <span class="tool-label" style="display: none;">@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Approve","Approve Post")</span>
+                                <i class="fs-5 bi-file-check" aria-hidden="true"></i> <span class="tool-label" style="display: none;">@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Approve", "Approve Post")</span>
                             </a>
                         </li>
                     }
 
                 }
-
             }
         }
     }

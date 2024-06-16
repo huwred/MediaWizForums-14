@@ -1,4 +1,6 @@
 ﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.PublishedContent.IPublishedContent>
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.PublishedContent
 @using Umbraco.Cms.Core.Security
 @using Umbraco.Extensions
 @using Microsoft.Extensions.Options
@@ -14,7 +16,7 @@
 @inject IForumCacheService _cacheService
 @{
     var activetopics = TempData["ActiveTopics"].ToString() == "true";
-    var currentUser = _memberManager.GetCurrentMemberAsync().Result;
+    var currentUser = _memberManager.GetUserAsync(Context.User).Result;
     IList<string> roles = new List<string>();
     if (currentUser != null)
     {
@@ -36,8 +38,12 @@
     {
         string locked = post.Value<bool>("allowReplies") ? "" : "locked";
         string solved = post.Value<bool>("answer") ? "solved" : "";
-
-        <div class="d-flex flex-row flex-wrap topic @locked @solved p-6" id="topic-@post.Id">
+        string approvereplies = "";
+        if (isApproved && post.Value<int>("unapprovedReplies") > 0 )
+        {
+            approvereplies = "require-approval";
+        }
+        <div class="d-flex flex-row flex-wrap topic @locked @solved @approvereplies p-6 mb-2 rounded-3" id="topic-@post.Id">
             <div class="col-7 p-4">
                 <a class="wiz-topic-permalink " href="@post.Url()" style="display: block" title="@post.Value("postTitle")">@post.Value("postTitle")</a>
                 <span class="wiz-topic-meta">
@@ -45,48 +51,73 @@
                     @if (!String.IsNullOrWhiteSpace(cacheInfo.lastpostAuthor))
                     {
                         <span class="wiz-topic-started-by">
-                            @Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Lastpostby","last post by") <a href="/profile/?user=@cacheInfo.lastpostAuthor">@cacheInfo.lastpostAuthor</a>
+                            @Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Lastpostby","last post by") <a href="/profile/?user=@cacheInfo.lastpostAuthorId">@cacheInfo.lastpostAuthor</a>
                             <span title="@cacheInfo.latestPost.ToDisplayDate()">@cacheInfo.latestPost.GetRelativeDate()</span> <a href="@cacheInfo.lastPostUrl" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Forum.Jumpto","Jump to latest post")"><i class="bi bi-chevron-double-right"></i></a>
                         </span>
                     }
                     else
                     {
-                        <span class="wiz-topic-started-by">@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Createdby","topic created by") <a href="/profile/?user=@post.Value("postCreator")">@post.Value("postCreator")</a> <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span></span>
+                        var test = post.Value("postAuthor") as IPublishedContent;
+                        <span class="wiz-topic-started-by">@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Createdby","topic created by") <a href="/profile/?user=@test.Id">@post.Value("postCreator")</a> <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span></span>
                     }
                 </span>
             </div>
-            <div class="col-3 pt-4">@if(activetopics){<a href="@currentPageURL" title="@Umbraco.AssignedContentItem.Parent.Name" ><span class="badge rounded-pill bg-warning p-2">@Umbraco.AssignedContentItem.Parent.Name</span></a>}else{@(cacheInfo.Count)}</div>
+            <div class="col-3 pt-4">
+                @if (activetopics)
+                {
+                    <a href="@currentPageURL" title="@Umbraco.AssignedContentItem.Parent.Name"><span class="badge rounded-pill bg-warning p-2">@Umbraco.AssignedContentItem.Parent.Name</span></a>
+                }
+                else
+                {
+                    @(cacheInfo.Count)
+                }</div>
             <div class="col-2 pt-4">@if(activetopics){@(cacheInfo.Count)}else{@views}  </div>
         </div>
     }
-    else
+    else if (!isApproved)
     {
         string locked = post.Value<bool>("allowReplies") ? "" : "locked";
         string solved = post.Value<bool>("answer") ? "solved" : "";
         /*
          * Need to check whether to display
          */
-        if(!isApproved && _memberManager.IsLoggedIn() && roles.Contains("ForumAdministrator")){
+        if (_memberManager.IsLoggedIn() && roles.Contains("ForumAdministrator") || roles.Contains("ForumMederator"))
+        {
             <div class="d-flex flex-row flex-wrap topic @locked @solved notapproved p-6" id="topic-@post.Id">
-                <div class="col-8 p-4">
+                <div class="col-7 p-4">
                     <a class="wiz-topic-permalink " href="@post.Url()" style="display: block" title="@post.Value("postTitle")">@post.Value("postTitle")</a>
                     <span class="wiz-topic-meta">
 
                         @if (!String.IsNullOrWhiteSpace(cacheInfo.lastpostAuthor))
                         {
                             <span class="wiz-topic-started-by">
-                                @Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Lastpostby", "last post by") <a href="/profile/?user=@cacheInfo.lastpostAuthor">@cacheInfo.lastpostAuthor</a>
+                                @Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Lastpostby", "last post by") <a href="/profile/?user=@cacheInfo.lastpostAuthorId">@cacheInfo.lastpostAuthor</a>
                                 <span title="@cacheInfo.latestPost.ToDisplayDate()">@cacheInfo.latestPost.GetRelativeDate()</span> <a href="@cacheInfo.lastPostUrl" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Forum.Jumpto","Jump to latest post")"><i class="bi bi-chevron-double-right"></i></a>
                             </span>
                         }
                         else
                         {
-                            <span class="wiz-topic-started-by">@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Createdby", "topic created by") <a href="/profile/?user=@post.Value("postCreator")">@post.Value("postCreator")</a> <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span></span>
+                            var test = post.Value("postAuthor") as IPublishedContent;
+                            <span class="wiz-topic-started-by">@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Createdby", "topic created by") <a href="/profile/?user=@(test.Id)">@post.Value("postCreator")</a> <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span></span>
                         }
                     </span>
                 </div>
-                <div class="col-2 pt-4">@(cacheInfo.Count)</div>
+                <div class="col-3 pt-4">
+                    @if (activetopics)
+                    {
+                        <a href="@currentPageURL" title="@Umbraco.AssignedContentItem.Parent.Name"><span class="badge rounded-pill bg-warning p-2">@Umbraco.AssignedContentItem.Parent.Name</span></a>
+                    }
+                    else
+                    {
+                        @(cacheInfo.Count)
+                    }
+                </div>
                 <div class="col-2 pt-4">@views</div>
+                <div class="approve-overlay">
+                    <a href="@post.Url()" class="overlay-icon" title="Approve Topic">
+                        <i class="fs-7 bi-file-check"></i>
+                    </a>
+                </div>
             </div>
         }
 

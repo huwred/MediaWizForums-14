@@ -19,7 +19,7 @@
     {
         <div>
             <div id="forums-list-0" class="wiz-forums">
-                <div class="d-flex flex-row flex-wrap mb-3 p-2 bg-secondary color-white">
+                <div class="d-flex flex-row flex-wrap mb-3 p-2 color_dark bold">
                     <div class="col-8 col-sm-5">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Forum","Forum")</div>
                     <div class="col-2">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Topic","Topic")</div>
                     <div class="col-2">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Posts","Posts")</div>
@@ -31,7 +31,7 @@
                         if (Model.CanView(forum))
                         {
                             var cachedForum = _cacheService.GetPost(forum, "forum_" + forum.Id);
-                                            <div id="forum-@forum.Id" class="d-flex flex-row flex-wrap forum type-forum border-bottom border-dark mb-3">
+                            <div id="forum-@forum.Id" class="d-flex flex-row flex-wrap forum type-forum rounded bg-white border p-3 mb-2">
                                 <div class="col-8 col-sm-5">
                                     <a class="wiz-forum-title" href="@forum.Url()">@forum.Value("forumTitle")</a>
                                     <div class="p-2">@Html.Raw(forum.Value("forumDescription"))</div>
@@ -48,7 +48,7 @@
                                         <p class="wiz-topic-meta">
                                             <a href="@cachedForum.lastPostUrl#post_@cachedForum.Id" title="@umbracoHelper.GetDictionaryValueOrDefault("Forums.Forum.Jumpto","Jump to latest post")">@cachedForum.latestPost.GetRelativeDate()</a>
                                             by
-                                            <a href="~/profile/?user=@cachedForum.lastpostAuthor" title="@String.Format(titleStr,cachedForum.lastpostAuthor)" class="wiz-author-link">
+                                            <a href="~/profile/?user=@cachedForum.lastpostAuthorId" title="@String.Format(titleStr,cachedForum.lastpostAuthor)" class="wiz-author-link">
                                                 @cachedForum.lastpostAuthor
                                             </a>
                                         </p>

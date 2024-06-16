@@ -21,10 +21,10 @@
     }
     else
     {
-        <h2>@String.Format(titleStr,Model.CurrentUser.UserName)</h2>
+        <h4>@String.Format(titleStr, Model.ViewMember.Username)</h4>
         <hr />
         <div class="mb-3">
-            <label>@umbracoHelper.GetDictionaryValueOrDefault("Forums.Members.Name","Name")Name</label>
+            <label>@umbracoHelper.GetDictionaryValueOrDefault("Forums.Profile.Name","Name")</label>
             @Html.DisplayTextFor(m => Model.ViewMember.Name)
         </div>
 
@@ -32,11 +32,11 @@
         {
             foreach (var property in Model.ViewMember.Properties)
             {
-                if (property.Alias != "receiveNotifications")
+                if (property.Alias != "receiveNotifications" && property.Alias != "resetGuid")
                 {
 
                     <div class="mb-3">
-                        <label>@property.Alias</label> : <label>@property.GetValue()</label>
+                        <label>@umbracoHelper.GetDictionaryValueOrDefault($"Forums.Profile.{property.Alias}", @property.Alias)</label> : <label>@property.GetValue()</label>
                     </div>
                 }
             }
