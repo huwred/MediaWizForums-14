@@ -38,11 +38,4 @@
       <RemoveDir Directories="@(PartialViewDir)" />
     </Target>
 
-    <Target Name="ClearMediaWizForumsAssets" BeforeTargets="Clean">
-        <ItemGroup>
-            <MediaWizForumsDir Include="$(MSBuildProjectDirectory)\App_Plugins\MediaWizards\" />
-        </ItemGroup>
-        <Message Text="Clear old MediaWiz.Forums data" Importance="high" />
-        <RemoveDir Directories="@(MediaWizForumsDir)" />
-    </Target>
 </Project>

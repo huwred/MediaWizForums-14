@@ -26,6 +26,7 @@ namespace MediaWiz.Forums.Migrations
 
         protected override void Migrate()
         {
+            _logger.LogInformation("PublishApprovalChangesMigration");
             AddRequireApprovalProperty();
             AddApprovalProperty();
 

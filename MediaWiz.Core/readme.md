@@ -1,6 +1,10 @@
 # MediaWizForums 14 #
 Simple Forum add on for Umbraco 14. 
 
+## 14.0.2
+
+Fixed issues with entrypoints in the backoffice
+
 ## 14.0.0 ##
 
 If you want to use a member type other than the created "forumMember", add the following setting in appsettings.json

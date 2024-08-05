@@ -10,6 +10,7 @@ using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Strings;
 using Umbraco.Cms.Infrastructure.Migrations;
 using Umbraco.Cms.Infrastructure.Packaging;
+using Microsoft.Extensions.Logging;
 
 namespace MediaWiz.Forums.Migrations
 {
@@ -19,19 +20,20 @@ namespace MediaWiz.Forums.Migrations
         private readonly IPackagingService _packagingService;
         private readonly IOptions<ForumConfigOptions> _forumOptions;
         private string ForumDoctypes => _forumOptions.Value.ForumDoctypes;
-
+        private readonly ILogger<PublishApprovalChangesMigration> _logger;
         public ImportPackageXmlMigration(IPackagingService packagingService, IMediaService mediaService, MediaFileManager mediaFileManager, MediaUrlGeneratorCollection mediaUrlGenerators, IShortStringHelper shortStringHelper, IContentTypeBaseServiceProvider contentTypeBaseServiceProvider, IMigrationContext context, IOptions<PackageMigrationSettings> packageMigrationsSettings
-            ,IFileService fileService,IOptions<ForumConfigOptions> forumOptions) : base(packagingService, mediaService, mediaFileManager, mediaUrlGenerators, shortStringHelper, contentTypeBaseServiceProvider, context, packageMigrationsSettings)
+            ,IFileService fileService,IOptions<ForumConfigOptions> forumOptions,ILogger<PublishApprovalChangesMigration> logger) : base(packagingService, mediaService, mediaFileManager, mediaUrlGenerators, shortStringHelper, contentTypeBaseServiceProvider, context, packageMigrationsSettings)
         {
             _fileService = fileService;
             _packagingService = packagingService;
             _forumOptions = forumOptions;
+            _logger = logger;
             
         }
 
         protected override void Migrate()
         {
-
+            _logger.LogInformation("ImportPackageXmlMigration");
             //set the default values for the xml files to import
             var xmlpackage = "package.xml";
             var templatepackage = "packagetemplates.xml";
