@@ -6,7 +6,7 @@ export default defineConfig({
             entry: "src/index.ts", // your web component source file
             formats: ["es"],
         },
-        outDir: "../wwwroot/App_Plugins/MediaWizards", 
+        outDir: "../wwwroot/App_Plugins/MediaWiz.Forums", 
         emptyOutDir: true,
         sourcemap: true,
         rollupOptions: {
