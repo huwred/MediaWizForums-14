@@ -38,8 +38,9 @@
     {
         string locked = post.Value<bool>("allowReplies") ? "" : "locked";
         string solved = post.Value<bool>("answer") ? "solved" : "";
+        int unapproved = post.HasValue("unapprovedReplies") ? post.Value<int>("unapprovedReplies") : 0;
         string approvereplies = "";
-        if (isApproved && post.Value<int>("unapprovedReplies") > 0 )
+        if (isApproved && unapproved > 0)
         {
             approvereplies = "require-approval";
         }
@@ -58,7 +59,7 @@
                     else
                     {
                         var test = post.Value("postAuthor") as IPublishedContent;
-                        <span class="wiz-topic-started-by">@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Createdby","topic created by") <a href="/profile/?user=@test.Id">@post.Value("postCreator")</a> <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span></span>
+                        <span class="wiz-topic-started-by">@Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Createdby","topic created by") <a href="/profile/?user=@test?.Id">@post.Value("postCreator")</a> <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span></span>
                     }
                 </span>
             </div>

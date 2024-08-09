@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0</TargetFrameworks>
-    <Version>14.0.2</Version>
+    <Version>14.1.0-rc004</Version>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <ContentTargetFolders>.</ContentTargetFolders>
     <PackageId>MediaWiz.Forums.14</PackageId>
@@ -17,7 +17,7 @@
     <RepositoryUrl>https://github.com/huwred/MediaWizForums-14</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageReleaseNotes>Updated to support Umbraco 14</PackageReleaseNotes>
+    <PackageReleaseNotes>View component fixes</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     
   </PropertyGroup>
@@ -29,7 +29,13 @@
 
   </ItemGroup>
 
-
+<ItemGroup>
+  <Content Remove="assets\**" />
+  <Compile Remove="assets\**" />
+  <EmbeddedResource Remove="assets\**" />
+  <None Remove="assets\**" />
+</ItemGroup>
+  
 	<ItemGroup>
     <None Include="views\**">
       <Pack>true</Pack>
@@ -44,19 +50,10 @@
     <None Include="wwwroot\**" />
 	</ItemGroup>
 
-
-	<ItemGroup>
-	  <Compile Remove="assets\**" />
-	  <Content Remove="assets\**" />
-	  <EmbeddedResource Remove="assets\**" />
-	  <None Remove="assets\**" />
-	</ItemGroup>
-
 	<ItemGroup>
     <Content Remove="bundleconfig.json" />
     <Content Remove="package-lock.json" />
   </ItemGroup>
-
 
 	<ItemGroup>
 	  <EmbeddedResource Include="Migrations\forumpackage.xml" />

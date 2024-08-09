@@ -8,7 +8,7 @@
 @{
     int.TryParse(Context.Request.Query["page"], out var pagenum);
     var posts = Model.Children.Where(x => x.IsDocumentType("Forumpost")).ToList();
-    
+    if(pagenum == 0){ pagenum = 1; }
     var pageSize = Model.HasValue("intPageSize") ? Convert.ToInt32(Model.Value("intPageSize")) : 5;
     var totalPages = (int)Math.Ceiling((double)posts.Count() / (double)pageSize);
     ViewBag.Page = pagenum;

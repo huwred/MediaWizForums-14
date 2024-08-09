@@ -50,7 +50,8 @@ namespace MediaWiz.Forums.Indexing
                     ["updated"] = content.UpdateDate.Ticks, //changed to Ticks
                     ["replies"] = content.GetValue<int>("replyCount"),
                     ["answered"] = content.GetValue<bool>("answer") ? 1 : 0,
-                    ["lastpost"] = cacheInfo.latestPost == DateTime.MinValue ? content.CreateDate : cacheInfo.latestPost
+                    ["lastpost"] = cacheInfo.latestPost == DateTime.MinValue ? content.CreateDate : cacheInfo.latestPost,
+                    ["lastTicks"] = cacheInfo.latestPost == DateTime.MinValue ? content.CreateDate.Ticks : cacheInfo.latestPost.Ticks
                 };
 
                 yield return new ValueSet(content.Id.ToString(), IndexTypes.Content,content.ContentType.Alias ,indexValues);

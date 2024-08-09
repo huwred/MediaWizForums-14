@@ -100,7 +100,7 @@ namespace MediaWiz.Forums.Controllers
                     var examineQuery = searcher.CreateQuery(IndexTypes.Content)
                     .Field("postType", "Topic")
                         //.And().Field("approved", "1")
-                        .And().RangeQuery<long>(new string[] { "updated" }, min, max)
+                        .And().RangeQuery<long>(new string[] { "lastTicks" }, min, max)
                         .OrderByDescending(new SortableField[] { new SortableField("updateDate") });
                 
                     results = examineQuery.Execute();
