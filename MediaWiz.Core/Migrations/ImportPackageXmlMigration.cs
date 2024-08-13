@@ -68,7 +68,7 @@ namespace MediaWiz.Forums.Migrations
 
             AddDictionaryItems();
         }
-                private async void AddDictionaryItems()
+        private async void AddDictionaryItems()
         {
             try
             {
