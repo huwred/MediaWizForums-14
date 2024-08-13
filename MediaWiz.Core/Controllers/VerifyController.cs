@@ -18,14 +18,14 @@ namespace MediaWiz.Forums.Controllers
         private readonly IMemberService _memberService;
         private readonly IVariationContextAccessor _variationContextAccessor;
         private readonly ServiceContext _serviceContext;
-        private readonly IDictionaryItemService _localizationService;
+        private readonly IDictionaryItemService _dictionaryService;
 
-        public VerifyController(ILogger<VerifyController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor,IMemberService memberService, IVariationContextAccessor variationContextAccessor,ServiceContext context,IDictionaryItemService localizationService) : base(logger, compositeViewEngine, umbracoContextAccessor)
+        public VerifyController(ILogger<VerifyController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor,IMemberService memberService, IVariationContextAccessor variationContextAccessor,ServiceContext context,IDictionaryItemService dictionaryService) : base(logger, compositeViewEngine, umbracoContextAccessor)
         {
             _memberService = memberService;
             _variationContextAccessor = variationContextAccessor;
             _serviceContext = context;
-            _localizationService = localizationService;
+            _dictionaryService = dictionaryService;
         }
         public override IActionResult Index()
         {
@@ -78,7 +78,7 @@ namespace MediaWiz.Forums.Controllers
                 else
                 {
                     pageViewModel.Success = false;
-                    pageViewModel.Error = _localizationService.GetOrCreateDictionaryValue("Forums.Error.Verification","Verification code was not found or has expired");
+                    pageViewModel.Error = _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.Verification","Verification code was not found or has expired");
                 }
                 return CurrentTemplate(pageViewModel);
             }
@@ -97,14 +97,14 @@ namespace MediaWiz.Forums.Controllers
         private readonly IMemberService _memberService;
         private readonly IVariationContextAccessor _variationContextAccessor;
         private readonly ServiceContext _serviceContext;
-        private readonly IDictionaryItemService _localizationService;
+        private readonly IDictionaryItemService _dictionaryService;
 
-        public ForumVerifyController(ILogger<ForumVerifyController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor,IMemberService memberService, IVariationContextAccessor variationContextAccessor,ServiceContext context,IDictionaryItemService localizationService) : base(logger, compositeViewEngine, umbracoContextAccessor)
+        public ForumVerifyController(ILogger<ForumVerifyController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor,IMemberService memberService, IVariationContextAccessor variationContextAccessor,ServiceContext context,IDictionaryItemService dictionaryService) : base(logger, compositeViewEngine, umbracoContextAccessor)
         {
             _memberService = memberService;
             _variationContextAccessor = variationContextAccessor;
             _serviceContext = context;
-            _localizationService = localizationService;
+            _dictionaryService = dictionaryService;
         }
         public override IActionResult Index()
         {
@@ -140,7 +140,7 @@ namespace MediaWiz.Forums.Controllers
                 else
                 {
                     TempData["ValidationSuccess"] = null;
-                    TempData["ValidationError"] = _localizationService.GetOrCreateDictionaryValue("Forums.Error.Verification","Verification code was not found or has expired");
+                    TempData["ValidationError"] = _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.Verification","Verification code was not found or has expired");
                 }
                 return CurrentTemplate(pageViewModel);
             }

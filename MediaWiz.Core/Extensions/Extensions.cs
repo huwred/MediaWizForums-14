@@ -2,7 +2,7 @@
 using System.Linq;
 using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Services;
-using Umbraco.Cms.Web.Common;
+using Umbraco.Extensions;
 
 namespace MediaWiz.Forums.Extensions
 {
@@ -39,39 +39,43 @@ namespace MediaWiz.Forums.Extensions
         /// <param name="defaultValue">Value to use if not in dictionary</param>
         /// <param name="isoCode">Override the CurrentUI language</param>
         /// <returns></returns>
-        [Obsolete("GetOrCreateDictionaryValue is Obsolete")]
-        public static string GetOrCreateDictionaryValue(this ILocalizationService localizationService, string key, string defaultValue,string isoCode = null)
-        {
-            var languageCode = isoCode ?? System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
-            if (languageCode.StartsWith("en_"))
-            {
-                languageCode = "en";
-            }
-            var dictionaryItem = localizationService.GetDictionaryItemByKey(key) ?? key.Split('.').Aggregate((IDictionaryItem)null, (item, part) =>
-            {
-                var partKey = item is null ? part : $"{item.ItemKey}.{part}";
+        //[Obsolete("GetOrCreateDictionaryValue is Obsolete")]
+        //public static string GetOrCreateDictionaryValue(this ILocalizationService localizationService, string key, string defaultValue,string isoCode = null)
+        //{
+        //    var languageCode = isoCode ?? System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
+        //    if (languageCode.StartsWith("en_"))
+        //    {
+        //        languageCode = "en";
+        //    }
+        //    var dictionaryItem = localizationService.GetDictionaryItemByKey(key) ?? key.Split('.').Aggregate((IDictionaryItem)null, (item, part) =>
+        //    {
+        //        var partKey = item is null ? part : $"{item.ItemKey}.{part}";
                 
-                return localizationService.GetDictionaryItemByKey(partKey) ?? localizationService.CreateDictionaryItemWithIdentity(partKey, item?.Key, partKey.Equals(key) ? defaultValue : string.Empty);
-            });
-            var currentValue = dictionaryItem.Translations?.FirstOrDefault(it => it.LanguageIsoCode == languageCode);
-            if (!string.IsNullOrWhiteSpace(currentValue?.Value))
-                return currentValue.Value;
-            return $"[{key}]";
-        }
-        public static string GetOrCreateDictionaryValue(this IDictionaryItemService localizationService, string key, string defaultValue,string isoCode = null)
+        //        return localizationService.GetDictionaryItemByKey(partKey) ?? localizationService.CreateDictionaryItemWithIdentity(partKey, item?.Key, partKey.Equals(key) ? defaultValue : string.Empty);
+        //    });
+        //    var currentValue = dictionaryItem.Translations?.FirstOrDefault(it => it.LanguageIsoCode == languageCode);
+        //    if (!string.IsNullOrWhiteSpace(currentValue?.Value))
+        //        return currentValue.Value;
+        //    return $"[{key}]";
+        //}
+        public static string GetOrCreateDictionaryValue(this IDictionaryItemService dictionaryService, string key, string defaultValue,string isoCode = null)
         {
             var languageCode = isoCode ?? System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
             if (languageCode.StartsWith("en_"))
             {
                 languageCode = "en";
             }
-            var dictionaryItem = localizationService.GetAsync(key).Result ?? key.Split('.').Aggregate((IDictionaryItem)null, (item, part) =>
+            var dictionaryItem = dictionaryService.GetAsync(key).Result ?? key.Split('.').Aggregate((IDictionaryItem)null, (item, part) =>
             {
                 var partKey = item is null ? part : $"{item.ItemKey}.{part}";
-                return localizationService.GetAsync(partKey).Result;
+                return dictionaryService.GetAsync(partKey).Result;
             });
             if(dictionaryItem == null)
             {
+                ILanguage lang = new Language(languageCode,System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
+                    var newitem = new DictionaryItem(key);
+                    newitem.AddOrUpdateDictionaryValue(lang,defaultValue);
+                    dictionaryService.CreateAsync(newitem,Guid.NewGuid());
                 return defaultValue;
             }
             var currentValue = dictionaryItem.Translations?.FirstOrDefault(it => it.LanguageIsoCode == languageCode);

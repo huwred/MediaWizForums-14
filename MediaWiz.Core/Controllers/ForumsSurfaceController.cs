@@ -43,7 +43,7 @@ namespace MediaWiz.Forums.Controllers
         private readonly IForumMailService _mailService;
 
         private readonly IHttpContextAccessor _contextAccessor;
-        private readonly IDictionaryItemService _localizationService;
+        private readonly IDictionaryItemService _dictionaryService;
         private readonly ILanguageService _languageService;
         private readonly IIdKeyMap _keyMap;
         public ForumsSurfaceController(IUmbracoContextAccessor umbracoContextAccessor, IUmbracoDatabaseFactory databaseFactory, ServiceContext services, AppCaches appCaches, IProfilingLogger profilingLogger, IPublishedUrlProvider publishedUrlProvider,
@@ -52,7 +52,7 @@ namespace MediaWiz.Forums.Controllers
             IPublishedContentQuery publishedContentQuery,
             IMemberManager memberManager,
             IContentService contentService,
-            IForumMailService mailService,IHttpContextAccessor httpContextAccessor,IDictionaryItemService localizationService,
+            IForumMailService mailService,IHttpContextAccessor httpContextAccessor,IDictionaryItemService dictionaryService,
             ILanguageService languageService,IIdKeyMap keyMap) 
             : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
         {
@@ -64,7 +64,7 @@ namespace MediaWiz.Forums.Controllers
             _mailService = mailService;
 
             _contextAccessor = httpContextAccessor;
-            _localizationService = localizationService;
+            _dictionaryService = dictionaryService;
             _languageService = languageService;
             _keyMap = keyMap;
         }
@@ -82,14 +82,14 @@ namespace MediaWiz.Forums.Controllers
         {
             if (await CanPost(model) == false)
             {
-                ModelState.AddModelError("Reply",_localizationService.GetOrCreateDictionaryValue("Forums.Error.PostPermission","You do not have permissions to post here") );
+                ModelState.AddModelError("Reply",_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.PostPermission","You do not have permissions to post here") );
                 return CurrentUmbracoPage();
             }            
             IEnumerable<ILanguage> languages = _languageService.GetAllAsync().Result;
 
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("Reply",_localizationService.GetOrCreateDictionaryValue("Forums.Error.InvalidReply","Error posting (invalid model)") );
+                ModelState.AddModelError("Reply",_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.InvalidReply","Error posting (invalid model)") );
                 return  CurrentUmbracoPage();
             }
 
@@ -210,7 +210,7 @@ namespace MediaWiz.Forums.Controllers
                     return RedirectToCurrentUmbracoPage();
                 }
             }
-            ModelState.AddModelError("Post",_localizationService.GetOrCreateDictionaryValue("Forums.Error.PostError","Error creating the post") );
+            ModelState.AddModelError("Post",_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.PostError","Error creating the post") );
             return RedirectToCurrentUmbracoPage();
         }
 
@@ -219,14 +219,14 @@ namespace MediaWiz.Forums.Controllers
         {
             if (await CanPost(model) == false)
             {
-                ModelState.AddModelError("Reply",_localizationService.GetOrCreateDictionaryValue("Forums.Error.PostPermission","You do not have permissions to post here") );
+                ModelState.AddModelError("Reply",_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.PostPermission","You do not have permissions to post here") );
                 return CurrentUmbracoPage();
             }            
             IEnumerable<ILanguage> languages = _languageService.GetAllAsync().Result;
 
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("Reply",_localizationService.GetOrCreateDictionaryValue("Forums.Error.InvalidReply","Error posting (invalid model)") );
+                ModelState.AddModelError("Reply",_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.InvalidReply","Error posting (invalid model)") );
                 return  CurrentUmbracoPage();
             }
 
@@ -347,7 +347,7 @@ namespace MediaWiz.Forums.Controllers
                     return RedirectToCurrentUmbracoPage();
                 }
             }
-            ModelState.AddModelError("Post",_localizationService.GetOrCreateDictionaryValue("Forums.Error.PostError","Error creating the post") );
+            ModelState.AddModelError("Post",_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.PostError","Error creating the post") );
             return RedirectToCurrentUmbracoPage();
         }
 
@@ -356,13 +356,13 @@ namespace MediaWiz.Forums.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("PostEdit", _localizationService.GetOrCreateDictionaryValue("Forums.Error.EditInvalid","Error editing post (invalid model)"));
+                ModelState.AddModelError("PostEdit", _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.EditInvalid","Error editing post (invalid model)"));
                 return  CurrentUmbracoPage();
             }
 
             if (await CanPost(model) == false)
             {
-                ModelState.AddModelError("PostEdit",_localizationService.GetOrCreateDictionaryValue("Forums.Error.EditPermission","You do not have permissions to edit posts") );
+                ModelState.AddModelError("PostEdit",_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.EditPermission","You do not have permissions to edit posts") );
                 return CurrentUmbracoPage();
             }
             var parent = _contentService.GetById(model.ParentId);
@@ -390,7 +390,7 @@ namespace MediaWiz.Forums.Controllers
                     return Redirect(model.returnPath);
                 }
             }
-            ModelState.AddModelError("PostEdit",_localizationService.GetOrCreateDictionaryValue("Forums.Error.EditError","Error editing the post") );
+            ModelState.AddModelError("PostEdit",_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.EditError","Error editing the post") );
             return RedirectToCurrentUmbracoPage();
         }
         [HttpPost]
@@ -399,7 +399,7 @@ namespace MediaWiz.Forums.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("Forum",_localizationService.GetOrCreateDictionaryValue("Forums.Error.CreateForum","Error creating Forum (invalid model)"));
+                ModelState.AddModelError("Forum",_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.CreateForum","Error creating Forum (invalid model)"));
                 return  CurrentUmbracoPage();
             }
 
@@ -463,9 +463,9 @@ namespace MediaWiz.Forums.Controllers
             else
             {
                 ModelState.AddModelError("ForgotPasswordForm", 
-                    _localizationService.GetOrCreateDictionaryValue("Forums.Error.NoUser","No user found"));
+                    _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.NoUser","No user found"));
                 TempData["ValidationError"] =
-                    _localizationService.GetOrCreateDictionaryValue("Forums.Error.NoUser", "No user found");
+                    _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.NoUser", "No user found");
                 //return ViewComponent("PasswordManager", new { Model = model , Template = "ForgotPassword"});
             }
 

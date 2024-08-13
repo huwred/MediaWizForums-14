@@ -37,7 +37,7 @@ namespace MediaWiz.Forums.Controllers
 
         private readonly IContentService _contentService;
         private readonly MemberManager _memberManager;
-        private readonly IDictionaryItemService _localizationService;
+        private readonly IDictionaryItemService _dictionaryService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<ForumsApiController> _logger;
         private readonly MediaFileManager _mediaFileManager;
@@ -54,12 +54,12 @@ namespace MediaWiz.Forums.Controllers
 
         public ForumsApiController(MediaFileManager mediaFileManager, ILogger<ForumsApiController> logger,
             IHttpContextAccessor httpContextAccessor,  IContentService contentservice,MemberManager memberManager, 
-            IDictionaryItemService localizationService, IMemberService memberService,IForumMailService forumMailService,
+            IDictionaryItemService dictionaryService, IMemberService memberService,IForumMailService forumMailService,
             IOptions<ForumConfigOptions> forumOptions,
             IWebHostEnvironment hostingEnvironment)
         {
             _memberManager = memberManager;
-            _localizationService = localizationService;
+            _dictionaryService = dictionaryService;
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
             _mediaFileManager = mediaFileManager;
@@ -136,7 +136,7 @@ namespace MediaWiz.Forums.Controllers
                 if (session.Keys.Contains("Captcha") && session.GetString("Captcha") != id.Value.ToString())
                 {
                     
-                    ModelState.AddModelError("Captcha", _localizationService.GetOrCreateDictionaryValue("Forums.Error.CaptchaFail","Wrong value of sum, please try again."));
+                    ModelState.AddModelError("Captcha", _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.CaptchaFail","Wrong value of sum, please try again."));
                     return false;
                 }
                 //empty the captcha variable
@@ -339,7 +339,7 @@ namespace MediaWiz.Forums.Controllers
             string wwwroot = _hostingEnvironment.MapPathWebRoot("~/");
             string folderPath = _hostingEnvironment.MapPathWebRoot($"~/media/{uploadFolder}/" + id);
             string[] files = Directory.GetFiles(folderPath);
-            var content = _localizationService.GetOrCreateDictionaryValue("Forums.Profile.NoFiles", "No files uploaded");
+            var content = _dictionaryService.GetOrCreateDictionaryValue("Forums.Profile.NoFiles", "No files uploaded");
             if (files.Any())
             {
                 
@@ -395,17 +395,17 @@ namespace MediaWiz.Forums.Controllers
 
             if (!file.ContentType.StartsWith("image/"))
             {
-                throw new InvalidOperationException(_localizationService.GetOrCreateDictionaryValue("Forums.Error.MimeType","MIME type is not an Image."));
+                throw new InvalidOperationException(_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.MimeType","MIME type is not an Image."));
             }
             var extension = Path.GetExtension(file.FileName.ToLowerInvariant());
             if (!extensions.Contains(extension))
             {
-                throw new InvalidOperationException(_localizationService.GetOrCreateDictionaryValue("Forums.Error.FileExt","Invalid file extension."));
+                throw new InvalidOperationException(_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.FileExt","Invalid file extension."));
             }            
             if (file.Length > (MaxFileSize * megabyte))
             {
                 
-                throw new InvalidOperationException($"{_localizationService.GetOrCreateDictionaryValue("Forums.Error.FileSize","File size limit exceeded.")} ({MaxFileSize}MB)");
+                throw new InvalidOperationException($"{_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.FileSize","File size limit exceeded.")} ({MaxFileSize}MB)");
             }            
             var _fileSystem = _mediaFileManager.FileSystem;
 
