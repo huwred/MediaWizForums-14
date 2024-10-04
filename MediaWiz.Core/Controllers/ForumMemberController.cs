@@ -91,7 +91,8 @@ namespace MediaWiz.Forums.Controllers
             {
                 return CurrentUmbracoPage();
             }
-            var usernamecheck = _memberService.GetByUsername(newmember.Username);
+
+            var usernamecheck = _memberManager.FindByNameAsync(newmember.Name);
             if (usernamecheck != null)
             {
                 ModelState.AddModelError("Registration",_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.DuplicateUsername","The username is already in use, please use another") );
