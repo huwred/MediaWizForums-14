@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
-    <Version>14.1.0-rc004</Version>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <Version>14.1.0</Version>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <ContentTargetFolders>.</ContentTargetFolders>
     <PackageId>MediaWiz.Forums.14</PackageId>
     <Owners>Huw Reddick</Owners>
     <Authors>Huw Reddick</Authors>
     <Product>MediaWiz Forums</Product>
-    <Description>MediaWiz Forums for Umbraco 14</Description>
-    <Title>MediaWizard Forums 14</Title>
+    <Description>MediaWiz Forums for Umbraco 14+</Description>
+    <Title>MediaWizard Forums 14+</Title>
     <Copyright>Huw Reddick</Copyright>
     <PackageProjectUrl>https://umbraco.themediawizards.co.uk</PackageProjectUrl>
     <PackageTags>umbraco-marketplace umbraco plugin package</PackageTags>
@@ -27,8 +27,24 @@
     <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="8.0.21" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
 
-  </ItemGroup>
+	  <PackageReference Include="Umbraco.Cms.Core" Version="[14.3.0,14.999)" />
+	  <PackageReference Include="Umbraco.Cms.Examine.Lucene" Version="[14.3.0,14.999)" />
+	  <PackageReference Include="Umbraco.Cms.Infrastructure" Version="[14.3.0,14.999)" />
+	  <PackageReference Include="Umbraco.Cms.Web.Common" Version="[14.3.0,14.999)" />
+	  <PackageReference Include="Umbraco.Cms.Web.Website" Version="[14.3.0,14.999)" />
+	</ItemGroup>
+  <ItemGroup Condition="$(TargetFramework) == 'net9.0'">
+    <PackageReference Include="Microsoft.Maui.Graphics" Version="9.0.10" />
+    <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="9.0.10" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
 
+	  <PackageReference Include="Umbraco.Cms.Core" Version="[15.0.0,15.999)" />
+	  <PackageReference Include="Umbraco.Cms.Examine.Lucene" Version="[15.0.0,15.999)" />
+	  <PackageReference Include="Umbraco.Cms.Infrastructure" Version="[15.0.0,15.999)" />
+	  <PackageReference Include="Umbraco.Cms.Web.Common" Version="[15.0.0,15.999)" />
+	  <PackageReference Include="Umbraco.Cms.Web.Website" Version="[15.0.0,15.999)" />
+
+	</ItemGroup>
 <ItemGroup>
   <Content Remove="assets\**" />
   <Compile Remove="assets\**" />
@@ -68,18 +84,7 @@
 	    <PackagePath>\</PackagePath>
 	  </None>
     <None Include=".\icon.png" Pack="true" PackagePath="\" />
-	</ItemGroup>
-
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-	  <PackageReference Include="Umbraco.Cms.Core" Version="[14.0.0,14.999)" />
-	  <PackageReference Include="Umbraco.Cms.Examine.Lucene" Version="[14.0.0,14.999)" />
-	  <PackageReference Include="Umbraco.Cms.Infrastructure" Version="[14.0.0,14.999)" />
-	  <PackageReference Include="Umbraco.Cms.Web.Common" Version="[14.0.0,14.999)" />
-	  <PackageReference Include="Umbraco.Cms.Web.Website" Version="[14.0.0,14.999)" />
-
-	</ItemGroup>
-  
+	</ItemGroup>  
 
 
 </Project>

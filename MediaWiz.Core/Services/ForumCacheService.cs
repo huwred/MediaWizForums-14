@@ -84,11 +84,15 @@ namespace MediaWiz.Core.Services
                     var post = posts.OrderByDescending(x => x.Value<DateTime>("createDate"))
                         .Skip((page-1) * pagesize)
                         .Take(pagesize);
-                    if (post.Any(x => x.UrlSegment.Equals(lastPost?.UrlSegment, StringComparison.InvariantCultureIgnoreCase)))
+                    if (lastPost?.UrlSegment != null)
                     {
-                        forumInfo.Page = page;
-                        break;
+                        if (post.Any(x => x.UrlSegment.Equals(lastPost?.UrlSegment, StringComparison.InvariantCultureIgnoreCase)))
+                        {
+                            forumInfo.Page = page;
+                            break;
+                        }
                     }
+
                 }
             }
 
