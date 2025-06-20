@@ -3,6 +3,9 @@
 # MediaWizForums 14 #
 Simple Forum add on for Umbraco 14. 
 
+## 16.0.0
+Minor changes to enable installation on Umbraco 16
+
 ## 14.0.0 ##
 
 If you want to use a member type other than the created "forumMember", add the following setting in appsettings.json
