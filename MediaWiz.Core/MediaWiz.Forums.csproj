@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-    <Version>14.1.0</Version>
+    <Version>16.0.0</Version>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <ContentTargetFolders>.</ContentTargetFolders>
     <PackageId>MediaWiz.Forums.14</PackageId>
@@ -27,22 +27,22 @@
     <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="8.0.21" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
 
-	  <PackageReference Include="Umbraco.Cms.Core" Version="[14.3.0,14.999)" />
-	  <PackageReference Include="Umbraco.Cms.Examine.Lucene" Version="[14.3.0,14.999)" />
-	  <PackageReference Include="Umbraco.Cms.Infrastructure" Version="[14.3.0,14.999)" />
-	  <PackageReference Include="Umbraco.Cms.Web.Common" Version="[14.3.0,14.999)" />
-	  <PackageReference Include="Umbraco.Cms.Web.Website" Version="[14.3.0,14.999)" />
+	  <PackageReference Include="Umbraco.Cms.Core" Version="[14.3.2,14.999)" />
+	  <PackageReference Include="Umbraco.Cms.Examine.Lucene" Version="[14.3.2,14.999)" />
+	  <PackageReference Include="Umbraco.Cms.Infrastructure" Version="[14.3.2,14.999)" />
+	  <PackageReference Include="Umbraco.Cms.Web.Common" Version="[14.3.2,14.999)" />
+	  <PackageReference Include="Umbraco.Cms.Web.Website" Version="[14.3.2,14.999)" />
 	</ItemGroup>
   <ItemGroup Condition="$(TargetFramework) == 'net9.0'">
     <PackageReference Include="Microsoft.Maui.Graphics" Version="9.0.10" />
     <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="9.0.10" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
 
-	  <PackageReference Include="Umbraco.Cms.Core" Version="[15.0.0,15.999)" />
-	  <PackageReference Include="Umbraco.Cms.Examine.Lucene" Version="[15.0.0,15.999)" />
-	  <PackageReference Include="Umbraco.Cms.Infrastructure" Version="[15.0.0,15.999)" />
-	  <PackageReference Include="Umbraco.Cms.Web.Common" Version="[15.0.0,15.999)" />
-	  <PackageReference Include="Umbraco.Cms.Web.Website" Version="[15.0.0,15.999)" />
+	  <PackageReference Include="Umbraco.Cms.Core" Version="[15.1.2,16.999)" />
+	  <PackageReference Include="Umbraco.Cms.Examine.Lucene" Version="[15.1.2,16.999)" />
+	  <PackageReference Include="Umbraco.Cms.Infrastructure" Version="[15.1.2,16.999)" />
+	  <PackageReference Include="Umbraco.Cms.Web.Common" Version="[15.1.2,16.999)" />
+	  <PackageReference Include="Umbraco.Cms.Web.Website" Version="[15.1.2,16.999)" />
 
 	</ItemGroup>
 <ItemGroup>
@@ -69,6 +69,7 @@
 	<ItemGroup>
     <Content Remove="bundleconfig.json" />
     <Content Remove="package-lock.json" />
+    <Content Remove="wwwroot\wizard.svg" />
   </ItemGroup>
 
 	<ItemGroup>

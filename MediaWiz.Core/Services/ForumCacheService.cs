@@ -38,7 +38,7 @@ namespace MediaWiz.Core.Services
         public ForumCacheItem GetPostInfo(IPublishedContent item,IAppPolicyCache cache,string cacheKey = "")
         {
             var forumInfo = new ForumCacheItem();
-            var posts = item.Children.Where(x => x.IsVisible() && x.IsDocumentType("forumPost")).ToList();
+            var posts = item.Children().Where(x => x.IsVisible() && x.IsDocumentType("forumPost")).ToList();
 
             forumInfo.Count = posts.Count();
             if (item.ContentType.Alias == "forum")
@@ -46,7 +46,7 @@ namespace MediaWiz.Core.Services
                 forumInfo.TopicCount = posts.Count(x=> x.Value<bool>("postType"));
                 foreach (var post in posts)
                 {
-                    forumInfo.Count += post.Children.Count();
+                    forumInfo.Count += post.Children().Count();
                 }
             }
             else
@@ -104,7 +104,7 @@ namespace MediaWiz.Core.Services
             
             var topicInfo = new TopicCacheItem();
 
-            var posts = item.Children.Where(x => x.IsVisible() && x.IsDocumentType("forumPost")).ToList();
+            var posts = item.Children().Where(x => x.IsVisible() && x.IsDocumentType("forumPost")).ToList();
 
             topicInfo.ReplyCount = posts.Count(x=> !x.Value<bool>("postType"));
             

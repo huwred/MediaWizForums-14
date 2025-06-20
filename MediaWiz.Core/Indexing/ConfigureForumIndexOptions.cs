@@ -50,7 +50,7 @@ namespace MediaWiz.Forums.Indexing
                     );
 
                 options.UnlockIndex = true;
-                options.Validator = new ContentValueSetValidator(true,null,new[] { "forumPost" },null); //(true, null, _publicAccessService,  includeItemTypes: new[] { "forumPost" });
+                //options.Validator = new ContentValueSetValidator(true,null,new[] { "forumPost" },null); //(true, null, _publicAccessService,  includeItemTypes: new[] { "forumPost" });
 
                 if (_settings.Value.LuceneDirectoryFactory == LuceneDirectoryFactory.SyncedTempFileSystemDirectoryFactory)
                 {
