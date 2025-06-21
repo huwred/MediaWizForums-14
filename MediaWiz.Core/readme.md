@@ -1,6 +1,11 @@
 # MediaWizForums 14 #
 Simple Forum add on for Umbraco 14+. 
 
+## 16.0.1
+Included local version of tinyMCE for the forum posts editor, this is to avoid issues with the Umbraco 16.0.1 update that removed the tinyMCE package from Umbraco.
+This version of MediaWizForums is compatible with Umbraco 16.0.0 and later.
+Minor changes to the package.xml to improve css look and feel of the forum.
+
 ## 16.0.0
 Minor changes to enable installation on Umbraco 16
 

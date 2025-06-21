@@ -1,8 +1,10 @@
 ﻿@using Umbraco.Extensions
 @using Umbraco.Cms.Core.Services
+@using Umbraco.Cms.Core.Security
 @using MediaWiz.Forums.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@inject IMemberManager _memberManager
 @*
     This snippet makes a breadcrumb of parents using an unordred html list.
 
@@ -11,33 +13,68 @@
     - Finally it outputs the name of the current page (without a link)
 *@
 @{
+    IList<string> roles = new List<string>();
     var CurrentPage = UmbracoContext.PublishedRequest.PublishedContent;
     var ForumUrl = Umbraco.GetDictionaryValueOrDefault("Forums.ForumUrl", "/").TrimEnd('/');
 }
 <ul class="forum-breadcrumb">
 
-@if (CurrentPage.Ancestors().Any())
-{
-
-    foreach (var bpage in CurrentPage.Ancestors().OrderBy(x => x.Level))
+    @if (CurrentPage.Ancestors().Any())
     {
-        if (!bpage.IsDocumentType("forumAuthHolder"))
+
+        foreach (var bpage in CurrentPage.Ancestors().OrderBy(x => x.Level))
         {
-            <li class="d-none d-sm-block"><a href="@bpage.Url()">@bpage.Name</a>&nbsp;|&nbsp;</li>
+            if (!bpage.IsDocumentType("forumAuthHolder"))
+            {
+                <li class="d-none d-sm-block"><a href="@bpage.Url()">@bpage.Name</a>&nbsp;|&nbsp;</li>
+            }
+
         }
 
+        @* Display the current page as the last item in the list *@
+        <li class="active d-none d-sm-block">@CurrentPage.Name</li>
     }
-
-    @* Display the current page as the last item in the list *@
-    <li class="active d-none d-sm-block">@CurrentPage.Name</li>
-}
     <li>
         <form action="@ForumUrl/ForumSearch">
             <div class="input-group input-group-sm">
                 <input type="text" placeholder="Quick Search" id="query" name="query" class="form-control" required="required" />
-                <button type="submit" name="Submit" class="btn btn-secondary">@Umbraco.GetDictionaryValueOrDefault("Forums.Find","Find")</button>
+                <button type="submit" name="Submit" class="btn btn-secondary">@Umbraco.GetDictionaryValueOrDefault("Forums.Find", "Find")</button>
             </div>
 
         </form>
+    </li>
+    <li class="d-sm-block col-sm-2 col-md-1">
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary custom-toggler float-end pt-1" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <ul class="dropdown-menu flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 p-2 align-items-sm-start shadow rounded-3" id="menu" style="z-index:10000;width:220px;">
+
+                @await Component.InvokeAsync("ForumMembership", new { Template = "LoginStatus" })
+
+                @if (_memberManager.IsLoggedIn())
+                {
+                    <li class="nav-item"><a href="@ForumUrl/members" class="nav-link" title="View list of Forum members"><i class="fs-5 bi-people me-1"></i><span class="d-inline">Forum Members</span></a></li>
+                }
+                <li class="nav-item"><a href="@ForumUrl/active-topics" class="nav-link" title="View Active Topics"><i class="fs-5 bi-list me-1"></i><span class="d-inline">Active Topics</span></a></li>
+                <li class="nav-item"><a href="@ForumUrl/forumsearch" class="nav-link" title="Search forum posts"><i class="fs-5 bi-search me-1"></i><span class="d-inline">Find Topics</span></a></li>
+                @if (_memberManager.IsLoggedIn())
+                {
+
+                    var user = _memberManager.GetCurrentMemberAsync().Result;
+                    if (user != null)
+                    {
+                        roles = _memberManager.GetRolesAsync(user).Result;
+                    }
+                    if (roles.Contains("ForumAdministrator"))
+                    {
+                        <li class="nav-item"><a href="@ForumUrl/createforum" class="nav-link" title="Create Forum" data-bs-toggle="modal" data-bs-target="#forumModal"><i class="fs-5 bi-folder me-1"></i><span class="d-inline">Create Forum</span></a></li>
+                    }
+                }
+            </ul>
+
+        </div>
+
     </li>
 </ul>

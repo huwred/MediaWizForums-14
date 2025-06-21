@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-    <Version>16.0.0</Version>
+    <Version>16.0.1-rc01</Version>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <ContentTargetFolders>.</ContentTargetFolders>
     <PackageId>MediaWiz.Forums.14</PackageId>
@@ -69,6 +69,10 @@
 	<ItemGroup>
     <Content Remove="bundleconfig.json" />
     <Content Remove="package-lock.json" />
+    <Content Remove="Views\Shared\Components\Navigation\Breadcrumb.cshtml" />
+    <Content Remove="Views\Shared\Components\Posts\DisplayTopic.cshtml" />
+    <Content Remove="Views\Shared\Components\Topics\ActiveSince.cshtml" />
+    <Content Remove="Views\Shared\Components\Topics\DisplayThread.cshtml" />
     <Content Remove="wwwroot\wizard.svg" />
   </ItemGroup>
 
@@ -85,6 +89,34 @@
 	    <PackagePath>\</PackagePath>
 	  </None>
     <None Include=".\icon.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Views\Shared\Components\Topics\DisplayThread.cshtml">
+	    <PackagePath>Views</PackagePath>
+	    <Pack>true</Pack>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Views\Shared\Components\Topics\ActiveSince.cshtml">
+	    <PackagePath>Views</PackagePath>
+	    <Pack>true</Pack>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Views\Shared\Components\Posts\DisplayTopic.cshtml">
+	    <PackagePath>Views</PackagePath>
+	    <Pack>true</Pack>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Views\Shared\Components\Navigation\Breadcrumb.cshtml">
+	    <PackagePath>Views</PackagePath>
+	    <Pack>true</Pack>
+	  </None>
 	</ItemGroup>  
 
 

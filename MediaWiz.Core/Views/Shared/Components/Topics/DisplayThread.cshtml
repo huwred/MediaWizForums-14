@@ -5,7 +5,10 @@
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels
 @using MediaWiz.Forums.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-
+@section PageMeta {
+    <meta name="title" content="@Model.Value("postTitle")" />
+    <meta name="description" content="@Model.Value("postBody")" />
+}
 @{
 
     int parentId = Model.Parent.Id;
