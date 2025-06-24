@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-    <Version>16.0.1</Version>
+    <Version>16.0.2-rc01</Version>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <ContentTargetFolders>.</ContentTargetFolders>
     <PackageId>MediaWiz.Forums.14</PackageId>
@@ -17,7 +17,7 @@
     <RepositoryUrl>https://github.com/huwred/MediaWizForums-14</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageReleaseNotes>View component fixes</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed index definition in Umbraco 16</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     
   </PropertyGroup>
@@ -38,11 +38,11 @@
     <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="9.0.10" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
 
-	  <PackageReference Include="Umbraco.Cms.Core" Version="[15.1.2,16.999)" />
-	  <PackageReference Include="Umbraco.Cms.Examine.Lucene" Version="[15.1.2,16.999)" />
-	  <PackageReference Include="Umbraco.Cms.Infrastructure" Version="[15.1.2,16.999)" />
-	  <PackageReference Include="Umbraco.Cms.Web.Common" Version="[15.1.2,16.999)" />
-	  <PackageReference Include="Umbraco.Cms.Web.Website" Version="[15.1.2,16.999)" />
+	  <PackageReference Include="Umbraco.Cms.Core" Version="16.0.0" />
+	  <PackageReference Include="Umbraco.Cms.Examine.Lucene" Version="16.0.0" />
+	  <PackageReference Include="Umbraco.Cms.Infrastructure" Version="16.0.0" />
+	  <PackageReference Include="Umbraco.Cms.Web.Common" Version="16.0.0" />
+	  <PackageReference Include="Umbraco.Cms.Web.Website" Version="16.0.0" />
 
 	</ItemGroup>
 <ItemGroup>

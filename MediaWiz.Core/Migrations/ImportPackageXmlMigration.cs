@@ -78,6 +78,7 @@ namespace MediaWiz.Forums.Migrations
                 {
                     var parentnode = new DictionaryItem("MediaWizForums");
                     var user = _backOfficeSecurityAccessor.BackOfficeSecurity?.CurrentUser;
+                    await _dictionaryService.CreateAsync(parentnode,user.Key);
 
                     var newitem = _dictionaryService.GetAsync("Forums.ForgotPasswordView").Result ?? new DictionaryItem(parentnode.Key,"Forums.ForgotPasswordView");
                     newitem.AddOrUpdateDictionaryValue(lang,"/reset");
