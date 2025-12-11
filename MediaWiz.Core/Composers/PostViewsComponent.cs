@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Threading;
+using System.Threading.Tasks;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Migrations;
@@ -12,7 +14,7 @@ namespace MediaWiz.Forums.Composers
     /// <summary>
     /// Registers the View counter migration with Umbraco
     /// </summary>
-    public class PostViewsComponent : IComponent
+    public class PostViewsComponent : IAsyncComponent
     {
         private readonly IScopeProvider _scopeProvider;
         private readonly IScopeAccessor _scopeAccessor;
@@ -31,11 +33,11 @@ namespace MediaWiz.Forums.Composers
             _runtimeState = runtimeState;
         }
 
-        public void Initialize()
+        public Task InitializeAsync(bool isRestarting, CancellationToken cancellationToken)
         {
             if (_runtimeState.Level < RuntimeLevel.Run)
             {
-                return;
+                return Task.CompletedTask;
             }
             // Create a migration plan for a specific project/feature
             // We can then track that latest migration state/step for this project/feature
@@ -50,11 +52,14 @@ namespace MediaWiz.Forums.Composers
             // Based on the current/latest step
             var upgrader = new Upgrader(migrationPlan);
 
-            upgrader.Execute(_migrationPlanExecutor, _scopeProvider, _keyValueService);
+            upgrader.ExecuteAsync(_migrationPlanExecutor, _scopeProvider, _keyValueService);
+
+            return Task.CompletedTask;
         }
 
-        public void Terminate()
+        public Task TerminateAsync(bool isRestarting, CancellationToken cancellationToken)
         {
+            throw new System.NotImplementedException();
         }
     }
 }

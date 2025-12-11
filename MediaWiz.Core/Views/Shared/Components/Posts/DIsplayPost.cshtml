@@ -13,10 +13,12 @@
     bool TopicIslocked = !Model.Value<bool>("allowReplies");
     var post = Model;
     var forum = post;
-    if(post.Parent.ContentType.Alias == "forum"){
-        forum = post.Parent;
-    }else if (post.Parent.Parent.ContentType.Alias == "forum"){
-        forum = post.Parent.Parent;
+    var parent = post.Parent<IPublishedContent>();
+
+    if(parent.ContentType.Alias == "forum"){
+        forum = parent;
+    }else if (parent.Parent<IPublishedContent>().ContentType.Alias == "forum"){
+        forum = parent.Parent<IPublishedContent>();
     }
     bool isApproved = !forum.Value<bool>("requireApproval") || post.Value<bool>("approved");
     var topicClass = post.Value<bool>("postType") ? "topic" : "reply";
@@ -189,8 +191,8 @@
         var isSolved = Model.Value<bool>("answer");
         if (!Model.Value<bool>("postType")) //must be a reply so check the topic hasn't been marked as resolved
         {
-            isSolved = Model.Parent.Value<bool>("answer");
-            var cacheInfo = _cacheService.GetPost(post, "Topic_" + Model.Parent.Id);
+            isSolved = Model.Parent<IPublishedContent>().Value<bool>("answer");
+            var cacheInfo = _cacheService.GetPost(post, "Topic_" + Model.Parent<IPublishedContent>().Id);
             lastpostDate = cacheInfo.latestPost;
         }
         if (user != null)

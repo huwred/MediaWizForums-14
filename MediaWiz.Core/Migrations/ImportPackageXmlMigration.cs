@@ -1,23 +1,25 @@
-﻿using System.Reflection;
+﻿using MediaWiz.Forums.Helpers;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Reflection;
+using System.Threading.Tasks;
 using System.Xml.Linq;
-using MediaWiz.Forums.Helpers;
+using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Configuration.Models;
 using Umbraco.Cms.Core.IO;
+using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.PropertyEditors;
+using Umbraco.Cms.Core.Security;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Strings;
 using Umbraco.Cms.Infrastructure.Migrations;
 using Umbraco.Cms.Infrastructure.Packaging;
-using Microsoft.Extensions.Logging;
 using Umbraco.Extensions;
-using System;
-using Umbraco.Cms.Core.Models;
-using Umbraco.Cms.Core.Security;
 
 namespace MediaWiz.Forums.Migrations
 {
-    public class ImportPackageXmlMigration : PackageMigrationBase
+    public class ImportPackageXmlMigration : AsyncPackageMigrationBase
     {
         private readonly IFileService _fileService;
         private readonly IPackagingService _packagingService;
@@ -41,7 +43,7 @@ namespace MediaWiz.Forums.Migrations
             _backOfficeSecurityAccessor = backOfficeSecurityAccessor;            
         }
 
-        protected override void Migrate()
+        protected override Task MigrateAsync()
         {
             _logger.LogInformation("ImportPackageXmlMigration");
             //set the default values for the xml files to import
@@ -67,6 +69,7 @@ namespace MediaWiz.Forums.Migrations
             }
 
             AddDictionaryItems();
+            return Task.CompletedTask;
         }
         private async void AddDictionaryItems()
         {
@@ -77,32 +80,32 @@ namespace MediaWiz.Forums.Migrations
                 if(!_dictionaryService.ExistsAsync("MediaWizForums").Result)
                 {
                     var parentnode = new DictionaryItem("MediaWizForums");
-                    var user = _backOfficeSecurityAccessor.BackOfficeSecurity?.CurrentUser;
-                    await _dictionaryService.CreateAsync(parentnode,user.Key);
+                    
+                    await _dictionaryService.CreateAsync(parentnode,Constants.Security.SuperUserKey);
 
                     var newitem = _dictionaryService.GetAsync("Forums.ForgotPasswordView").Result ?? new DictionaryItem(parentnode.Key,"Forums.ForgotPasswordView");
                     newitem.AddOrUpdateDictionaryValue(lang,"/reset");
-                    await _dictionaryService.CreateAsync(newitem,user.Key);
+                    await _dictionaryService.CreateAsync(newitem,Constants.Security.SuperUserKey);
 
                     newitem = _dictionaryService.GetAsync("Forums.ForumUrl").Result ?? new DictionaryItem(parentnode.Key,"Forums.ForumUrl");
                     newitem.AddOrUpdateDictionaryValue(lang,"/");
-                    await _dictionaryService.CreateAsync(newitem,user.Key);
+                    await _dictionaryService.CreateAsync(newitem,Constants.Security.SuperUserKey);
 
                     newitem = _dictionaryService.GetAsync("Forums.LoginUrl").Result ?? new DictionaryItem(parentnode.Key,"Forums.LoginUrl");
                     newitem.AddOrUpdateDictionaryValue(lang,"/login");
-                    await _dictionaryService.CreateAsync(newitem,user.Key);
+                    await _dictionaryService.CreateAsync(newitem,Constants.Security.SuperUserKey);
 
                     newitem = _dictionaryService.GetAsync("Forums.CaptchaErrMsg").Result ?? new DictionaryItem(parentnode.Key,"Forums.CaptchaErrMsg");
                     newitem.AddOrUpdateDictionaryValue(lang,"Incorrect answer");
-                    await _dictionaryService.CreateAsync(newitem,user.Key);
+                    await _dictionaryService.CreateAsync(newitem,Constants.Security.SuperUserKey);
 
                     newitem = _dictionaryService.GetAsync("Forums.RegisterUrl").Result ?? new DictionaryItem(parentnode.Key,"Forums.RegisterUrl");
                     newitem.AddOrUpdateDictionaryValue(lang,"/register");
-                    await _dictionaryService.CreateAsync(newitem,user.Key);
+                    await _dictionaryService.CreateAsync(newitem,Constants.Security.SuperUserKey);
 
                     newitem = _dictionaryService.GetAsync("Forums.VerifyUrl").Result ?? new DictionaryItem(parentnode.Key,"Forums.VerifyUrl");
                     newitem.AddOrUpdateDictionaryValue(lang,"/verify");
-                    await _dictionaryService.CreateAsync(newitem,user.Key);
+                    await _dictionaryService.CreateAsync(newitem,Constants.Security.SuperUserKey);
 
                 }
 

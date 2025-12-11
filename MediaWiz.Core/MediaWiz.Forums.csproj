@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-    <Version>16.0.2-rc01</Version>
+    <TargetFrameworks><!--net8.0;-->net9.0</TargetFrameworks>
+    <Version>16.0.2</Version>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <ContentTargetFolders>.</ContentTargetFolders>
     <PackageId>MediaWiz.Forums.14</PackageId>
@@ -17,12 +17,12 @@
     <RepositoryUrl>https://github.com/huwred/MediaWizForums-14</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageReleaseNotes>Fixed index definition in Umbraco 16</PackageReleaseNotes>
+    <PackageReleaseNotes>Latest version targetting Umbraco 16</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     
   </PropertyGroup>
 
-  <ItemGroup Condition="$(TargetFramework) == 'net8.0'">
+  <!--<ItemGroup Condition="$(TargetFramework) == 'net8.0'">
     <PackageReference Include="Microsoft.Maui.Graphics" Version="8.0.21" />
     <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="8.0.21" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
@@ -32,7 +32,7 @@
 	  <PackageReference Include="Umbraco.Cms.Infrastructure" Version="[14.3.2,14.999)" />
 	  <PackageReference Include="Umbraco.Cms.Web.Common" Version="[14.3.2,14.999)" />
 	  <PackageReference Include="Umbraco.Cms.Web.Website" Version="[14.3.2,14.999)" />
-	</ItemGroup>
+	</ItemGroup>-->
   <ItemGroup Condition="$(TargetFramework) == 'net9.0'">
     <PackageReference Include="Microsoft.Maui.Graphics" Version="9.0.10" />
     <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="9.0.10" />
@@ -69,10 +69,6 @@
 	<ItemGroup>
     <Content Remove="bundleconfig.json" />
     <Content Remove="package-lock.json" />
-    <Content Remove="Views\Shared\Components\Navigation\Breadcrumb.cshtml" />
-    <Content Remove="Views\Shared\Components\Posts\DisplayTopic.cshtml" />
-    <Content Remove="Views\Shared\Components\Topics\ActiveSince.cshtml" />
-    <Content Remove="Views\Shared\Components\Topics\DisplayThread.cshtml" />
     <Content Remove="wwwroot\wizard.svg" />
   </ItemGroup>
 
@@ -90,34 +86,4 @@
 	  </None>
     <None Include=".\icon.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="Views\Shared\Components\Topics\DisplayThread.cshtml">
-	    <PackagePath>Views</PackagePath>
-	    <Pack>true</Pack>
-	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="Views\Shared\Components\Topics\ActiveSince.cshtml">
-	    <PackagePath>Views</PackagePath>
-	    <Pack>true</Pack>
-	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="Views\Shared\Components\Posts\DisplayTopic.cshtml">
-	    <PackagePath>Views</PackagePath>
-	    <Pack>true</Pack>
-	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="Views\Shared\Components\Navigation\Breadcrumb.cshtml">
-	    <PackagePath>Views</PackagePath>
-	    <Pack>true</Pack>
-	  </None>
-	</ItemGroup>  
-
-
 </Project>

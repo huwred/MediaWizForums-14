@@ -27,16 +27,16 @@
     var cacheInfo = _cacheService.GetPost(post, "Topic_" + post.Id);
     var views = _viewCounter.GetViewCount(post.Id)?.Views ?? 0;
     var forum = post;
-    if (post.Parent.ContentType.Alias == "forum")
+    if (post.Parent<IPublishedContent>().ContentType.Alias == "forum")
     {
-        forum = post.Parent;
+        forum = post.Parent<IPublishedContent>();
     }
-    else if (post.Parent.Parent.ContentType.Alias == "forum")
+    else if (post.Parent<IPublishedContent>().Parent<IPublishedContent>().ContentType.Alias == "forum")
     {
-        forum = post.Parent.Parent;
+        forum = post.Parent<IPublishedContent>().Parent<IPublishedContent>();
     }
     bool isApproved = !forum.Value<bool>("requireApproval") || post.Value<bool>("approved");
-    var currentPageURL = Umbraco.AssignedContentItem.Parent.Url();
+    var currentPageURL = Umbraco.AssignedContentItem.Parent<IPublishedContent>().Url();
     @if (post.IsVisible() && isApproved)
     {
         string locked = post.Value<bool>("allowReplies") ? "" : "locked";
@@ -69,7 +69,8 @@
             <div class="col-3 pt-4">
                 @if (activetopics)
                 {
-                    <a href="@currentPageURL" title="@Umbraco.AssignedContentItem.Parent.Name"><span class="badge rounded-pill bg-warning p-2">@Umbraco.AssignedContentItem.Parent.Name</span></a>
+                    var p = Umbraco.AssignedContentItem.Parent<IPublishedContent>();
+                    <a href="@currentPageURL" title="@p.Name"><span class="badge rounded-pill bg-warning p-2">@p.Name</span></a>
                 }
                 else
                 {
@@ -118,7 +119,8 @@
             <div class="col-3 pt-4">
                 @if (activetopics)
                 {
-                    <a href="@currentPageURL" title="@Umbraco.AssignedContentItem.Parent.Name"><span class="badge rounded-pill bg-warning p-2">@Umbraco.AssignedContentItem.Parent.Name</span></a>
+                        var p = Umbraco.AssignedContentItem.Parent<IPublishedContent>();
+                        <a href="@currentPageURL" title="@p.Name"><span class="badge rounded-pill bg-warning p-2">@p.Name</span></a>
                 }
                 else
                 {

@@ -21,6 +21,8 @@ namespace MediaWiz.Forums.Migrations
                 .To<PublishRootBranchPostMigration>(new Guid("E8086ABC-CC18-4620-9AED-AC97EF49094F"));
             From("E8086ABC-CC18-4620-9AED-AC97EF49094F")
                 .To<PublishApprovalChangesMigration>(new Guid("32B14FE8-7748-423C-B48D-ACCDD84C447D"));
+            //From("32B14FE8-7748-423C-B48D-ACCDD84C447D")
+            //    .To<PublishDictionaryItemsMigration>(new Guid("9DE7CA68-5CAC-4EF8-A0F1-82F5580020A4"));
         }
     }
 }

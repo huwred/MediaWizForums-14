@@ -51,7 +51,7 @@ namespace MediaWiz.Forums.ViewComponents
                     var model = new ForumListViewModel(_memberManager,_groupService,_keyMap)
                     {
                         Content = currentpage,
-                        Forums = currentpage.Children.Where(x => x.IsDocumentType("Forum") && x.IsVisible() && x.Value<bool>("isActive") && (x.Value<int?>("membersOnly") != 1 || (x.Value<int?>("membersOnly") == 1 && _memberManager.IsLoggedIn()))).ToList(),
+                        Forums = currentpage.Children().Where(x => x.IsDocumentType("Forum") && x.IsVisible() && x.Value<bool>("isActive") && (x.Value<int?>("membersOnly") != 1 || (x.Value<int?>("membersOnly") == 1 && _memberManager.IsLoggedIn()))).ToList(),
                         Roles = roles,
                         IsLoggedIn = _memberManager.IsLoggedIn(),
                         User = user

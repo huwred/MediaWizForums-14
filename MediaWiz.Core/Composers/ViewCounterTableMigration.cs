@@ -1,5 +1,6 @@
 ﻿using MediaWiz.Forums.Models;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using Umbraco.Cms.Infrastructure.Migrations;
 
 namespace MediaWiz.Forums.Composers
@@ -7,13 +8,13 @@ namespace MediaWiz.Forums.Composers
     /// <summary>
     /// Creates View Counter table in Umbraco Database
     /// </summary>
-    public class ViewCounterTableMigration : MigrationBase
+    public class ViewCounterTableMigration : AsyncMigrationBase
     {
         public ViewCounterTableMigration(IMigrationContext context) : base(context)
         {
         }
 
-        protected override void Migrate()
+        protected override Task MigrateAsync()
         {
             Logger.LogDebug("Running migration {MigrationStep}", "AddHitCounterTable");
             var storedproc = $@"
@@ -65,7 +66,7 @@ namespace MediaWiz.Forums.Composers
 
                 Logger.LogDebug("The database table {DbTable} already exists, skipping", "ConfigTable");
             }
+            return Task.CompletedTask;
         }
-
     }
 }

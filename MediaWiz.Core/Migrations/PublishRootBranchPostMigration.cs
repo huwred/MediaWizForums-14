@@ -1,10 +1,12 @@
-﻿using System;
-using System.Linq;
-using Examine;
+﻿using Examine;
 using MediaWiz.Forums.Helpers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Strings;
@@ -14,7 +16,7 @@ using Umbraco.Extensions;
 
 namespace MediaWiz.Forums.Migrations
 {
-    public class PublishRootBranchPostMigration : MigrationBase
+    public class PublishRootBranchPostMigration : AsyncMigrationBase
     {
         private readonly ILogger<PublishRootBranchPostMigration> _logger;
         private readonly IContentService _contentService;
@@ -52,7 +54,7 @@ namespace MediaWiz.Forums.Migrations
             _forumOptions = forumOptions;
         }
 
-        protected override void Migrate()
+        protected override Task MigrateAsync()
         {
             _logger.LogInformation("PublishRootBranchPostMigration");
 
@@ -64,7 +66,7 @@ namespace MediaWiz.Forums.Migrations
                 UpdatePostCounts();
                 //Make sure the Forum root has been published
                 _contentService.Save(contentForum);
-                _contentService.PublishBranch(contentForum, true,new string[]{"*"});
+                _contentService.Publish(contentForum, new string[]{"*"});
             }
             else
             {
@@ -72,7 +74,7 @@ namespace MediaWiz.Forums.Migrations
             }
             AddAnswerProperty();
             AddReplyCountProperty();
-            
+            return Task.CompletedTask;
         }
 
         private void AddAnswerProperty()
@@ -98,7 +100,7 @@ namespace MediaWiz.Forums.Migrations
                         };
                         
                         forumPost.AddPropertyType(answerPropertyType,"general");
-                        _contentTypeService.Save(forumPost);
+                        _contentTypeService.UpdateAsync(forumPost,Constants.Security.SuperUserKey);
                     }
 
                 }
@@ -133,7 +135,7 @@ namespace MediaWiz.Forums.Migrations
                         };
 
                         forumPost.AddPropertyType(replyCountPropertyType,"general");
-                        _contentTypeService.Save(forumPost);
+                        _contentTypeService.UpdateAsync(forumPost, Constants.Security.SuperUserKey);
                     }
 
                 }
@@ -166,7 +168,7 @@ namespace MediaWiz.Forums.Migrations
                     memberContentType.Name = "Forum Member";
                     memberContentType.Alias = _forumOptions.Value.MemberTypeAlias ?? "forumMember";
                     memberContentType.Icon = "icon-male-and-female";
-                    _memberTypeService.Save(memberContentType);
+                    _memberTypeService.UpdateAsync(memberContentType, Constants.Security.SuperUserKey);
                 }
                 catch (Exception e)
                 {
@@ -189,7 +191,7 @@ namespace MediaWiz.Forums.Migrations
                 {
                     memberContentType.AddPropertyGroup(groupname,groupname); //add a property group, not needed, but I wanted it
                     
-                    _memberTypeService.Save(memberContentType);
+                    _memberTypeService.UpdateAsync(memberContentType, Constants.Security.SuperUserKey);
                 }
                 _logger.LogDebug($"add receiveNotifications");
                 if(!memberContentType.PropertyTypeExists("receiveNotifications"))
@@ -269,7 +271,7 @@ namespace MediaWiz.Forums.Migrations
 
                 if (saveMemberContent)
                 {
-                    _memberTypeService.Save(memberContentType);//save the content type
+                    _memberTypeService.UpdateAsync(memberContentType, Constants.Security.SuperUserKey);//save the content type
                 } 
 
             }

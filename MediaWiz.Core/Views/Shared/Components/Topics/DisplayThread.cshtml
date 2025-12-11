@@ -11,7 +11,7 @@
 }
 @{
 
-    int parentId = Model.Parent.Id;
+    int parentId = Model.Parent<IPublishedContent>().Id;
     var parentPage = Umbraco.Content(parentId);
 
     if (parentPage.IsDocumentType("ForumPost"))
@@ -137,10 +137,10 @@
         }
 
         // thing is this forum may be active, but a parent forum may be off...
-        if (item.Parent != null && item.Parent.IsDocumentType("Forum"))
+        if (item.Parent<IPublishedContent>() != null && item.Parent<IPublishedContent>().IsDocumentType("Forum"))
         {
             // so if parent is forum go up to it
-            return DoesForumAcceptPosts(item.Parent);
+            return DoesForumAcceptPosts(item.Parent<IPublishedContent>());
         }
 
         // here.. we have reached the top and not found a false (forum off)

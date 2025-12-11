@@ -52,7 +52,7 @@ namespace MediaWiz.Forums.Indexing
                 options.UnlockIndex = true;
 #if NET9_0 // For Umbraco 15+
                 // Code specific to Umbraco 16
-                options.Validator = new ContentValueSetValidator(true,false,_publicAccessService,_scopeProvider);  
+                options.Validator = new ContentValueSetValidator(true,false,_publicAccessService,_scopeProvider,includeItemTypes:new[] { "forumPost" });  
 #else
                 options.Validator = new ContentValueSetValidator(true,null,new[] { "forumPost" },null); 
 #endif

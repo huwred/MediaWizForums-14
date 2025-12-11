@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Examine;
+﻿using Examine;
 using MediaWiz.Forums.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Models;
+using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Infrastructure.Examine;
 using Umbraco.Extensions;
@@ -41,7 +42,7 @@ namespace MediaWiz.Forums.Indexing
                 var indexValues = new Dictionary<string, object>
                 {
                     ["__Key"] = content.Key,
-                    ["nodeName"] = content.GetValue<int>("postType") == 0 && content.ContentType.Alias != "forum" ? post.Parent.Name + ":" + content.Name : content.Name,
+                    ["nodeName"] = content.GetValue<int>("postType") == 0 && content.ContentType.Alias != "forum" ? post.Parent<IPublishedContent>().Name + ":" + content.Name : content.Name,
                     ["message"] = content.GetValue<string>("forumDescription") ?? content.GetValue<string>("postBody"),
                     ["author"] = content.GetValue<string>("postCreator"),
                     ["subject"] = content.GetValue<string>("forumTitle") ?? content?.GetValue<string>("postTitle"),

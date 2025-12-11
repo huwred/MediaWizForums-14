@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
-using MediaWiz.Forums.Extensions;
+﻿using MediaWiz.Forums.Extensions;
 using MediaWiz.Forums.Interfaces;
 using MediaWiz.Forums.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -13,10 +7,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Web;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Logging;
 using Umbraco.Cms.Core.Models;
+using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Routing;
 using Umbraco.Cms.Core.Security;
 using Umbraco.Cms.Core.Services;
@@ -424,7 +425,7 @@ namespace MediaWiz.Forums.Controllers
         {
             TempData.Clear();
             await _signInManager.SignOutAsync();
-            var forumRoot = _publishedContentQuery.ContentAtRoot().DescendantsOrSelfOfType("forum").FirstOrDefault(f=>f.Parent == null || f.Parent.ContentType.Alias != "forum");
+            var forumRoot = _publishedContentQuery.ContentAtRoot().DescendantsOrSelfOfType("forum").FirstOrDefault(f=>f.Parent<IPublishedContent>() == null || f.Parent<IPublishedContent>().ContentType.Alias != "forum");
 
             return Redirect(forumRoot?.Url());
         }
@@ -482,7 +483,7 @@ namespace MediaWiz.Forums.Controllers
                 var parent = _publishedContentQuery.Content(model.ParentId);
                 if ( parent.ContentType.Alias != "forum" )
                 {
-                    parent = parent.Parent;
+                    parent = parent.Parent<IPublishedContent>();
                 }
                 if ( parent != null )
                 {

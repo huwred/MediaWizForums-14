@@ -31,7 +31,7 @@
 
             @foreach (var item in children!)
             {
-                if (item.Children(x => x.IsVisible()).Any() && !item.Value<bool>("hideChildrenFromNav") && !item.Parent.Value<bool>("hideChildrenFromNav"))
+                if (item.Children(x => x.IsVisible()).Any() && !item.Value<bool>("hideChildrenFromNav") && !item.Parent<IPublishedContent>().Value<bool>("hideChildrenFromNav"))
                 {
                     <li class="nav-item px-4 dropdown">
                         <a class="nav-link dropdown-toggle @(item.IsAncestorOrSelf(Model) ? "nav-link--active" : null)" href="#" id="@($"{item.Name.Replace(" ", "")}Dropdown")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@item.Name</a>
@@ -45,7 +45,7 @@
                 }
                 else
                 {
-                    @if (!item.Parent.Value<bool>("hideChildrenFromNav"))
+                    @if (!item.Parent<IPublishedContent>().Value<bool>("hideChildrenFromNav"))
                     {
                         <li class="nav-item px-4"><a class="nav-link @(item.IsAncestorOrSelf(Model) ? "nav-link--active" : null)" href="@item.Url()">@item.Name</a></li>
                     }

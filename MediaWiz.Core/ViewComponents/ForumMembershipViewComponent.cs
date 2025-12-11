@@ -68,7 +68,7 @@ namespace MediaWiz.Forums.ViewComponents
                         {
                             model.MemberIdentity = _memberManager.FindByIdAsync(qryUser).Result;
                         }
-                        model.ViewMember = _memberService.GetByKey(model.MemberIdentity.Key);
+                        model.ViewMember = _memberService.GetById(model.MemberIdentity.Key);
                     }
 
                     if (model.Username == model.CurrentUser?.UserName)

@@ -80,7 +80,7 @@ namespace MediaWiz.Forums.Events
                     //Update post count if userlogged in to forum
                     if (currentUser != null)
                     {
-                        var member = _memberService.GetByKey(currentUser.Key);
+                        var member = _memberService.GetById(currentUser.Key);
                         int posts = member.GetValue<int>("postCount");
                         posts += 1;
                         member.SetValue("postCount",posts);
@@ -102,7 +102,7 @@ namespace MediaWiz.Forums.Events
                             if (parent.ContentType.Alias== "forumPost")
                             {
                                 // if we have a parent post, then this is a reply 
-                                postRoot = post.Parent;
+                                postRoot = post.Parent<IPublishedContent>();
                                 invalidCacheList.Add($"Topic_{parent.Id}");
                                 invalidCacheList.Add($"forum_{parent.ParentId}");
                             }

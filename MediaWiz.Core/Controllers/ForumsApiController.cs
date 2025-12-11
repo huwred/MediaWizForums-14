@@ -303,7 +303,7 @@ namespace MediaWiz.Forums.Controllers
             {
                 return;
             }
-            var member = _memberService.GetByKey(id.Value);
+            var member = _memberService.GetById(id.Value);
                 string resetGuid = ForumHelper.GenerateUniqueCode(16);
                 member.SetValue("resetGuid", resetGuid);    
             _memberService.Save(member);

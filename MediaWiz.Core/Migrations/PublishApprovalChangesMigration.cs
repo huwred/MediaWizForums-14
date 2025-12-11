@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
+using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Strings;
@@ -8,7 +10,7 @@ using Umbraco.Cms.Infrastructure.Migrations;
 
 namespace MediaWiz.Forums.Migrations
 {
-    public class PublishApprovalChangesMigration : MigrationBase
+    public class PublishApprovalChangesMigration : AsyncMigrationBase
     {
         private readonly IDataTypeService _dataTypeService;
         private readonly IContentTypeService _contentTypeService;
@@ -24,12 +26,12 @@ namespace MediaWiz.Forums.Migrations
             _logger = logger;
         }
 
-        protected override void Migrate()
+        protected override Task MigrateAsync()
         {
             _logger.LogInformation("PublishApprovalChangesMigration");
             AddRequireApprovalProperty();
             AddApprovalProperty();
-
+            return Task.CompletedTask;
         }
         private void AddApprovalProperty()
         {
@@ -55,7 +57,7 @@ namespace MediaWiz.Forums.Migrations
                         };
                         
                         forumPost.AddPropertyType(approvedPropertyType,"general");
-                        _contentTypeService.Save(forumPost);
+                        _contentTypeService.UpdateAsync(forumPost,Constants.Security.SuperUserKey);
                     }
                     if (!forumPost.PropertyTypes.Any(p => p.Alias == "unapprovedReplies"))
                     {
@@ -71,7 +73,7 @@ namespace MediaWiz.Forums.Migrations
                         };
                         
                         forumPost.AddPropertyType(unapprovedPropertyType,"general");
-                        _contentTypeService.Save(forumPost);
+                        _contentTypeService.UpdateAsync(forumPost, Constants.Security.SuperUserKey);
                     }
                 }
             }
@@ -104,7 +106,7 @@ namespace MediaWiz.Forums.Migrations
                         };
                         
                         forum.AddPropertyType(approvedPropertyType,"general");
-                        _contentTypeService.Save(forum);
+                        _contentTypeService.UpdateAsync(forum, Constants.Security.SuperUserKey);
                     }
 
                 }
