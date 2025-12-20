@@ -375,3 +375,16 @@ wwwroot/umbraco
 /WWWTest
 /MediaWiz.Forums14/MediaWiz.Forums14.csproj
 /MediaWiz.Forums14
+/MediaWiz.Core/Views/activeTopics.cshtml
+/MediaWiz.Core/Views/forum.cshtml
+/MediaWiz.Core/Views/forumMaster.cshtml
+/MediaWiz.Core/Views/forumPost.cshtml
+/MediaWiz.Core/Views/login.cshtml
+/MediaWiz.Core/Views/mediawizMaster.cshtml
+/MediaWiz.Core/Views/members.cshtml
+/MediaWiz.Core/Views/profile.cshtml
+/MediaWiz.Core/Views/register.cshtml
+/MediaWiz.Core/Views/reset.cshtml
+/MediaWiz.Core/Views/searchPage.cshtml
+/MediaWiz.Core/Views/verify.cshtml
+/MediaWiz.Core/Views/_ViewStart.cshtml
