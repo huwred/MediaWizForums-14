@@ -6,9 +6,9 @@ namespace MediaWiz.Forums.ViewComponents
 {
     public class PasswordManagerViewComponent : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync(string Template,ForumForgotPasswordModel Model)
+        public async Task<IViewComponentResult> InvokeAsync(string Template,ForumForgotPasswordModel Model,bool captcha = true)
         {
-
+            TempData["HideForm"] = captcha;
             switch (Template)
             {
                 case "ChangePassword" :
