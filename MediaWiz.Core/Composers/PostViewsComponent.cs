@@ -17,7 +17,6 @@ namespace MediaWiz.Forums.Composers
     public class PostViewsComponent : IAsyncComponent
     {
         private readonly IScopeProvider _scopeProvider;
-        private readonly IScopeAccessor _scopeAccessor;
         private readonly IMigrationPlanExecutor _migrationPlanExecutor;
         private readonly IKeyValueService _keyValueService;
         private readonly ILoggerFactory _logger;
@@ -26,7 +25,6 @@ namespace MediaWiz.Forums.Composers
         public PostViewsComponent(IScopeProvider scopeProvider,IScopeAccessor scopeAccessor, IMigrationPlanExecutor migrationPlanExecutor, IKeyValueService keyValueService, ILoggerFactory logger, IRuntimeState runtimeState)
         {
             _scopeProvider = scopeProvider;
-            _scopeAccessor = scopeAccessor;
             _migrationPlanExecutor = migrationPlanExecutor;
             _keyValueService = keyValueService;
             _logger = logger;
