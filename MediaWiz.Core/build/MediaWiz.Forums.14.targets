@@ -5,20 +5,21 @@
         <MediaWizViewUpdates>$(MSBuildThisFileDirectory)..\Views\*.*</MediaWizViewUpdates>
     </PropertyGroup>
 
-  <Target Name="CopyMediaWizForumPartials" BeforeTargets="Build">
+  <!--<Target Name="CopyMediaWizForumPartials" BeforeTargets="Build">
     <ItemGroup>
       <MediaWizPartialsViews Include="$(MediaWizViewsPartial)" />
     </ItemGroup>
     <Message Text="Copying MediaWiz.Forums Partial Views: $(MediaWizViewsPartial) - #@(MediaWizPartialsViews->Count()) files" Importance="high" />
     <Copy SourceFiles="@(MediaWizPartialsViews)" DestinationFiles="@(MediaWizPartialsViews->'$(MSBuildProjectDirectory)\Views\Partials\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" 
           Condition="%(Filename)!='' AND (!Exists('$(MSBuildProjectDirectory)\Views\Partials\%(RecursiveDir)%(Filename)%(Extension)') OR $([System.DateTime]::Parse('%(ModifiedTime)').Ticks) &gt; $([System.IO.File]::GetLastWriteTime('$(MSBuildProjectDirectory)\Views\Partials\%(RecursiveDir)%(Filename)%(Extension)').Ticks))" />
-  </Target>
+  </Target>-->
+	
     <Target Name="CopyMediaWizStaticAssets" BeforeTargets="Build">
       <ItemGroup>
         <MediaWizForumsAssetFiles Include="$(MediaWizAssetsFilesPath)" />
       </ItemGroup>
       <Message Text="Copying MediaWiz.Forums static web asset files: $(MediaWizAssetsFilesPath) - #@(MediaWizForumsAssetFiles->Count()) files" Importance="high" />
-      <Copy SourceFiles="@(MediaWizForumsAssetFiles)" DestinationFiles="@(MediaWizForumsAssetFiles->'$(MSBuildProjectDirectory)\wwwroot\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" 
+      <Copy SourceFiles="@(MediaWizForumsAssetFiles)" DestinationFiles="@(MediaWizForumsAssetFiles->'$(MSBuildProjectDirectory)\wwwroot\%(RecursiveDir)%(Filename)%(Extension)')" 
             Condition="%(Filename)!='' AND (!Exists('$(MSBuildProjectDirectory)\wwwroot\%(RecursiveDir)%(Filename)%(Extension)') OR $([System.DateTime]::Parse('%(ModifiedTime)').Ticks) &gt; $([System.IO.File]::GetLastWriteTime('$(MSBuildProjectDirectory)\wwwroot\%(RecursiveDir)%(Filename)%(Extension)').Ticks))"/>
     </Target>
   <Target Name="CopyUpdatedViews" BeforeTargets="Build">
@@ -26,8 +27,10 @@
       <MediaWizUpdatedViews Include="$(MediaWizViewUpdates)" />
     </ItemGroup>
     <Message Text="Copying MediaWiz.Forums Updated Views: $(MediaWizViewUpdates) - #@(MediaWizUpdatedViews->Count()) files" Importance="high" />
-    <Copy SourceFiles="@(MediaWizUpdatedViews)" DestinationFiles="@(MediaWizUpdatedViews->'$(MSBuildProjectDirectory)\Views\%(Filename)%(Extension)')" SkipUnchangedFiles="true" 
-          Condition="%(Filename)!='' AND (!Exists('$(MSBuildProjectDirectory)\Views\%(Filename)%(Extension)') OR $([System.DateTime]::Parse('%(ModifiedTime)').Ticks) &gt; $([System.IO.File]::GetLastWriteTime('$(MSBuildProjectDirectory)\Views\%(Filename)%(Extension)').Ticks))" />
+    <Copy SourceFiles="@(MediaWizUpdatedViews)" DestinationFiles="@(MediaWizUpdatedViews->'$(MSBuildProjectDirectory)\Views\%(Filename)%(Extension)')" 
+		   Condition="$([System.IO.File]::GetLastWriteTime('$(MSBuildThisFileDirectory)\Views\%(Filename)%(Extension)').Ticks)
+               &gt; $([System.IO.File]::GetLastWriteTime('$(MSBuildProjectDirectory)\Views\%(Filename)%(Extension)').Ticks)"		  
+    />
   </Target>
 
     <Target Name="RemovePartialViews" BeforeTargets="Clean">
