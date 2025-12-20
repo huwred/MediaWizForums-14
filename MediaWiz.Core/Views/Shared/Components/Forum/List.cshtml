@@ -6,7 +6,6 @@
 @using MediaWiz.Forums.Extensions
 @using Umbraco.Cms.Web.Common
 @inject IForumCacheService _cacheService
-@inject UmbracoHelper umbracoHelper
 <!--
     lists all the child forums of this one.
     (uses the cache, to get post count and latest post - without having to recurse everytime)
@@ -19,11 +18,11 @@
     {
         <div>
             <div id="forums-list-0" class="wiz-forums">
-                <div class="d-flex flex-row flex-wrap mb-3 p-2 color_dark bold">
-                    <div class="col-8 col-sm-5">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Forum","Forum")</div>
-                    <div class="col-2">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Topic","Topic")</div>
-                    <div class="col-2">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Posts","Posts")</div>
-                    <div class="d-none d-md-block col-sm flex-shrink-0 flex-grow-1">@umbracoHelper.GetDictionaryValueOrDefault("Forums.LatestPost","Latest Pos")t</div>
+                <div class="d-flex flex-row flex-wrap mb-1 p-2 text-dark fw-bold">
+                    <div class="col-10 col-sm-8">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Forum", "Forum")</div>
+                    <div class="col-1">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Topic","Topics")</div>
+                    <div class="col-1">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Posts","Posts")</div>
+                    <div class="d-none d-md-block col-sm flex-shrink-0 flex-grow-1 text-end">@umbracoHelper.GetDictionaryValueOrDefault("Forums.LatestPost", "Latest Pos")t</div>
                 </div>
                 <div class="wiz-body p-2">
                     @foreach (var forum in Model.Forums)
@@ -32,7 +31,7 @@
                         {
                             var cachedForum = _cacheService.GetPost(forum, "forum_" + forum.Id);
                             <div id="forum-@forum.Id" class="d-flex flex-row flex-wrap forum type-forum rounded bg-white border p-3 mb-2">
-                                <div class="col-8 col-sm-5">
+                                <div class="col-10 col-sm-8">
                                     <a class="wiz-forum-title" href="@forum.Url()">@forum.Value("forumTitle")</a>
                                     <div class="p-2">@Html.Raw(forum.Value("forumDescription"))</div>
                                     @if (forum.HasValue("canPostGroups"))
@@ -40,13 +39,13 @@
                                         <span class="text-muted small">(@umbracoHelper.GetDictionaryValueOrDefault("Forums.Forum.Restricted","Posting restricted to") @Model.PostRestriction(forum))</span>
                                     }
                                 </div>
-                                <div class="col-2">@cachedForum.TopicCount</div>
-                                <div class="col-2">@cachedForum.Count</div>
-                                <div class="col-12 col-sm flex-shrink-0 flex-grow-1">
+                                <div class="col-1 text-center">@cachedForum.TopicCount</div>
+                                <div class="col-1 text-center">@cachedForum.Count</div>
+                                <div class="col-12 col-sm flex-shrink-0 flex-grow-1 text-end">
                                     @if (cachedForum.latestPost > DateTime.MinValue)
                                     {
                                         <p class="wiz-topic-meta">
-                                            <a href="@cachedForum.lastPostUrl#post_@cachedForum.Id" title="@umbracoHelper.GetDictionaryValueOrDefault("Forums.Forum.Jumpto","Jump to latest post")">@cachedForum.latestPost.GetRelativeDate()</a>
+                                            <a class="d-block" href="@cachedForum.lastPostUrl#post_@cachedForum.Id" title="@umbracoHelper.GetDictionaryValueOrDefault("Forums.Forum.Jumpto","Jump to latest post")">@cachedForum.latestPost.GetRelativeDate()</a>
                                             by
                                             <a href="~/profile/?user=@cachedForum.lastpostAuthorId" title="@String.Format(titleStr,cachedForum.lastpostAuthor)" class="wiz-author-link">
                                                 @cachedForum.lastpostAuthor

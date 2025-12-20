@@ -6,31 +6,27 @@
 @using Umbraco.Cms.Core.Services
 @using MediaWiz.Forums.Extensions
 
-@inject IMemberManager _memberManager
 @inject IOptions<GlobalSettings> globalSettings
 
 @{
     var _hostingSettings = globalSettings.Value;
-    var user = _memberManager.GetCurrentMemberAsync().Result;
+    var user = memberManager.GetCurrentMemberAsync().Result;
     if (_hostingSettings.Smtp == null)
     {
-        <li class="nav-item text-danger">@Umbraco.GetDictionaryValueOrDefault("Forums.Email.Notconfigured","Email is not configured")</li>
+        @DictionaryService.GetOrCreateDictionaryValue("Forums.Email.Notconfigured","Email is not configured")
     }
-    if ( _memberManager.IsLoggedIn())
+    if ( memberManager.IsLoggedIn())
     {
-        <li class="nav-item d-none d-sm-block">
-            <span class="glyphicon glyphicon-star" aria-hidden="true" style="color: gold;"></span>
-            @Umbraco.GetDictionaryValueOrDefault("Forums.Signin.Welcome","Welcome back") <a href="/profile/?user=@user.UserName" rel="no-follow" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Profile.View","View profile")" class="nav-icon">@user.Name</a>
-        </li>
-        <li class="nav-item"><a href="@Url.SurfaceAction("Logout", "ForumsSurface")" class="nav-link" title="Logout"><i class="fs-5 bi-door-closed me-1"></i><span class="d-none d-sm-none d-md-inline">@Umbraco.GetDictionaryValueOrDefault("Forums.Signout","Logout")</span></a></li>
+            <span class="bi bi-star" aria-hidden="true" style="color: gold;"></span>
+            @DictionaryService.GetOrCreateDictionaryValue("Forums.Signin.Welcome","Welcome back") <a href="/profile/?user=@user.UserName" rel="no-follow" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Profile.View","View profile")" class="nav-icon">@user.Name</a>
     }
     else
     {
-        <li class="nav-item"><a href="@Umbraco.GetDictionaryValueOrDefault("Forums.LoginUrl"," /login")" class="nav-link" title="Login"><i class="fs-5 bi-door-open me-1"></i><span class="d-none d-sm-none d-md-inline">@Umbraco.GetDictionaryValueOrDefault("Forums.Signin","Login")</span></a></li>
+        <a href="@DictionaryService.GetOrCreateDictionaryValue("Forums.LoginUrl","/login")" class="nav-link" title="Login"><i class="fs-5 bi-door-open me-3"></i><span class="d-none d-sm-none d-md-inline">@DictionaryService.GetOrCreateDictionaryValue("Forums.Signin","Login")</span></a>
         @if (_hostingSettings.Smtp != null)
         {
-            <li class="nav-item"><a href="@Umbraco.GetDictionaryValueOrDefault("Forums.RegisterUrl"," /register")" class="nav-link" title="Register"><i class="fs-5 bi-person-badge me-1"></i><span class="d-none d-sm-none d-md-inline">@Umbraco.GetDictionaryValueOrDefault("Forums.Register","Register")</span></a></li>
-            <li class="nav-item"><a href="/ForgotPassword" class="nav-link" title="Forgot Password"><i class="fs-5 bi-file-lock me-1"></i><span class="d-none d-sm-none d-md-inline">@Umbraco.GetDictionaryValueOrDefault("Forums.Profile.Forgotpassword","Forgot Password")</span></a></li>
+            <a href="@DictionaryService.GetOrCreateDictionaryValue("Forums.RegisterUrl","/register")" class="nav-link" title="Register"><i class="fs-5 bi-person-badge me-3"></i><span class="d-none d-sm-none d-md-inline">@DictionaryService.GetOrCreateDictionaryValue("Forums.Register","Register")</span></a>
+            // <a href="@DictionaryService.GetOrCreateDictionaryValue("Forums.ForgotPassword","/ForgotPassword")" class="nav-link" title="Forgot Password"><i class="fs-5 bi-file-lock me-3"></i><span class="d-none d-sm-none d-md-inline">@DictionaryService.GetOrCreateDictionaryValue("Forums.Profile.Forgotpassword","Forgot Password")</span></a>
         }
     }
 }

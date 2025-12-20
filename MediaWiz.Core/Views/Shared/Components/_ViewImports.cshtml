@@ -1,3 +1,10 @@
 @using Microsoft.AspNetCore.Html
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Umbraco.Cms.Core.Security
+@using Umbraco.Cms.Core.Services
+@using Umbraco.Cms.Web.Common
+@inject IDictionaryItemService DictionaryService
+@inject UmbracoHelper umbracoHelper
+@inject IMemberManager memberManager
 
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, MediaWiz.Forums

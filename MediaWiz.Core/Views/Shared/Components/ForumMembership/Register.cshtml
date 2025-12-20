@@ -15,6 +15,7 @@
 @inject IOptions<ForumConfigOptions> forumOptions
 
 @{
+    var noCaptcha = ViewBag.NoCaptcha == true;
     // Build a registration model with parameters
     var registerModel = memberModelBuilderFactory
         .CreateRegisterModel()
@@ -26,19 +27,19 @@
     var useCaptcha = Model.Value<bool>("useCaptcha");
     var success = TempData["FormSuccess"] != null;
     var _hostingSettings = hostingSettings.Value;
-    var warningMsg = Umbraco.GetDictionaryValueOrDefault("Forums.Members.Register.Emailwarning", "The email will be coming from {0} so please add this domain to your whitelist. Should you not receive your validation email, please post on the Our Umbraco forums");
+    var warningMsg = DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Register.Emailwarning", "The email will be coming from {0} so please add this domain to your whitelist. Should you not receive your validation email, please post on the Our Umbraco forums");
 }
 
 
 @if (success)
 {
     @* This message will show if registerModel.RedirectUrl is not defined (default) *@
-    <p class="text-success">@Umbraco.GetDictionaryValueOrDefault("Forums.Members.Register.Success","Your Registration was successful, you should now receive an email containing a validation link to verify your email address.")</p>
+    <p class="text-success">@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Register.Success","Your Registration was successful, you should now receive an email containing a validation link to verify your email address.")</p>
     <p>@String.Format(warningMsg,_hostingSettings.Smtp.From)</p>
 }
 else
 {
-    @if (useCaptcha)
+    @if (useCaptcha && !noCaptcha)
     {
         
         <div id="captchaimage-div">
@@ -46,33 +47,34 @@ else
         </div>
     }
 
-    using (Html.BeginUmbracoForm<ForumMemberController>("RegisterMe", null, new { @id = "register-form-id", style = "display:none", autocomplete = "off" }, FormMethod.Post))
+    using (Html.BeginUmbracoForm<ForumMemberController>("RegisterMe", null, new { @id = "register-form-id", style = "display:none", autocomplete = "off", @class = "w-75 mx-auto needs-validation mt-5", novalidate="" }, FormMethod.Post))
     {
-        <hr />
-        <div class="mb-3">
+        <div class="row gy-3 gy-md-4 overflow-hidden">
+        <div class="col-12 gy-1">
             <label asp-for="@registerModel.Name" class="form-label"></label>
-            <input asp-for="@registerModel.Name" class="form-control" autocomplete="off" aria_required="true" />
-            <span asp-validation-for="@registerModel.Name" class="form-text text-danger"></span>
+                <input asp-for="@registerModel.Name" class="form-control" autocomplete="off" aria_required="true" placeholder="Full name" required />
+                <span asp-validation-for="@registerModel.Name" class="invalid-feedback"></span>
         </div>
-        <div class="mb-3">
+            <div class="col-12 gy-2">
             <label asp-for="@registerModel.Username" class="form-label"></label>
-            <input asp-for="@registerModel.Username" class="form-control" autocomplete="off" aria_required="true" />
-            <span asp-validation-for="@registerModel.Username" class="form-text text-danger"></span>
+            <input title="The Username field is required." asp-for="@registerModel.Username" class="form-control" autocomplete="off" aria_required="true" required aria-describedby="UsernameFeedback"/>
+                <div id="UsernameFeedback" class="invalid-feedback">
+                    The Username field is required.
+                </div>
         </div>
-        <div class="mb-3">
+        <div class="col-12 gy-2">
             <label asp-for="@registerModel.Email" class="form-label"></label>
-            <input asp-for="@registerModel.Email" class="form-control" autocomplete="off" aria_required="true" type="email"/>
-            <span asp-validation-for="@registerModel.Email" class="form-text text-danger"></span>
+                <input asp-for="@registerModel.Email" class="form-control" autocomplete="off" aria_required="true" type="email" required />
+                <span asp-validation-for="@registerModel.Email" class="invalid-feedback"></span>
         </div>
-        <div class="mb-3">
+        <div class="col-12 gy-2">
             <label asp-for="@registerModel.Password" class="form-label"></label>
-            <input asp-for="@registerModel.Password" class="form-control" autocomplete="new_password" type="password" aria_required="true" />
-            <span asp-validation-for="@registerModel.Password" class="form-text text-danger"></span>
+            <input asp-for="@registerModel.Password" class="form-control" autocomplete="new_password" type="password" aria_required="true" required />
+            <span asp-validation-for="@registerModel.Password" class="invalid-feedback"></span>
         </div>
-        <div class="mb-3">
+        <div class="col-12 gy-2">
             <label asp-for="@registerModel.ConfirmPassword" class="form-label"></label>
-            <input asp-for="@registerModel.ConfirmPassword" class="form-control" autocomplete="new-password" type="password" aria_required="true" />
-            <span asp-validation-for="@registerModel.ConfirmPassword" class="form-text text-danger"></span>
+                <input asp-for="@registerModel.ConfirmPassword" class="form-control" autocomplete="new-password" type="password" aria_required="true" required />
         </div>
 
         @if (registerModel.MemberProperties != null)
@@ -82,40 +84,84 @@ else
                 if (registerModel.MemberProperties[i].Alias == "receiveNotifications")
                 {
 
-                    <div class="mb-3">
+                    <div class="col-12">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value="@registerModel.MemberProperties[i].Value">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">@Html.LabelFor(m => registerModel.MemberProperties[i].Value, registerModel.MemberProperties[i].Name)</label>
+                            <input class="form-check-input" name="receiveNotifications" type="checkbox" id="receiveNotifications" value="@registerModel.MemberProperties[i].Value">
+                            <label class="form-check-label" for="receiveNotifications">@Html.LabelFor(m => registerModel.MemberProperties[i].Value, registerModel.MemberProperties[i].Name)</label>
                         </div>
-
-                        <span asp-validation-for="@registerModel.MemberProperties[i].Value" class="form-text text-danger"></span>
                         <div id="notifyHelp" class="form-text">
-                            @Umbraco.GetDictionaryValueOrDefault("Forums.Profile.NotifyHelp","Receive an email when someone posts on the forum.")
+                            @DictionaryService.GetOrCreateDictionaryValue("Forums.Profile.NotifyHelp","Receive an email when someone posts on the forum.")
                         </div>
                     </div>
                 }
                 else
                 {
-                    <div class="mb-3">
+                    <div class="col-12 gy-2">
                         <label asp-for="@registerModel.MemberProperties[i].Name" class="form-label"></label>
                         <input asp-for="@registerModel.MemberProperties[i].Value" class="form-control"/>
                         <input asp-for="@registerModel.MemberProperties[i].Alias" type="hidden"/>
-                        <span asp-validation-for="@registerModel.MemberProperties[i].Value" class="form-text text-danger"></span>
                     </div>
                 }
             }
         }
+        <div class="col-12">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" name="iAgree" id="iAgree" required title="Agree to Terms">
+                <label class="form-check-label text-secondary" for="iAgree">
+                    I agree to the <a href="@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.TermsUrl", "/Terms")" class="link-primary text-decoration-none">terms and conditions</a>
+                </label>
+                <div class="invalid-feedback">
+                    You must agree before submitting.
+                </div>
+            </div>
+        </div>
 
-        <button type="submit" class="btn btn-dark" id="register-submit">@Umbraco.GetDictionaryValueOrDefault("Forums.Members.Register","Register")</button>
+        <div class="col-12 gy-2">
+            <div class="d-grid">
+                <button class="btn btn-lg btn-secondary" type="submit" id="register-submit">@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Register", "Sign up")</button>
+            </div>
+        </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <hr class="mt-5 mb-4 border-secondary-subtle">
+                <div class="col-12">
+                    <p class="m-0 text-secondary text-center">Already have an account? <a href="/login" class="link-primary text-decoration-none">Sign in</a></p>
+                </div>
+            </div>
+        </div>
     }
 
-
 }
-@Html.PartialViewScriptBlock(@<script type="text/javascript">
-        if ("@useCaptcha".toLowerCase() === "false") {
-            $('#register-form-id').show();
-        }
-        if ("@success".toLowerCase() === "true") {
-            $(".forum-intro").hide();
-        }
-    </script>)
+<storecontent asp-key="script-block">
+    <script type="text/javascript" id="registerJs">
+        document.addEventListener("DOMContentLoaded", (event) => {
+            if ("@useCaptcha".toLowerCase() === "false" || "@noCaptcha".toLowerCase() == "true") {
+                $('#register-form-id').show();
+            }
+            if ("@success".toLowerCase() === "true") {
+                $(".forum-intro").hide();
+            }
+        });
+        (function () {
+          'use strict'
+
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.querySelectorAll('.needs-validation')
+
+          // Loop over them and prevent submission
+          Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+              form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                  event.preventDefault()
+                  event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+              }, false)
+            })
+        })()
+    </script>
+</storecontent>

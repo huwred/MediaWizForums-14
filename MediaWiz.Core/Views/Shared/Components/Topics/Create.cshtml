@@ -4,7 +4,7 @@
 @using Umbraco.Cms.Core.Services
 @using Umbraco.Cms.Core.Models
 @using Umbraco.Extensions
-@inject IMemberManager _memberManager
+
 @inject IMemberGroupService MemberGroupService
 @inject IIdKeyMap keyMap
 
@@ -20,7 +20,7 @@
 @functions { 
     public bool MemberCanPost(IPublishedContent item)
     {
-        if (!_memberManager.IsLoggedIn())
+        if (!memberManager.IsLoggedIn())
             return false;
 
         var canPostGroups = item.Value<string>("canPostGroups");
@@ -41,7 +41,7 @@
                 allowedGroupList.Add(memberGroup.Name);
             }
         }
-        return _memberManager.IsMemberAuthorizedAsync(allowGroups: allowedGroupList).Result;
+        return memberManager.IsMemberAuthorizedAsync(allowGroups: allowedGroupList).Result;
     }
 
 }

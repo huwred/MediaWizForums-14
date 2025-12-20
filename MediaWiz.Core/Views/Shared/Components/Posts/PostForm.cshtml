@@ -10,7 +10,6 @@
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
 @using Umbraco.Extensions
 
-@inject IMemberManager _memberManager
 @inject IMemberGroupService MemberGroupService
 @inject IIdKeyMap keyMap
 
@@ -25,13 +24,13 @@
             edit = (bool)TempData["edit"];
         }
 
-        var mode = edit ? Umbraco.GetDictionaryValueOrDefault("Forums.Posts.EditPost", "Edit Post") : (showTitle ? Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Newpost", "Ask a Question") : Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Reply", "Reply to Question"));
-        var label = edit ? Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Message", "Message") : (showTitle ? Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Message", "Message") : Umbraco.GetDictionaryValueOrDefault("Forums.Posts.Reply", "Reply"));
-        var btn = edit ? Umbraco.GetDictionaryValueOrDefault("Forums.Save", "Save") : (showTitle ? Umbraco.GetDictionaryValueOrDefault("Forums.Submit", "Submit") : Umbraco.GetDictionaryValueOrDefault("Forums.Save", "Save"));
+        var mode = edit ? DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.EditPost", "Edit Post") : (showTitle ? DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Newpost", "Ask a Question") : DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Reply", "Reply to Question"));
+        var label = edit ? DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Message", "Message") : (showTitle ? DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Message", "Message") : DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Reply", "Reply"));
+        var btn = edit ? DictionaryService.GetOrCreateDictionaryValue("Forums.Save", "Save") : (showTitle ? DictionaryService.GetOrCreateDictionaryValue("Forums.Submit", "Submit") : DictionaryService.GetOrCreateDictionaryValue("Forums.Save", "Save"));
 
         var Post = new ForumsPostModel();
-        var user = _memberManager.GetCurrentMemberAsync().Result;
-        IPublishedContent member = _memberManager.AsPublishedMember(user);
+        var user = memberManager.GetCurrentMemberAsync().Result;
+        IPublishedContent member = memberManager.AsPublishedMember(user);
         if (edit)
         {
             
@@ -66,23 +65,16 @@
 
                             @if (showTitle)
                             {
-                                <div class="row g-3 align-items-center">
-                                    <div class="col-auto">
-                                        <label asp-for="@Post.Title" class="col-form-label"></label>
-                                    </div>
-                                    <div class="col-7">
-                                        <input asp-for="@Post.Title" class="form-control" aria_required="true" />
+                                <div class="mb-3">
+                                        <input asp-for="@Post.Title" class="form-control" aria_required="true" placeholder="Type title" />
                                         <span asp-validation-for="@Post.Title" class="form-text text-danger"></span>
-                                    </div>
                                 </div>
 
                             }
 
                             <div class="mb-3">
-                                <div class="col ms-5">
-                                    <textarea asp-for="@Post.Body" class="form-control new-post" aria_required="true" rows="10" cols="20"></textarea>
-                                    <span asp-validation-for="@Post.Body" class="form-text text-danger"></span>
-                                </div>
+                                <textarea asp-for="@Post.Body" class="form-control new-post" aria_required="true" rows="10" cols="20"></textarea>
+                                <span asp-validation-for="@Post.Body" class="form-text text-danger"></span>
                             </div>
                             <input asp-for="@Post.Id" type="hidden" />
                             <input asp-for="@Post.ParentId" type="hidden" />
@@ -90,7 +82,7 @@
                             <input asp-for="@Post.IsTopic" type="hidden" />
 
                             <div class="col ms-5 p-2">
-                                <button type="submit" class="btn btn-dark">@btn</button> <button type="button" class="btn btn-secondary btn-cancel">@Umbraco.GetDictionaryValueOrDefault("Forums.Cancel", "Cancel")</button>
+                                <button type="submit" class="btn btn-dark">@btn</button> <button type="button" class="btn btn-secondary btn-cancel">@DictionaryService.GetOrCreateDictionaryValue("Forums.Cancel", "Cancel")</button>
                             </div>
                         </fieldset>
                     }
@@ -105,7 +97,7 @@
 
     public bool UserCanPostHere(IPublishedContent item)
     {
-        if (!_memberManager.IsLoggedIn())
+        if (!memberManager.IsLoggedIn())
             return false;
 
         var canPostGroups = item.Value<string>("canPostGroups");
@@ -125,7 +117,7 @@
                 allowedGroupList.Add(memberGroup.Name);
             }
         }
-        return _memberManager.IsMemberAuthorizedAsync(allowGroups: allowedGroupList).Result;
+        return memberManager.IsMemberAuthorizedAsync(allowGroups: allowedGroupList).Result;
     }
 
 }

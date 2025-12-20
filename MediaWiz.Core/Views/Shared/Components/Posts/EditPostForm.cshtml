@@ -56,7 +56,7 @@
 
             @Html.ValidationSummary("PostEdit", true)
             <div class="form-group">
-                <button type="submit" class="btn btn-dark">@btn</button> <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">@Umbraco.GetDictionaryValueOrDefault("Forums.Cancel","Cancel")</button>
+                <button type="submit" class="btn btn-dark">@btn</button> <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">@DictionaryService.GetOrCreateDictionaryValue("Forums.Cancel","Cancel")</button>
             </div>
         </fieldset>
     }

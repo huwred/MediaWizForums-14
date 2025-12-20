@@ -1,50 +1,42 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFrameworks><!--net8.0;-->net9.0</TargetFrameworks>
-    <Version>16.0.2</Version>
+    <TargetFrameworks>net10.0</TargetFrameworks>
+    <Version>17.0.0-rc78</Version>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <ContentTargetFolders>.</ContentTargetFolders>
     <PackageId>MediaWiz.Forums.14</PackageId>
     <Owners>Huw Reddick</Owners>
     <Authors>Huw Reddick</Authors>
     <Product>MediaWiz Forums</Product>
-    <Description>MediaWiz Forums for Umbraco 14+</Description>
-    <Title>MediaWizard Forums 14+</Title>
+    <Description>MediaWiz Forums for Umbraco</Description>
+    <Title>MediaWizard Forums 17</Title>
     <Copyright>Huw Reddick</Copyright>
     <PackageProjectUrl>https://umbraco.themediawizards.co.uk</PackageProjectUrl>
     <PackageTags>umbraco-marketplace umbraco plugin package</PackageTags>
     <RepositoryUrl>https://github.com/huwred/MediaWizForums-14</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageReleaseNotes>Latest version targetting Umbraco 16</PackageReleaseNotes>
+    <PackageReleaseNotes>Latest version targetting Umbraco 17</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
-    
+    <PackageOutputPath>E:\Umbraco-Dev\Nuget</PackageOutputPath>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
-  <!--<ItemGroup Condition="$(TargetFramework) == 'net8.0'">
-    <PackageReference Include="Microsoft.Maui.Graphics" Version="8.0.21" />
-    <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="8.0.21" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
-
-	  <PackageReference Include="Umbraco.Cms.Core" Version="[14.3.2,14.999)" />
-	  <PackageReference Include="Umbraco.Cms.Examine.Lucene" Version="[14.3.2,14.999)" />
-	  <PackageReference Include="Umbraco.Cms.Infrastructure" Version="[14.3.2,14.999)" />
-	  <PackageReference Include="Umbraco.Cms.Web.Common" Version="[14.3.2,14.999)" />
-	  <PackageReference Include="Umbraco.Cms.Web.Website" Version="[14.3.2,14.999)" />
-	</ItemGroup>-->
-  <ItemGroup Condition="$(TargetFramework) == 'net9.0'">
-    <PackageReference Include="Microsoft.Maui.Graphics" Version="9.0.10" />
-    <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="9.0.10" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
-
-	  <PackageReference Include="Umbraco.Cms.Core" Version="16.0.0" />
-	  <PackageReference Include="Umbraco.Cms.Examine.Lucene" Version="16.0.0" />
-	  <PackageReference Include="Umbraco.Cms.Infrastructure" Version="16.0.0" />
-	  <PackageReference Include="Umbraco.Cms.Web.Common" Version="16.0.0" />
-	  <PackageReference Include="Umbraco.Cms.Web.Website" Version="16.0.0" />
-
-	</ItemGroup>
+<ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Graphics" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="10.0.11" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.119.1" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="10.0.1" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="17.0.2" />
+	<PackageReference Include="Umbraco.Cms.Examine.Lucene" Version="17.0.2" />
+	<PackageReference Include="Umbraco.Cms.Infrastructure" Version="17.0.2" />
+	<PackageReference Include="Umbraco.Cms.Web.Common" Version="17.0.2" />
+	<PackageReference Include="Umbraco.Cms.Web.Website" Version="17.0.2" />
+</ItemGroup>
+	
 <ItemGroup>
   <Content Remove="assets\**" />
   <Compile Remove="assets\**" />
@@ -52,7 +44,7 @@
   <None Remove="assets\**" />
 </ItemGroup>
   
-	<ItemGroup>
+<ItemGroup>
     <None Include="views\**">
       <Pack>true</Pack>
       <PackagePath>Views</PackagePath>
@@ -65,18 +57,48 @@
     <None Include="docs\readme.md" Pack="true" PackagePath="\" />
     <None Include="wwwroot\**" />
 	</ItemGroup>
+  
+<ItemGroup>
+  <Compile Remove="Extensions\ScriptBlockExtensions.cs" />
+</ItemGroup>
 
 	<ItemGroup>
     <Content Remove="bundleconfig.json" />
     <Content Remove="package-lock.json" />
-    <Content Remove="wwwroot\wizard.svg" />
+    <Content Remove="Views\activeTopics.cshtml" />
+    <Content Remove="Views\forum.cshtml" />
+    <Content Remove="Views\forumMaster.cshtml" />
+    <Content Remove="Views\forumPost.cshtml" />
+    <Content Remove="Views\login.cshtml" />
+    <Content Remove="Views\mediawizMaster.cshtml" />
+    <Content Remove="Views\members.cshtml" />
+    <Content Remove="Views\profile.cshtml" />
+    <Content Remove="Views\register.cshtml" />
+    <Content Remove="Views\reset.cshtml" />
+    <Content Remove="Views\searchPage.cshtml" />
+    <Content Remove="Views\verify.cshtml" />
+    <Content Remove="Views\_ViewStart.cshtml" />
   </ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="views\activeTopics.cshtml" />
+	  <None Remove="views\forum.cshtml" />
+	  <None Remove="views\forumMaster.cshtml" />
+	  <None Remove="views\forumPost.cshtml" />
+	  <None Remove="views\login.cshtml" />
+	  <None Remove="views\mediawizMaster.cshtml" />
+	  <None Remove="views\members.cshtml" />
+	  <None Remove="views\profile.cshtml" />
+	  <None Remove="views\register.cshtml" />
+	  <None Remove="views\reset.cshtml" />
+	  <None Remove="views\searchPage.cshtml" />
+	  <None Remove="views\verify.cshtml" />
+	  <None Remove="views\_ViewStart.cshtml" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <EmbeddedResource Include="Migrations\forumpackage.xml" />
-	  <EmbeddedResource Include="Migrations\package.xml" />
-	  <EmbeddedResource Include="Migrations\forumtemplates.xml" />
-	  <EmbeddedResource Include="Migrations\packagetemplates.xml" />
+		<EmbeddedResource Include="Migrations\package.xml" />
 	</ItemGroup>
 
 	<ItemGroup>

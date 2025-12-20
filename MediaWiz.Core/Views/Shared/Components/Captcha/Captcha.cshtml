@@ -2,20 +2,34 @@
 @using Umbraco.Extensions
 @using Umbraco.Cms.Web.Common
 @using MediaWiz.Forums.Extensions
-@inject UmbracoHelper Helper
-<div class="mb-3" id="captcha-check">
-    <h5>@Helper.GetDictionaryValueOrDefault("Forums.Captcha.Title","Confirm Humanity")</h5>
-    <p>@Helper.GetDictionaryValueOrDefault("Forums.Captcha.Description","Before we continue, we need to confirm you are a sentient being (it's a spam thing).Please type the answer to the question in the image below and click the 'Not a Robot' button.")</p>
+
+<div class="mb-3 w-75 mx-auto" id="captcha-check">
+    <h5>@umbracoHelper.GetDictionaryValueOrDefault("Forums.Captcha.Title", "Confirm Humanity")</h5>
+    <p>@umbracoHelper.GetDictionaryValueOrDefault("Forums.Captcha.Description", "Before we continue, we need to confirm you are a sentient being (it's a spam thing).Please type the answer to the question in the image below and click the 'Not a Robot' button.")</p>
     <div id="div-captcha" class="mb-1">
         <div class="form-group mb-3">
             <img src='data:image/Png;base64,@TempData["b64"]' id="captch-img" alt="Captcha"/>
-            <a href="#" title="Click to refresh" id="captcha-refresh">@Helper.GetDictionaryValueOrDefault("Forums.Captcha.Refresh","Reload Captcha")</a>
+            <a href="#" title="Click to refresh" id="captcha-refresh">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Captcha.Refresh", "Reload Captcha")</a>
         </div>
         <div class="form-group">
-            <input type="text" name="Captcha" id="Captcha" class="form-control" placeholder="@Helper.GetDictionaryValueOrDefault("Forums.Captcha.Placeholder","Please type your answer here")" pattern="^[0-9]$" />
+            <input type="text" name="Captcha" id="Captcha" class="form-control" placeholder="@umbracoHelper.GetDictionaryValueOrDefault("Forums.Captcha.Placeholder", "Please type your answer here")" pattern="^[0-9]$" />
         </div>
     </div>
     <div class="pull-right flip">
-        <button class="btn-captcha btn btn-dark" id="btn-captcha" type="button">@Helper.GetDictionaryValueOrDefault("Forums.Captcha.Button","Not a Robot")</button>
+        <button class="btn-captcha btn btn-dark" id="btn-captcha" type="button">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Captcha.Button", "Not a Robot")</button>
     </div>
 </div>
+<storecontent asp-key="script-block">
+    <script id="capjs">
+        window.onload = function() {
+          document.getElementById("Captcha").focus();
+        };
+        $('#Captcha').on("keyup",function (event) {
+                    if (event.which == 13 || event.which == 13) {
+                        $("#btn-captcha").trigger("click");
+                        event.preventDefault();
+                        return false;
+                    }
+                });
+    </script>
+</storecontent>

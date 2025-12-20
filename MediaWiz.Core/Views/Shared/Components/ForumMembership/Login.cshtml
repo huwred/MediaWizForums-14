@@ -7,34 +7,67 @@
 @using Umbraco.Extensions
 @using Umbraco.Cms.Web.Common
 
-@inject UmbracoHelper umbracoHelper
-<div class="login-form">
-
-    @using (Html.BeginUmbracoForm<ForumMemberController>(
-    "HandleLogin", new { RedirectUrl = Model.RedirectUrl }))
-    {
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="mb-3">
-            <label asp-for="@Model.Username" class="form-label"></label>
-            <input asp-for="@Model.Username" class="form-control" autocomplete="new-password" aria_required="true" />
-            <span asp-validation-for="@Model.Username" class="form-text text-danger"></span>
+<div class="card w-100 mx-auto" style="max-width: 640px;">
+    <div class="card-body">
+        <div class="text-center">
+            <h1 class="card-title h3">Sign in</h1>
+            <p class="card-text text-muted">Sign in below to begin posting</p>
         </div>
-        <div class="mb-3">
-            <label asp-for="@Model.Password" class="form-label"></label>
-            <input asp-for="@Model.Password" class="form-control" autocomplete="new-password" aria_required="true" type="password" />
-            <span asp-validation-for="@Model.Password" class="form-text text-danger"></span>
+        <div class="mt-4">
+            @using (Html.BeginUmbracoForm<ForumMemberController>("HandleLogin", null, new { RedirectUrl = Model.RedirectUrl, @class = "needs-validation", novalidate = "" }, FormMethod.Post))
+            {
+                <hr />
+                <div class="mb-3">
+                    <label asp-for="@Model.Username" class="form-label"></label>
+                    <input asp-for="@Model.Username" class="form-control" autocomplete="new-password" aria_required="true" required/>
+                    <span asp-validation-for="@Model.Username" class="invalid-feedback"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="@Model.Password" class="form-label"></label>
+                    <input asp-for="@Model.Password" class="form-control" autocomplete="new-password" aria_required="true" type="password" required/>
+                    <span asp-validation-for="@Model.Password" class="invalid-feedback"></span>
+                </div>
+                <div class="mb-3">
+                    <a href="@DictionaryService.GetOrCreateDictionaryValue("Forums.ForgotPassword", "/ForgotPassword")" class="nav-link ps-0" title="Forgot Password">@DictionaryService.GetOrCreateDictionaryValue("Forums.Profile.Forgotpassword", "Forgot Password ?")</a>
+                </div>
+                <div class="col-12 gy-2">
+                    <div class="d-grid">
+                        <button class="btn btn-lg btn-secondary mb-3" type="submit">@DictionaryService.GetOrCreateDictionaryValue("Forums.Signin", "Sign in")</button>
+                    </div>
+                </div>
+                <div asp-validation-summary="ModelOnly" class="invalid-feedback"></div>
+                <div class="mb-3 form-check">
+                    <input asp-for="@Model.RememberMe" class="form-check-input" aria_required="true" type="checkbox" />
+                    <label asp-for="@Model.RememberMe" class="form-check-label">
+                        @DictionaryService.GetOrCreateDictionaryValue("Forums.Signin.RememberMe", "keep me logged in")
+                    </label>
+                </div>
+            }
         </div>
-        <div class="mb-3 form-check">
-            <input asp-for="@Model.RememberMe" class="form-check-input" aria_required="true" type="checkbox" />
-            <label asp-for="@Model.RememberMe" class="form-check-label">
-                @Html.DisplayNameFor(m => Model.RememberMe)
-            </label>
-        </div>
-
-        <button type="submit" class="btn btn-dark">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Signin","Log in")</button>
-
-
-        }
-
+    </div>
 </div>
+
+<storecontent asp-key="script-block">
+    <script type="text/javascript" id="login">
+
+        (function () {
+          'use strict'
+
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.querySelectorAll('.needs-validation')
+
+          // Loop over them and prevent submission
+          Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+              form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                  event.preventDefault()
+                  event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+              }, false)
+            })
+        })()
+    </script>
+</storecontent>

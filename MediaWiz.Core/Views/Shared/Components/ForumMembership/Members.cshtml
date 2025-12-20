@@ -1,18 +1,36 @@
 ﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Examine.Search
 @using MediaWiz.Forums.Helpers
 @using Umbraco.Cms.Core.Models
 @using Umbraco.Cms.Core.Models.PublishedContent
 @using Umbraco.Cms.Core.Security
 @using Umbraco.Cms.Core.Services
 @using MediaWiz.Forums.Extensions
-
+@using Examine
+@using Umbraco.Extensions
+@using Umbraco.Cms.Infrastructure.Examine
 @inject IMemberService memberService
-@inject IMemberManager MemberManager
+@inject IExamineManager examineManager
 
 @{
-    var ForumUrl = Umbraco.GetDictionaryValueOrDefault("Forums.ForumUrl", "/").TrimEnd('/');
+    var ForumUrl = DictionaryService.GetOrCreateDictionaryValue("Forums.ForumUrl", "/").TrimEnd('/');
 
-    var AllUsers = memberService.GetMembersByPropertyValue("hasVerifiedAccount", true).OrderByDescending(x => x.GetValue<int>("postCount")).ToList();
+    // Use Examine to search for members with a verified account
+    var AllUsers = new List<IMember>();
+
+    var memberSearcher = examineManager.TryGetIndex("ForumMemberIndex", out var memberIndex) ? memberIndex.Searcher : null;
+    if (memberSearcher != null)
+    {
+        var criteria = memberSearcher.CreateQuery()
+            .Field("hasVerifiedAccount", 1)
+            .OrderByDescending(new SortableField("postCount", SortType.Int));
+        var results = criteria.Execute();
+        var memberIds = results.Select(x => int.Parse(x.Id)).ToArray();
+        if (memberIds.Any())
+        {
+            AllUsers = memberService.GetAllMembers(memberIds).OrderByDescending(x => x.GetValue<int>("postCount")).ToList();
+        }
+    }
 
     var totalMembers = AllUsers.Count();
 
@@ -40,11 +58,11 @@
             break;
 
     }
-    var currentUser = MemberManager.GetCurrentMemberAsync().Result;
+    var currentUser = memberManager.GetCurrentMemberAsync().Result;
     IList<string> roles = new List<string>();
     if (currentUser != null)
     {
-        roles = MemberManager.GetRolesAsync(currentUser).Result;
+        roles = memberManager.GetRolesAsync(currentUser).Result;
     }
 
 }
@@ -52,24 +70,26 @@
 <table class="table">
     <thead>
         <tr>
-            <th scope="col"><a href="@ForumUrl/members/?page=@pagenum&sort=Name&dir=@sortdir" class="@if(sortby == "Name") { <text>active</text> } @sortdir">@Umbraco.GetDictionaryValueOrDefault("Forums.Members.Name","Name")</a></th>
-            <th scope="col"><a href="@ForumUrl/members/?page=@pagenum&sort=umbracoMemberLastLogin&dir=@sortdir" class="@if(sortby == "umbracoMemberLastLogin") { <text>active</text> } @sortdir">@Umbraco.GetDictionaryValueOrDefault("Forums.Members.Lastvisit","Last Visit")</a></th>
-            <th scope="col" class="post-count"><a href="@ForumUrl/members/?page=@pagenum&sort=postCount&dir=@sortdir" class="@if(sortby == "postCount") { <text>active</text> } number @sortdir">@Umbraco.GetDictionaryValueOrDefault("Forums.Members.Posts","Posts")</a></th>
-            <th scope="col">@Umbraco.GetDictionaryValueOrDefault("Forums.Members.Status","Status")</th>
+            <th scope="col"><a href="@ForumUrl/members/?page=@pagenum&sort=Name&dir=@sortdir" class="@if(sortby == "Name") { <text>active</text> } @sortdir">@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Name","Name")</a></th>
+            <th scope="col"><a href="@ForumUrl/members/?page=@pagenum&sort=CreateDate&dir=@sortdir" class="@if(sortby == "CreateDate") { <text>active</text> } @sortdir">@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.CreateDate","Member Since")</a></th>
+            <th scope="col"><a href="@ForumUrl/members/?page=@pagenum&sort=umbracoMemberLastLogin&dir=@sortdir" class="@if(sortby == "umbracoMemberLastLogin") { <text>active</text> } @sortdir">@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Lastvisit","Last Visit")</a></th>
+            <th scope="col">@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Posts", "Posts")</th>
+            <th scope="col">@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Status", "Status")</th>
         </tr>
     </thead>
     <tbody>
         @foreach (IMember member in AllUsers.Skip((pagenum - 1) * pageSize).Take(pageSize))
         {
-            var user = MemberManager.FindByNameAsync(member.Username).Result;
-            IPublishedContent Pmember = MemberManager.AsPublishedMember(user);
+            var user = memberManager.FindByNameAsync(member.Username).Result;
+            IPublishedContent Pmember = memberManager.AsPublishedMember(user);
             long postcount = member.GetValue<long>("postCount");
 
             <tr>
                 <td>@member.Name</td>
-                @if (user.LastLoginDateUtc != null)
+                <td>@member.CreateDate.ToDisplayDate()</td>
+                @if (user.LastLoginDate != null)
                 {
-                    <td><span title="@user.LastLoginDateUtc">@user.LastLoginDateUtc.Value.GetRelativeDate()</span></td>
+                    <td><span title="@user.LastLoginDate">@user.LastLoginDate.Value.GetRelativeDate()</span></td>
 
                 }
                 else
@@ -83,33 +103,28 @@
 
                         @if (roles.Contains("ForumAdministrator"))
                         {
-                            <a href="#" data-mode="unlock" data-userid="@user.Id" class="lock-user" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Members.Unlock","UnLock user")"><i class="bi bi-unlock" style="font-size: 1.2em;"></i></a>
-
+                            <a href="#" data-mode="unlock" data-userid="@user.Id" class="lock-user" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Unlock", "UnLock user")"><i class="bi bi-unlock" style="font-size: 1.2em;"></i></a>
                         }
                         else
                         {
-                            <i class="bi bi-lock" style="font-size: 1.2em;" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Members.Locked","Account locked")"></i>
+                            <i class="bi bi-lock" style="font-size: 1.2em;" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Locked", "Account locked")"></i>
                         }
                     }
                     else
                     {
-                        @if (user.LastLoginDateUtc.HasValue && user.LastLoginDateUtc.Value > DateTime.UtcNow.AddMinutes(-10))
+                        @if (user.LastLoginDate.HasValue && user.LastLoginDate.Value > DateTime.UtcNow.AddMinutes(-10))
                         {
-                            <i class="bi bi-person-check" style="font-size: 1.2em;" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Members.Online","User is online")"></i>
+                            <i class="bi bi-person-check" style="font-size: 1.2em;" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Online", "User is online")"></i>
                         }
                         else
                         {
-                            <i class="bi bi-person" style="font-size: 1.2em;" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Members.Offline","User is offline")"></i>
+                            <i class="bi bi-person" style="font-size: 1.2em;" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Offline", "User is offline")"></i>
                         }
                         @if (roles.Contains("ForumAdministrator"))
                         {
-                            <a href="#" data-mode="lock" data-userid="@user.Id" title="@Umbraco.GetDictionaryValueOrDefault("Forums.Members.Lock","Lock user")" class="lock-user"><i class="bi bi-lock" style="font-size: 1.2em;"></i></a>
+                            <a href="#" data-mode="lock" data-userid="@user.Id" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Lock", "Lock user")" class="lock-user"><i class="bi bi-lock" style="font-size: 1.2em;"></i></a>
                         }
                     }
-
-
-
-
                 </td>
             </tr>
         }
