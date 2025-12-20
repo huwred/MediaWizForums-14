@@ -1,0 +1,140 @@
+﻿body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Fixed header */
+.header {
+
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    z-index: 1000;
+    flex-flow: row;
+
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.header .nav-links a {
+    color: darkgrey;
+    text-decoration: none;
+}
+
+.header .nav-links a:hover {
+    text-decoration: underline;
+}
+
+.forum.container > div {
+    display: flex;
+    height: calc(100vh - 200px); /* subtract header height */
+    overflow: hidden;
+    border: 1px solid darkgrey;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 240px;
+    transition: width 1s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* hide content when collapsed */
+    border-right: 1px solid darkgrey;
+    margin-top: 0 !important;
+}
+
+.sidebar.collapsed {
+    left: -240px;
+    border-right: 0;
+    padding: 0 !important;
+    transition: width 1s ease;
+    width: 0;
+}
+
+.sidebar h2 {
+    margin: 0;
+    padding: 1rem;
+    font-size: 1.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar nav {
+    flex: 1;
+    padding: 0.5rem;
+}
+
+.sidebar nav a {
+    display: block;
+    padding: 0.5rem;
+    color: black;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.sidebar nav a:hover {
+    color: white;
+    background-color: #34495e;
+}
+
+/* Main content styles */
+.main {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.breadcrumb {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: var(--bs-gutter-x, .75rem);
+    padding-left: var(--bs-gutter-x, .75rem);
+
+}
+.topic{
+    border-bottom: 1px solid lightgrey;
+}
+.wiz-body{
+    border-top: 2px solid lightgrey;
+}
+
+.btn-outline-secondary.border-start-0 {
+    color: #6c757d;
+    border-color: #ced4da;
+}
+
+@media (min-width: 576px) {
+    .breadcrumb {
+        max-width: 540px;
+    }
+}
+@media (min-width: 768px) {
+    .breadcrumb {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .breadcrumb {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .breadcrumb {
+        max-width: 1140px;
+    }
+}
+@media (min-width: 1400px) {
+    .breadcrumb {
+        max-width: 1320px;
+    }
+}
