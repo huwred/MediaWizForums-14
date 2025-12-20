@@ -1,6 +1,9 @@
 # MediaWizForums 14 #
 Simple Forum add on for Umbraco 14+. 
 
+## 17.0.0
+Updated to support Umbraco 17 and .net 10
+
 ## 16.0.2
 Fixes and refactoring for Umbraco 16
 
