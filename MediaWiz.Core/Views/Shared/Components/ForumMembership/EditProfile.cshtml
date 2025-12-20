@@ -6,8 +6,8 @@
 @using Umbraco.Cms.Core.Services
 @using MediaWiz.Forums.Extensions
 @using Umbraco.Cms.Web.Common
+@using MediaWiz.Forums.Controllers
 
-@inject UmbracoHelper umbracoHelper
 @{
 
     var success = TempData["FormSuccess"] != null;
@@ -16,6 +16,7 @@
     {
         Context.Response.Redirect("/forums");
     }
+
 }
 
 @if (Model.ProfileModel != null && Model.Username == Model.CurrentUser?.UserName || Model.Username.IsNullOrWhiteSpace())
@@ -33,31 +34,28 @@
     </nav>
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active p-3" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            @using (Html.BeginUmbracoForm<UmbProfileController>
-                ("HandleUpdateProfile", new { RedirectUrl = Model.ProfileModel?.RedirectUrl }))
+            @using (Html.BeginUmbracoForm<MediaWizProfileController>
+                    ("HandleUpdateProfile", null, new { @id = "updateProfileForm", RedirectUrl = Model.ProfileModel?.RedirectUrl, @class = "needs-validation", novalidate = "" }, FormMethod.Post))
                 {
+                <input asp-for="@Model.ProfileModel.Key" type="hidden" />
                 @if (!string.IsNullOrWhiteSpace(Model.ProfileModel.UserName))
                 {
                     <div class="mb-3">
                         <label asp-for="@Model.ProfileModel.UserName" class="form-label"></label>
                         <input asp-for="@Model.ProfileModel.UserName" class="form-control" readonly="" />
-                        <span asp-validation-for="@Model.ProfileModel.UserName" class="form-text text-danger"></span>
+                        <span asp-validation-for="@Model.ProfileModel.UserName" class="invalid-feedback"></span>
                     </div>
                 }
-                <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="mb-3">
                     <label asp-for="@Model.ProfileModel.Name" class="form-label"></label>
-                    <input asp-for="@Model.ProfileModel.Name" class="form-control" aria-required="true" />
-                    <span asp-validation-for="@Model.ProfileModel.Name" class="form-text text-danger"></span>
+                    <input asp-for="@Model.ProfileModel.Name" class="form-control" aria-required="true" required/>
+                    <span asp-validation-for="@Model.ProfileModel.Name" class="invalid-feedback"></span>
                 </div>
                 <div class="mb-3">
                     <label asp-for="@Model.ProfileModel.Email" class="form-label"></label>
-                    <input asp-for="@Model.ProfileModel.Email" class="form-control" autocomplete="username" aria-required="true" />
-                    <span asp-validation-for="@Model.ProfileModel.Email" class="form-text text-danger"></span>
+                    <input asp-for="@Model.ProfileModel.Email" class="form-control" autocomplete="username" aria-required="true" required/>
+                    <span asp-validation-for="@Model.ProfileModel.Email" class="invalid-feedback"></span>
                 </div>
-
-
-
 
                 @if (Model.ProfileModel.MemberProperties != null)
                 {
@@ -71,11 +69,11 @@
                                     <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value="@Model.ProfileModel.MemberProperties[i].Value" @checkstate>
                                     <label class="form-check-label" for="flexSwitchCheckDefault">@Html.LabelFor(m => Model.ProfileModel.MemberProperties[i].Value, Model.ProfileModel.MemberProperties[i].Name)</label>
                                 </div>
-
-                                <span asp-validation-for="@Model.ProfileModel.MemberProperties[i].Value" class="form-text text-danger"></span>
                                 <div id="notifyHelp" class="form-text">
-                                    @umbracoHelper.GetDictionaryValueOrDefault("Forums.Profile.NotifyHelp","Receive an email when someone posts on the forum.")
+                                    @umbracoHelper.GetDictionaryValueOrDefault("Forums.Profile.NotifyHelp", "Receive an email when someone posts on the forum.")
                                 </div>
+
+                                <span asp-validation-for="@Model.ProfileModel.MemberProperties[i].Value" class="invalid-feedback"></span>
                             </div>
                         }
                         else
@@ -83,17 +81,19 @@
                             <div class="mb-3">
                                 @Html.LabelFor(m => Model.ProfileModel.MemberProperties[i].Value, Model.ProfileModel.MemberProperties[i].Name)
                                 <input asp-for="@Model.ProfileModel.MemberProperties[i].Value" class="form-control" />
+                                <span asp-validation-for="@Model.ProfileModel.MemberProperties[i].Value" class="invalid-feedback"></span>
                                 @Html.HiddenFor(m => Model.ProfileModel.MemberProperties[i].Alias)
-                                <span asp-validation-for="@Model.ProfileModel.MemberProperties[i].Value" class="form-text text-danger"></span>
                             </div>
                         }
 
                     }
                 }
+                <div asp-validation-summary="All" class="invalid-feedback" id="profile-val"></div>
 
                 <button type="submit" class="btn btn-dark mb-3">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Update","Update")</button>
 
                 }
+            <div id="updateMessage" style="margin-top:10px;"></div>
             <div class="accordion " id="accordionFlushExample">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="flush-headingOne">
@@ -114,3 +114,14 @@
     </div>
 
 }
+<storecontent asp-key="script-block">
+    <script type="text/javascript" id="editprofile">
+        $(document).ready(function() {
+
+            if ('@success'.toLowerCase() == 'true'){
+                $('#profile-val').show();
+            }
+
+        });
+    </script>
+</storecontent>
