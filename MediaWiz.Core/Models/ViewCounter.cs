@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using NPoco;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
 
 namespace MediaWiz.Forums.Models
 {
-    [Table("ForumPostHitCounter")]
+    [TableName("ForumPostHitCounter")]
+    [PrimaryKey("NodeId", AutoIncrement = false)]
     public class ViewCounter
     {
 
