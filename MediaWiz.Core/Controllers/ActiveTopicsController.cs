@@ -1,11 +1,12 @@
-﻿using System;
-using System.Linq;
-using Examine;
+﻿using Examine;
 using Examine.Search;
 using MediaWiz.Forums.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Services;
@@ -88,7 +89,7 @@ namespace MediaWiz.Forums.Controllers
                     {
                         examineQuery = examineQuery.And().Field("answered", "0");
                     }
-                    results = examineQuery.OrderByDescending(new SortableField[] { new SortableField("updateDate") }).Execute();
+                    results = examineQuery.OrderByDescending(new SortableField[] { new SortableField("lastTicks") }).Execute();
                 }
             }
             else
@@ -101,7 +102,7 @@ namespace MediaWiz.Forums.Controllers
                     .Field("postType", "Topic")
                         //.And().Field("approved", "1")
                         .And().RangeQuery<long>(new string[] { "lastTicks" }, min, max)
-                        .OrderByDescending(new SortableField[] { new SortableField("updateDate") });
+                        .OrderByDescending(new SortableField[] { new SortableField("lastTicks") });
                 
                     results = examineQuery.Execute();
                 }
@@ -121,14 +122,37 @@ namespace MediaWiz.Forums.Controllers
                     query = query?.ToString(),
                     searchIn = "",
                     TotalResults = totalResults,
-                    PagedResult = pagedResultsAsContent
+                    PagedResult = pagedResultsAsContent,
+                    Forums = GetForumsAllowingPosts().ToDictionary(x => x.Id, x => x.Name)
                 };
                 //then return the custom model:
                 return CurrentTemplate(searchPageViewModel);
             }
             return CurrentTemplate(new SearchViewModel(CurrentPage, new PublishedValueFallback(_serviceContext, _variationContextAccessor)));
         }
+        private IEnumerable<IPublishedContent> GetForumsAllowingPosts()
+        {
+            if (_examineManager.TryGetIndex("ExternalIndex", out var externalIndex) == false)
+            {
+                return Enumerable.Empty<IPublishedContent>();
+            }
 
+            var searcher = externalIndex.Searcher;
+
+            // Booleans may be indexed as "1" or "true" depending on data type/converter,
+            // so we match both and both possible field casings.
+            var query = searcher.CreateQuery(IndexTypes.Content)
+                .GroupedOr(new[] { "__NodeTypeAlias" }, new[] { "forum" })
+                .And()
+                .GroupedOr(new[] { "isActive", "isActive" }, new[] { "1", "true" })
+                .And()
+                .GroupedOr(new[] { "postAtRoot", "postAtRoot" }, new[] { "1", "true" });
+
+            var results = query.Execute();
+
+            var ids = results.Select(x => x.Id);
+            return _publishedContentQuery.Content(ids).WhereNotNull();
+        }
         public IActionResult Sort([FromQuery(Name = "page")] int page, [FromQuery(Name = "query")] string query)
         {
             ISearchResults results = null;
@@ -146,7 +170,7 @@ namespace MediaWiz.Forums.Controllers
                 var test = searcher.Search("* AND -postType");
                 var examineQuery = searcher.CreateQuery(IndexTypes.Content)
                     .Field("postType", "Topic")
-                    .OrderByDescending(new SortableField[] { new SortableField("updateDate") });
+                    .OrderByDescending(new SortableField[] { new SortableField("lastTicks") });
                     //.Execute(/*maxResults: pageSize*(pageIndex + 1)*/);
 
                 results = examineQuery.Execute();

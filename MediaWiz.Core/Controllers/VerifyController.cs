@@ -1,9 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using Examine;
+using Examine.Search;
 using MediaWiz.Forums.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
 using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Persistence.Querying;
@@ -19,13 +21,15 @@ namespace MediaWiz.Forums.Controllers
         private readonly IVariationContextAccessor _variationContextAccessor;
         private readonly ServiceContext _serviceContext;
         private readonly IDictionaryItemService _dictionaryService;
+        private readonly IExamineManager _examineManager;
 
-        public VerifyController(ILogger<VerifyController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor,IMemberService memberService, IVariationContextAccessor variationContextAccessor,ServiceContext context,IDictionaryItemService dictionaryService) : base(logger, compositeViewEngine, umbracoContextAccessor)
+        public VerifyController(ILogger<VerifyController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor,IMemberService memberService, IExamineManager examineManager,IVariationContextAccessor variationContextAccessor,ServiceContext context,IDictionaryItemService dictionaryService) : base(logger, compositeViewEngine, umbracoContextAccessor)
         {
             _memberService = memberService;
             _variationContextAccessor = variationContextAccessor;
             _serviceContext = context;
             _dictionaryService = dictionaryService;
+            _examineManager = examineManager;
         }
         public override IActionResult Index()
         {
@@ -41,12 +45,23 @@ namespace MediaWiz.Forums.Controllers
         {
             if (guid != null)
             {
-                var member = _memberService.GetMembersByPropertyValue("resetGuid", guid, StringPropertyMatchType.Exact);
+                ISearchResults result = null;
+                var memberSearcher = _examineManager.TryGetIndex("ForumMemberIndex", out var memberIndex) ? memberIndex.Searcher : null;
+                if (memberSearcher != null)
+                {
+                    var criteria = memberSearcher.CreateQuery()
+                        .Field("resetGuid", guid);
+
+                    result = criteria.Execute();
+                    //.Select(x => int.Parse(x.Id))
+                }
+
+                var member = _memberService.GetById(result.Select(x => int.Parse(x.Id)).SingleOrDefault());
                 VerifyViewModel pageViewModel = new VerifyViewModel(CurrentPage,
                     new PublishedValueFallback(_serviceContext, _variationContextAccessor));
-                if (member.Count() == 1)
+                if (member != null)
                 {
-                    var memberToValidate = member.First();
+                    var memberToValidate = member;
                     pageViewModel.ValidatedMember = memberToValidate;
                     memberToValidate.SetValue("resetGuid",null);
                     memberToValidate.SetValue("joinedDate",DateTime.UtcNow);
@@ -59,8 +74,8 @@ namespace MediaWiz.Forums.Controllers
                         {
                             _memberService.AssignRole(memberToValidate.Username, "ForumMember");
                         }
-                        var result = _memberService.Save(memberToValidate);
-                        if(result.Success)
+                        var saveresult = _memberService.Save(memberToValidate);
+                        if(saveresult.Success)
                         {
                             pageViewModel.Success = true;
                             return CurrentTemplate(pageViewModel);
@@ -98,13 +113,15 @@ namespace MediaWiz.Forums.Controllers
         private readonly IVariationContextAccessor _variationContextAccessor;
         private readonly ServiceContext _serviceContext;
         private readonly IDictionaryItemService _dictionaryService;
+        private readonly IExamineManager _examineManager;
 
-        public ForumVerifyController(ILogger<ForumVerifyController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor,IMemberService memberService, IVariationContextAccessor variationContextAccessor,ServiceContext context,IDictionaryItemService dictionaryService) : base(logger, compositeViewEngine, umbracoContextAccessor)
+        public ForumVerifyController(ILogger<ForumVerifyController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor,IMemberService memberService, IExamineManager examineManager, IVariationContextAccessor variationContextAccessor,ServiceContext context,IDictionaryItemService dictionaryService) : base(logger, compositeViewEngine, umbracoContextAccessor)
         {
             _memberService = memberService;
             _variationContextAccessor = variationContextAccessor;
             _serviceContext = context;
             _dictionaryService = dictionaryService;
+            _examineManager = examineManager;
         }
         public override IActionResult Index()
         {
@@ -120,13 +137,24 @@ namespace MediaWiz.Forums.Controllers
         {
             if (guid != null)
             {
-                var member = _memberService.GetMembersByPropertyValue("resetGuid", guid, StringPropertyMatchType.Exact);
-                var enumerable = member as IMember[] ?? member.ToArray();
+                ISearchResults result = null;
+                var memberSearcher = _examineManager.TryGetIndex("ForumMemberIndex", out var memberIndex) ? memberIndex.Searcher : null;
+                if (memberSearcher != null)
+                {
+                    var criteria = memberSearcher.CreateQuery()
+                        .Field("resetGuid", guid);
+
+                    result = criteria.Execute();
+                    //.Select(x => int.Parse(x.Id))
+                }
+
+                var member = _memberService.GetById(result.Select(x => int.Parse(x.Id)).SingleOrDefault());
+                //var enumerable = member as IMember[] ?? member.ToArray();
                 VerifyViewModel pageViewModel = new VerifyViewModel(CurrentPage,
                     new PublishedValueFallback(_serviceContext, _variationContextAccessor));
-                if (enumerable.Count()==1)
+                if (member != null)
                 {
-                    var memberToValidate = enumerable.First();
+                    var memberToValidate = member;
                     memberToValidate.SetValue("resetGuid",null);
                     memberToValidate.SetValue("joinedDate",DateTime.UtcNow);
                     memberToValidate.SetValue("hasVerifiedAccount",true);
