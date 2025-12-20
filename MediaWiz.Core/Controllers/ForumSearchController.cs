@@ -44,7 +44,8 @@ namespace MediaWiz.Forums.Controllers
                 query = "",
                 searchIn = "",
                 TotalResults = 0,
-                PagedResult = null
+                PagedResult = null,
+                Forums = GetForumsAllowingPosts().ToDictionary(x => x.Id, x => x.Name)
             };
 
             
@@ -54,7 +55,11 @@ namespace MediaWiz.Forums.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index([FromQuery(Name = "page")] int page, [FromQuery(Name = "searchIn")] string searchIn, [FromQuery(Name = "query")] string query)
+        public IActionResult Index([FromQuery(Name = "page")] int page, [FromQuery(Name = "searchIn")] string searchIn, [FromQuery(Name = "query")] string query,
+            [FromQuery(Name = "searchForum")] string forumid,
+            [FromQuery(Name = "searchAuthor")] string author,
+            [FromQuery(Name = "searchWhere")] string where,
+            [FromQuery(Name = "searchWhen")] string when, [FromQuery(Name = "searchDate")] string date)
         {
             if (String.IsNullOrWhiteSpace(query))
             {
@@ -63,15 +68,19 @@ namespace MediaWiz.Forums.Controllers
                 {
                     //do the search
                     query = "",
-                    searchIn = "",
+                    searchIn = searchIn,
+                    searchWhere = where,
+                    searchForum = forumid,
+                    searchAuthor = author,
+                    searchWhen = when,
+                    searchDate = date,
                     TotalResults = 0,
-                    PagedResult = null
+                    PagedResult = null,
+                    Forums = GetForumsAllowingPosts().ToDictionary(x => x.Id, x => x.Name)
                 };
-
-            
-                // return our custom ViewModel
                 return CurrentTemplate(pageViewModel);
             }
+
             ISearchResults results = null;
 
             var textFields = new List<string>();
@@ -84,8 +93,9 @@ namespace MediaWiz.Forums.Controllers
                 case "Message":
                     textFields.Add("message");
                     break;
-                case "Username":
-                    textFields.Add("author");
+                case "Both":
+                    textFields.Add("message");
+                    textFields.Add("subject");
                     break;
                 default:
                     textFields.Add("message");
@@ -100,16 +110,67 @@ namespace MediaWiz.Forums.Controllers
 
             if (_examineManager.TryGetIndex("ForumIndex", out var index))
             {
-
                 var searcher = index.Searcher;
-                
+                //var value = "" + query + "*";
                 var search = searcher.CreateQuery(IndexTypes.Content)
-                    .Field("__NodeTypeAlias","forumPost").And()
-                    //.Field("postType","1").And()
+                    .Field("__NodeTypeAlias", "forumPost").And()
                     .GroupedOr(textFields.ToArray(), query.Boost(2.0f))
                     .Or()
                     .GroupedOr(textFields.ToArray(), query.MultipleCharacterWildcard());
+                if (forumid.IsNullOrWhiteSpace() == false && forumid != "All")
+                {
+                    if (int.TryParse(forumid, out var forumIdInt))
+                    {
+                        search = search.And().Field("forumid", forumIdInt);
+                    }
+                }
+                if (author.IsNullOrWhiteSpace() == false)
+                {
+                    search = search.And().Field("author", author);
+                }
+                if (where.IsNullOrWhiteSpace() == false)
+                {
+                    switch (where)
+                    {
+                        case "any":
+                            //default behaviour
+                            break;
+                        case "open":
+                            search = search.And().Field("status", 1);
+                            break;
+                        case "closed":
+                            search = search.And().Field("status", 0);
+                            break;
+                        case "solved":
+                            search = search.And().Field("answered", 1);
+                            break;
+                        default:
+                            break;
+                    }
 
+                }
+                if (date.IsNullOrWhiteSpace() == false)
+                {
+                    switch (when)
+                    {
+                        case "before":
+                            if (DateTime.TryParse(date, out var beforeDate))
+                            {
+                                var beforeEpoch = ((DateTimeOffset)beforeDate).Ticks;
+                                search = search.And().RangeQuery<long>(new[] { "lastTicks" }, long.MinValue, beforeEpoch - 1);
+                            }
+                            break;
+                        case "after":
+                            if (DateTime.TryParse(date, out var afterDate))
+                            {
+                                var afterEpoch = ((DateTimeOffset)afterDate).Ticks;
+                                search = search.And().RangeQuery<long>(new[] { "lastTicks" }, afterEpoch, int.MaxValue);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 results = search.Execute();
             }
             var totalResults = results.TotalItemCount;
@@ -121,12 +182,40 @@ namespace MediaWiz.Forums.Controllers
                 //do the search
                 query = query,
                 searchIn = searchIn,
+                searchWhere = where,
+                searchForum = forumid,
+                searchAuthor = author,
+                searchWhen = when,
+                searchDate = date,
                 TotalResults = totalResults,
-                PagedResult = pagedResultsAsContent
+                PagedResult = pagedResultsAsContent,
+                Forums = GetForumsAllowingPosts().ToDictionary(x => x.Id, x => x.Name)
             };
             //then return the custom model:
             return CurrentTemplate(searchPageViewModel);
         }
+        private IEnumerable<IPublishedContent> GetForumsAllowingPosts()
+        {
+            if (_examineManager.TryGetIndex("ExternalIndex", out var externalIndex) == false)
+            {
+                return Enumerable.Empty<IPublishedContent>();
+            }
 
+            var searcher = externalIndex.Searcher;
+
+            // Booleans may be indexed as "1" or "true" depending on data type/converter,
+            // so we match both and both possible field casings.
+            var query = searcher.CreateQuery(IndexTypes.Content)
+                .GroupedOr(new[] { "__NodeTypeAlias" }, new[] { "forum" })
+                .And()
+                .GroupedOr(new[] { "isActive", "isActive" }, new[] { "1", "true" })
+                .And()
+                .GroupedOr(new[] { "postAtRoot", "postAtRoot" }, new[] { "1", "true" });
+
+            var results = query.Execute();
+
+            var ids = results.Select(x => x.Id);
+            return _publishedContentQuery.Content(ids).WhereNotNull();
+        }
     }
 }

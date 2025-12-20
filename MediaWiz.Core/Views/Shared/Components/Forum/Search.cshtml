@@ -1,26 +1,119 @@
 ﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<MediaWiz.Forums.ViewModels.SearchViewModel>
+@using MediaWiz.Forums.Controllers
+@using MediaWiz.Forums.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Umbraco.Cms.Core.Services
+@using Umbraco.Cms.Web.Common.Models
+@using Umbraco.Extensions
+@using Umbraco.Cms.Web.Common
 @{
-    var ForumUrl = Umbraco.GetDictionaryValueOrDefault("Forums.ForumUrl", "/")?.TrimEnd('/');
+    var ForumUrl = DictionaryService.GetOrCreateDictionaryValue("Forums.ForumUrl", "/")?.TrimEnd('/');
 }
 
-<form action="@ForumUrl/ForumSearch" class="col-10 offset-1">
-    <fieldset>
-        <div class="form-group">
-            <label for="searchIn" class="col-2 col-form-label">@Umbraco.GetDictionaryValueOrDefault("Forums.Search.SearchIn", "Search In")</label>
-            <div class="col-6">
-                <select id="searchIn" name="searchIn" class="form-control">
-                    <option value="Subject">@Umbraco.GetDictionaryValueOrDefault("Forums.Search.SearchIn.Subject", "Subject")</option>
-                    <option value="Message">@Umbraco.GetDictionaryValueOrDefault("Forums.Search.SearchIn.Message", "Message")</option>
-                    <option value="Username">@Umbraco.GetDictionaryValueOrDefault("Forums.Search.SearchIn.Username", "Post creator")</option>
-                </select>
-            </div>
+<div class="card w-90 mx-auto mb-3 bg-light border-0 rounded-3">
+    <div class="card-body">
+        <div class="mt-4">
+            <form action="@ForumUrl/ForumSearch" class="col-10 offset-1">
+
+                <fieldset>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-5">
+                            <div class="input-group ">
+                                <input id="query" name="query" placeholder="@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.Queryplaceholder", "Search terms")" value="@Model.query" type="text" class="form-control" required="required">
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="input-group">
+                                <select id="searchIn" name="searchIn" class="form-select me-2">
+                                    <option value="Subject" selected-val="@Model.searchIn">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.SearchIn.Subject", "Subject")</option>
+                                    <option value="Message" selected-val="@Model.searchIn">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.SearchIn.Message", "Message")</option>
+                                    <option value="Both" selected-val="@Model.searchIn">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.SearchIn.Both", "Subject + Message")</option>
+                                </select>
+                                <button name="submit" type="submit" class="btn btn-md btn-secondary rounded-3"><i class="bi bi-search"></i> @DictionaryService.GetOrCreateDictionaryValue("Forums.Search", "Search")</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                    Advanced filters
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                 aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="row g-3 mb-3">
+                                        <div class="col-md-6">
+                                            <label for="searchForum" class="form-label">Forums</label>
+                                            <select id="searchForum" name="searchForum" class="form-select me-2">
+                                                <option value="All">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.SearchIn.All", "All Forums")</option>
+                                                    @foreach (var item in Model.Forums)
+                                                    {
+                                                        <option value="@item.Key">@item.Value</option>
+                                                    }
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="searchWhere" class="form-label">Where topics</label>
+                                            <select id="searchWhere" name="searchWhere" class="form-select me-2">
+                                                <option value="any">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchWhere.Any", "any")</option>
+                                                <option value="open">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchWhere.Open", "are open")</option>
+                                                <option value="closed">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchWhere.Closed", "are closed")</option>
+                                                <option value="solved">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchWhere.Solved", "are solved")</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row g-3 mb-3">
+                                        <div class="col-md-6">
+                                            <label for="searchAuthor" class="form-label">Posted by</label>
+                                            <input type="text" class="form-control" id="searchAuthor" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="searchWhen" class="form-label">Posted</label>
+                                            <div class="input-group">
+                                                <select id="searchWhen" name="searchWhen" class="form-select me-2">
+                                                    <option value="before" selected-val="@Model.searchIn">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchDate.Before", "before")</option>
+                                                    <option value="since" selected-val="@Model.searchIn">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchDate.AFter", "since")</option>
+                                                </select>
+                                                <input type="datetime-local" name="searchDate" class="form-control" id="date" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="query" class="col-2 col-form-label">@Umbraco.GetDictionaryValueOrDefault("Forums.Search.Querylabel", "Look for")</label>
-            <div class="input-group mb-3">
-                <input id="query" name="query" placeholder="@Umbraco.GetDictionaryValueOrDefault("Forums.Search.Queryplaceholder","Search terms")" value="@Model.query" type="text" class="form-control" required="required">
-                <button name="submit" type="submit" class="btn btn-dark">@Umbraco.GetDictionaryValueOrDefault("Forums.Search", "Search")</button>
-            </div>
-        </div>
-    </fieldset>
-</form>
+    </div>
+</div>
+<storecontent asp-key="css-block">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <style>
+        /* Transparent background for accordion buttons */ .accordion-button {
+            background-color: rgba(var(--bs-light-rgb),var(--bs-bg-opacity)) !important;
+            color:#111;
+            font-weight: 600;
+        }
+            /* Keep it transparent when expanded */
+
+            .accordion-button:not(.collapsed) {
+                background-color: rgba(var(--bs-light-rgb),var(--bs-bg-opacity)) !important;
+                box-shadow: none; /* remove Bootstrap's shadow */
+                color: #111;
+                font-weight:600;
+            }
+        /* Transparent background for accordion body */
+
+        .accordion-body {
+            background-color: rgba(var(--bs-light-rgb),var(--bs-bg-opacity)) !important;
+        }
+    </style>
+</storecontent>
+<storecontent asp-key="script-block">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+
+</storecontent>
