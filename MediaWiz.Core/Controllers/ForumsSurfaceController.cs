@@ -447,6 +447,10 @@ namespace MediaWiz.Forums.Controllers
             }
 
             var member = _memberService.GetByEmail(model.EmailAddress);
+            if(member == null) //try the username
+            {
+                member = _memberService.GetByUsername(model.EmailAddress);
+            }
             if (member != null)
             {
                 var memberIdentity = await _memberManager.FindByIdAsync(member.Id.ToString());
@@ -457,17 +461,18 @@ namespace MediaWiz.Forums.Controllers
                 _memberService.Save(member);
 
                 // send email, do not wait as we want it to run in background....
-                await _mailService.SendResetPassword(member.Email,token);
+                _ = Task.Run(() => _mailService.SendResetPassword(member.Email, token));
 
                 TempData["ResetSent"] = true;
             }
             else
             {
-                ModelState.AddModelError("ForgotPasswordForm", 
+                ModelState.AddModelError("", 
                     _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.NoUser","No user found"));
                 TempData["ValidationError"] =
                     _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.NoUser", "No user found");
-                //return ViewComponent("PasswordManager", new { Model = model , Template = "ForgotPassword"});
+
+                return CurrentUmbracoPage();
             }
 
             return CurrentUmbracoPage();

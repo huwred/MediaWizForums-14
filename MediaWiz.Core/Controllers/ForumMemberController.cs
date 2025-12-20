@@ -1,8 +1,4 @@
-﻿using System;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Threading.Tasks;
-using MediaWiz.Forums.Extensions;
+﻿using MediaWiz.Forums.Extensions;
 using MediaWiz.Forums.Helpers;
 using MediaWiz.Forums.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +6,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.ComponentModel.Design;
+using System.Linq;
+using System.Threading.Tasks;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Logging;
 using Umbraco.Cms.Core.Models;
@@ -23,6 +23,8 @@ using Umbraco.Cms.Web.Common.Models;
 using Umbraco.Cms.Web.Common.Security;
 using Umbraco.Cms.Web.Website.Controllers;
 using Umbraco.Cms.Web.Website.Models;
+using static Umbraco.Cms.Core.Constants.Conventions;
+
 
 namespace MediaWiz.Forums.Controllers
 {
@@ -51,7 +53,32 @@ namespace MediaWiz.Forums.Controllers
             _forumOptions = forumOptions;
         }
 
+        private string? GetReferer()
+        {
+            try
+            {
+                var context = _httpContextAccessor.HttpContext;
+                if (context == null)
+                    return null; // No HTTP context available (e.g., background thread)
+
+                // Safely get the Referer header
+                if (context.Request.Headers.TryGetValue("Referer", out var referer))
+                {
+                    return referer.ToString();
+                }
+
+                return null; // No Referer header present
+            }
+            catch (Exception ex)
+            {
+                // Log exception if needed
+                Console.WriteLine($"Error reading Referer: {ex.Message}");
+                return null;
+            }
+        }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> HandleLoginAsync(LoginModel login)
         {
             if (ModelState.IsValid == false)
@@ -62,7 +89,7 @@ namespace MediaWiz.Forums.Controllers
             var validate = await _memberManager.ValidateCredentialsAsync(login.Username, login.Password);
             if (validate)
             {
-                var result = await _memberSignInManager.PasswordSignInAsync(login.Username, login.Password, login.RememberMe, true);
+                Microsoft.AspNetCore.Identity.SignInResult result = await _memberSignInManager.PasswordSignInAsync(login.Username, login.Password, login.RememberMe, true);
                 if (result.Succeeded)
                 {
                     if (Url.IsLocalUrl(login.RedirectUrl))
@@ -70,13 +97,33 @@ namespace MediaWiz.Forums.Controllers
                         return Redirect(login.RedirectUrl);
                     }
 
-                    return RedirectToCurrentUmbracoPage();
+                    return Redirect(_dictionaryService.GetOrCreateDictionaryValue("Forums.ForumUrl", "/forums"));
+                }
+                else if (result.IsLockedOut)
+                {
+                    ModelState.AddModelError("", "Your account is locked. Please try again later.");
+                    return CurrentUmbracoPage();
+                }
+                else if (result.IsNotAllowed)
+                {
+                    ModelState.AddModelError("", "You are not allowed to log in. Please confirm your email or contact support.");
+                    return CurrentUmbracoPage();
+                }
+                else if (result.RequiresTwoFactor)
+                {
+                    return RedirectToAction("LoginWith2fa");
+                }
+                else
+                {
+                    // Generic invalid credentials message
+                    ModelState.AddModelError("", "Invalid username or password.");
+                    return CurrentUmbracoPage();
                 }
 
             }
             else
             {
-                ModelState.AddModelError(string.Empty,_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.InvalidCredentials","The username or password provided is incorrect.") );
+                ModelState.AddModelError("", _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.InvalidCredentials","The username or password provided is incorrect.") );
             }
             // If there is a specified path to redirect to then use it.
 
@@ -89,13 +136,15 @@ namespace MediaWiz.Forums.Controllers
 
             if (ModelState.IsValid == false)
             {
+                ViewBag.NoCaptcha = true;
                 return CurrentUmbracoPage();
             }
 
-            var usernamecheck = _memberManager.FindByNameAsync(newmember.Name);
+            var usernamecheck = _memberManager.FindByNameAsync(newmember.Name).Result;
             if (usernamecheck != null)
             {
-                ModelState.AddModelError("Registration",_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.DuplicateUsername","The username is already in use, please use another") );
+                ModelState.AddModelError("",_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.DuplicateUsername","The username is already in use, please use another") );
+                ViewBag.NoCaptcha = true;
                 return CurrentUmbracoPage();
             }
 
@@ -103,6 +152,17 @@ namespace MediaWiz.Forums.Controllers
             IdentityResult identityResult = await _memberManager.CreateAsync(
                 identityUser,
                 newmember.Password);
+            if (identityResult != null) {
+                if (identityResult.Succeeded == false)
+                {
+                    foreach (var identityError in identityResult.Errors)
+                    {
+                        ModelState.AddModelError("", identityError.Description);
+                    }
+                    ViewBag.NoCaptcha = true;
+                    return CurrentUmbracoPage();
+                }
+            }
             var member = _memberService.GetByEmail(identityUser.Email);
 
             string resetGuid = null;
@@ -118,9 +178,9 @@ namespace MediaWiz.Forums.Controllers
                 }
             }
 
-            _memberService.Save(member);
             try
             {
+                _memberService.Save(member);
 
                 TempData["FormSuccess"] = await _mailService.SendVerifyAccount(member.Email, resetGuid); ;
             }
