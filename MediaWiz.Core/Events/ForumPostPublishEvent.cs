@@ -191,7 +191,7 @@ namespace MediaWiz.Forums.Events
             if (!validated)
                 return;
 
-            _indexRebuilder.RebuildIndex(index.Name);
+            _indexRebuilder.RebuildIndexAsync(index.Name);
         }
         private bool ValidateIndex(string indexName, out IIndex index)
         {

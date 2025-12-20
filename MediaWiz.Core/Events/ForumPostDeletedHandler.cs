@@ -36,7 +36,7 @@ public class ForumPostDeletedHandler : INotificationHandler<ContentMovedToRecycl
 
         if (rebuild)
         {
-            _indexRebuilder.RebuildIndex("ForumIndex", null, true);
+            _indexRebuilder.RebuildIndexAsync("ForumIndex", null, true);
         }
     }
 }
