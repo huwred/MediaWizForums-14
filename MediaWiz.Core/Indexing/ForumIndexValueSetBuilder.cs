@@ -36,6 +36,20 @@ namespace MediaWiz.Forums.Indexing
                 {
                     continue;
                 }
+                var forumid = 0;
+                if (content.ContentType.Alias == "forumPost")
+                {
+                    if (content.GetValue<int>("postType") == 1)
+                    {
+                        forumid = content.ParentId;
+    
+                    }
+                    else
+                    {
+                        var parent = _publishedContent.Content(content.ParentId);
+                        forumid = parent?.Parent().Id ?? 0;
+                    }
+                }
                 var post = _publishedContent.Content(content.Id);
                 var cacheInfo = _cacheService.GetPost(post, "Topic_" + content.Id,new TimeSpan(0,0,10));
 
@@ -52,7 +66,9 @@ namespace MediaWiz.Forums.Indexing
                     ["replies"] = content.GetValue<int>("replyCount"),
                     ["answered"] = content.GetValue<bool>("answer") ? 1 : 0,
                     ["lastpost"] = cacheInfo.latestPost == DateTime.MinValue ? content.CreateDate : cacheInfo.latestPost,
-                    ["lastTicks"] = cacheInfo.latestPost == DateTime.MinValue ? content.CreateDate.Ticks : cacheInfo.latestPost.Ticks
+                    ["lastTicks"] = cacheInfo.latestPost == DateTime.MinValue ? content.CreateDate.Ticks : cacheInfo.latestPost.Ticks,
+                    ["forumid"] = forumid,
+                    ["status"] = content.GetValue<bool>("allowReplies") ? 1 : 0,
                 };
 
                 yield return new ValueSet(content.Id.ToString(), IndexTypes.Content,content.ContentType.Alias ,indexValues);

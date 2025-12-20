@@ -41,21 +41,18 @@ namespace MediaWiz.Forums.Indexing
                     new("edited", FieldDefinitionTypes.DateTime),
                     new("postType", FieldDefinitionTypes.FullText),
                     new("updated", FieldDefinitionTypes.Long), //changed to long
-                    new ("lastpost", FieldDefinitionTypes.DateTime),
+                    new("lastpost", FieldDefinitionTypes.DateTime),
                     new("lastTicks", FieldDefinitionTypes.Long),
                     new("answered", FieldDefinitionTypes.FullText),
                     new("replies", FieldDefinitionTypes.FullText),
                     new("requireApproval", FieldDefinitionTypes.Integer),
-                    new("approved", FieldDefinitionTypes.Integer)
+                    new("approved", FieldDefinitionTypes.Integer),
+                    new("status", FieldDefinitionTypes.Integer),
+                    new("forumid", FieldDefinitionTypes.Integer)
                     );
 
                 options.UnlockIndex = true;
-#if NET9_0 // For Umbraco 15+
-                // Code specific to Umbraco 16
                 options.Validator = new ContentValueSetValidator(true,false,_publicAccessService,_scopeProvider,includeItemTypes:new[] { "forumPost" });  
-#else
-                options.Validator = new ContentValueSetValidator(true,null,new[] { "forumPost" },null); 
-#endif
 
                 if (_settings.Value.LuceneDirectoryFactory == LuceneDirectoryFactory.SyncedTempFileSystemDirectoryFactory)
                 {
