@@ -48,31 +48,26 @@ namespace MediaWiz.Forums.Migrations
             _logger.LogInformation("ImportPackageXmlMigration");
             //set the default values for the xml files to import
             var xmlpackage = "package.xml";
-            var templatepackage = "packagetemplates.xml";
             if (ForumDoctypes != null) //If the override value is set load the alternate xml files
             {
                 xmlpackage = "forumpackage.xml";
-                templatepackage = "forumtemplates.xml";
             }
             var asm = Assembly.GetExecutingAssembly();
-            //Import the templates
-            using(var stream = asm.GetManifestResourceStream("MediaWiz.Forums.Migrations." + templatepackage))
-            {
-                var templateXml = XDocument.Load(stream);
-                _packagingService.InstallCompiledPackageData(templateXml);
-            }
+
             //Import doctypes and content nodes
-            using(var stream = asm.GetManifestResourceStream("MediaWiz.Forums.Migrations." + xmlpackage))
+            using (var stream = asm.GetManifestResourceStream("MediaWiz.Forums.Migrations." + xmlpackage))
             {
+                _logger.LogInformation("Importing package from " + xmlpackage);
                 var packageXml = XDocument.Load(stream);
                 _packagingService.InstallCompiledPackageData(packageXml);
             }
 
-            AddDictionaryItems();
+            //AddDictionaryItems();
             return Task.CompletedTask;
         }
         private async void AddDictionaryItems()
         {
+            _logger.LogInformation("Adding dictionary items for Forums");
             try
             {
                 var defLang = await _languageService.GetDefaultLanguageAsync();

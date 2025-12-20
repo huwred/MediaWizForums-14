@@ -1,4 +1,5 @@
 ﻿using Examine;
+using Examine.Search;
 using MediaWiz.Forums.Helpers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -13,6 +14,7 @@ using Umbraco.Cms.Core.Strings;
 using Umbraco.Cms.Infrastructure.Examine;
 using Umbraco.Cms.Infrastructure.Migrations;
 using Umbraco.Extensions;
+using static Umbraco.Cms.Core.Constants.Conventions;
 
 namespace MediaWiz.Forums.Migrations
 {
@@ -63,10 +65,23 @@ namespace MediaWiz.Forums.Migrations
             {
                 AddForumMemberType();
                 AddMemberGroups();
-                UpdatePostCounts();
                 //Make sure the Forum root has been published
                 _contentService.Save(contentForum);
-                _contentService.Publish(contentForum, new string[]{"*"});
+                //_contentService.Publish(contentForum, new string[]{"*"});
+                try
+                {
+                    var result = _contentService.PublishBranch(contentForum, PublishBranchFilter.All, new[] { "*" }, -1);
+                    if(result.All(x=>x.Success==false))
+                    {
+                        _logger.LogWarning("Publishing the Forum root branch failed");
+                    }
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Error publishing the Forum root branch");
+                }
+
+                UpdatePostCounts();
             }
             else
             {
@@ -79,6 +94,7 @@ namespace MediaWiz.Forums.Migrations
 
         private void AddAnswerProperty()
         {
+            _logger.LogInformation("Adding Answered property");
             try
             {
                 var dataTypeDefinitions = _dataTypeService.GetAllAsync().Result.ToArray(); //.ToArray() because arrays are fast and easy.
@@ -114,6 +130,7 @@ namespace MediaWiz.Forums.Migrations
         }
         private void AddReplyCountProperty()
         {
+            _logger.LogInformation("Adding replyCount property");
             try
             {
                 var dataTypeDefinitions = _dataTypeService.GetAllAsync().Result.ToArray(); //.ToArray() because arrays are fast and easy.
@@ -152,6 +169,7 @@ namespace MediaWiz.Forums.Migrations
 
         private bool AddForumMemberType()
         {
+            _logger.LogInformation("Adding Forum Member Type");
             // do things on install
             bool saveMemberContent = false;
 
@@ -285,6 +303,7 @@ namespace MediaWiz.Forums.Migrations
         }
         private void AddMemberGroups()
         {
+            _logger.LogInformation("Adding Member Groups");
             if (_memberGroupService.GetByName("ForumMember") == null)
             {
                 IMemberGroup membergroup = new MemberGroup();
@@ -314,23 +333,40 @@ namespace MediaWiz.Forums.Migrations
         /// <returns></returns>
         private long UpdatePostCounts()
         {
+            _logger.LogInformation("Updating Member Post Counts");
             long postcount = 0;
             try
             {
-                if (_contentTypeService.GetAllContentTypeIds(new string[] {"forumPost"}).Any())
+                if (_contentTypeService.GetAllContentTypeIds(new string[] { "forumPost" }).Any())
                 {
                     if (_examine.TryGetIndex("ExternalIndex", out var index))
                     {
                         var searcher = index.Searcher;
-                        foreach (var member in _memberService.GetMembersByPropertyValue("hasVerifiedAccount",true))
+                        // Use Examine to search for verified members
+                        var memberSearcher = _examine.TryGetIndex("ForumMemberIndex", out var memberIndex) ? memberIndex.Searcher : null;
+                        if (memberSearcher != null)
                         {
-                            postcount = searcher.CreateQuery(IndexTypes.Content).NodeTypeAlias("forumpost").And()
-                                .Field("postCreator", member.Name)
-                                .Execute().TotalItemCount;
-                            if (postcount > 0)
+                            var criteria = memberSearcher.CreateQuery()
+                            .Field("hasVerifiedAccount", 1)
+                            .OrderByDescending(new SortableField("postCount", SortType.Int));
+                            var results = criteria.Execute();
+                            var verifiedMembers = results.Select(x => int.Parse(x.Id)).ToList();
+
+                            foreach (var memberId in verifiedMembers)
                             {
-                                member.SetValue("postCount",postcount);
-                                _memberService.Save(member);
+                                var member = _memberService.GetById(memberId);
+                                if (member == null)
+                                    continue;
+
+                                postcount = searcher.CreateQuery(IndexTypes.Content)
+                                    .NodeTypeAlias("forumpost").And()
+                                    .Field("postCreator", member.Name)
+                                    .Execute().TotalItemCount;
+                                if (postcount > 0)
+                                {
+                                    member.SetValue("postCount", postcount);
+                                    _memberService.Save(member);
+                                }
                             }
                         }
                     }
@@ -340,13 +376,14 @@ namespace MediaWiz.Forums.Migrations
             }
             catch (Exception e)
             {
-                _logger.LogError( e, "Executing ForumInstallHandler:UpdatePostCounts");
-                return -1;
+               _logger.LogWarning(e, "Executing ForumInstallHandler:UpdatePostCounts");
+                return 0;
             }
 
         }
         private void UpdateReplyCounts()
         {
+            _logger.LogInformation("Updating Reply Counts on a Topic");
             try
             {
                 if (_examine.TryGetIndex("ForumIndex", out var index))
@@ -368,7 +405,7 @@ namespace MediaWiz.Forums.Migrations
             }
             catch (Exception e)
             {
-                _logger.LogError( e, "Executing ForumInstallHandler:UpdatePostCounts");
+                _logger.LogError( e, "Executing ForumInstallHandler:UpdateReplyCounts");
             }
         }
 
