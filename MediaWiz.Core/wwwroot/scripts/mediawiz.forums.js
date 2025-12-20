@@ -1,4 +1,9 @@
-﻿        var MediaWiz = MediaWiz ||
+﻿// Toggle sidebar collapse
+document.getElementById('toggleBtn').addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+});
+
+    var MediaWiz = MediaWiz ||
         {
             tools: "code undo redo | styleselect | bullist numlist | indent outdent | link codesample",
             returnUrl: "",
@@ -130,96 +135,97 @@
             }
         }
 
-        $(document).ready(function() {
+    $(document).ready(function() {
 
-            if (MediaWiz.returnUrl.length > 1) {
-                window.pageRedirect(MediaWiz.returnUrl);
-            }
+        if (MediaWiz.returnUrl.length > 1) {
+            window.pageRedirect(MediaWiz.returnUrl);
+        }
 
-            $(".btn-cancel").on("click", function(e) {
-                history.back();
-            });
-            $(".post-quote").on("click", function(e) {
-                e.stopPropagation();
-                e.preventDefault();
-
-                tinymce.activeEditor.setContent("<blockquote>" + $("#postcontent_" + $(this).data("postid")).html() + "</blockquote><br/> ");
-                goToTheEnd();
-            });
-            $(".post-delete").on("click", function(e) {
-                e.stopPropagation();
-                e.preventDefault();
-                MediaWiz.deletePost($(this).data("postid"));
-            });
-
-            $(".post-lock").on("click",function (e) {
-                e.stopPropagation();
-                e.preventDefault();
-                MediaWiz.lockPost($(this).data("postid"));
-            });
-            $(".post-approve").on("click",function (e) {
-                e.stopPropagation();
-                e.preventDefault();
-                MediaWiz.approvePost($(this).data("postid"));
-            });
-            $(".post-answer").on("click",function (e) {
-
-                e.stopPropagation();
-                e.preventDefault();
-                MediaWiz.markAnswer($(this).data("postid"));
-            });
-            $(".post-edit").on("click",function (e) {
-                e.stopPropagation();
-                e.preventDefault();
-                MediaWiz.editPost($(this).data("postid"));
-
-            });
-
-            $(".lock-user").on("click",function(e) {
-                e.stopPropagation();
-                e.preventDefault();
-                MediaWiz.lockUser($(this).data("userid"), $(this).data("mode"));
-            });
-
-            $("#editPostModal").on("show.bs.modal",function() {
-                setTimeout(function() {
-                    MediaWiz.InitTinyMce("#partial-form textarea");
-                }, 300);
-            });
-
-            $("#editPostModal").on("hide.bs.modal", function () {
-                tinymce.remove("#partial-form textarea");
-            });
+        $(".btn-cancel").on("click", function(e) {
+            history.back();
         });
-        function getLang() {
-            if (navigator.languages != undefined) 
-                return navigator.languages[0]; 
-            return navigator.language;
+        $(".post-quote").on("click", function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            tinymce.activeEditor.setContent("<blockquote>" + $("#postcontent_" + $(this).data("postid")).html() + "</blockquote><br/> ");
+            goToTheEnd();
+        });
+        $(".post-delete").on("click", function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            MediaWiz.deletePost($(this).data("postid"));
+        });
+
+        $(".post-lock").on("click",function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            MediaWiz.lockPost($(this).data("postid"));
+        });
+        $(".post-approve").on("click",function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            MediaWiz.approvePost($(this).data("postid"));
+        });
+        $(".post-answer").on("click",function (e) {
+
+            e.stopPropagation();
+            e.preventDefault();
+            MediaWiz.markAnswer($(this).data("postid"));
+        });
+        $(".post-edit").on("click",function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            MediaWiz.editPost($(this).data("postid"));
+
+        });
+
+        $(".lock-user").on("click",function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            MediaWiz.lockUser($(this).data("userid"), $(this).data("mode"));
+        });
+
+        $("#editPostModal").on("show.bs.modal",function() {
+            setTimeout(function() {
+                MediaWiz.InitTinyMce("#partial-form textarea");
+            }, 300);
+        });
+
+        $("#editPostModal").on("hide.bs.modal", function () {
+            tinymce.remove("#partial-form textarea");
+        });
+    });
+    function getLang() {
+        if (navigator.languages != undefined) 
+            return navigator.languages[0]; 
+        return navigator.language;
+    }
+    function goToTheEnd() {
+        var ed=tinyMCE.activeEditor;
+        var root=ed.dom.getRoot();  // This gets the root node of the editor window
+        var lastnode=root.childNodes[root.childNodes.length-1]; // And this gets the last node inside of it, so the last <p>...</p> tag
+        if (tinymce.isGecko) {
+            // But firefox places the selection outside of that tag, so we need to go one level deeper:
+            lastnode=lastnode.childNodes[lastnode.childNodes.length-1];
         }
-        function goToTheEnd() {
-            var ed=tinyMCE.activeEditor;
-            var root=ed.dom.getRoot();  // This gets the root node of the editor window
-            var lastnode=root.childNodes[root.childNodes.length-1]; // And this gets the last node inside of it, so the last <p>...</p> tag
-            if (tinymce.isGecko) {
-                // But firefox places the selection outside of that tag, so we need to go one level deeper:
-                lastnode=lastnode.childNodes[lastnode.childNodes.length-1];
-            }
-            // Now, we select the node
-            ed.selection.select(lastnode);
-            // And collapse the selection to the end to put the caret there:
-            ed.selection.collapse(false);
+        // Now, we select the node
+        ed.selection.select(lastnode);
+        // And collapse the selection to the end to put the caret there:
+        ed.selection.collapse(false);
+    }
+
+    $( "li.reply" ).hover(
+        function() {
+            $(this).find(".tool-label").show();
+        }, function() {
+            $(this).find(".tool-label").hide();
         }
-        $( "li.reply" ).hover(
-            function() {
-                $(this).find(".tool-label").show();
-            }, function() {
-                $(this).find(".tool-label").hide();
-            }
-        );
-        $( "li.topic" ).hover(
-            function() {
-                $(this).find(".tool-label").show();
-            }, function() {
-                $(this).find(".tool-label").hide();
-            }
-        );
+    );
+    $( "li.topic" ).hover(
+        function() {
+            $(this).find(".tool-label").show();
+        }, function() {
+            $(this).find(".tool-label").hide();
+        }
+    );
