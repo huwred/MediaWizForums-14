@@ -1,19 +1,20 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
-using MediaWiz.Forums.Extensions;
+﻿using MediaWiz.Forums.Extensions;
 using MediaWiz.Forums.Helpers;
 using MediaWiz.Forums.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
+using System;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Web;
 using Umbraco.Cms.Core.IO;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Web.Common.Security;
@@ -70,7 +71,42 @@ namespace MediaWiz.Forums.Controllers
             _forumOptions = forumOptions;
 
         }
+        /// <summary>
+        /// Confirms a user's email address change using a confirmation token.
+        /// </summary>
+        /// <remarks>This endpoint is typically called from a confirmation link sent to the user's new
+        /// email address. The method decodes the provided token and attempts to confirm the email change. If the
+        /// operation succeeds, the user's email is updated and marked as confirmed.</remarks>
+        /// <param name="userId">The unique identifier of the user whose email address is being changed. Cannot be null or empty.</param>
+        /// <param name="email">The new email address to associate with the user. Cannot be null or empty.</param>
+        /// <param name="token">The confirmation token that verifies the email change request. Cannot be null or empty.</param>
+        /// <returns>An IActionResult indicating the result of the email change confirmation. Returns Ok if the email was
+        /// successfully changed; otherwise, returns BadRequest or NotFound with an appropriate error message.</returns>
+        [HttpGet("confirm-email-change")]
+        public async Task<IActionResult> ConfirmEmailChange(string userId, string email, string token)
+        {
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(token))
+                return BadRequest("Invalid confirmation parameters.");
 
+            var user = await _memberManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound("User not found.");
+
+            var decodedToken = HttpUtility.UrlDecode(token);
+            var result = await _memberManager.ConfirmEmailAsync(user, decodedToken);
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            // Optionally update UserName if you use email as username
+            user.Email = email;
+            user.EmailConfirmed = true;
+            await _memberManager.UpdateAsync(user);
+
+
+            return new RedirectResult("/Forums/?emailconfirmed=true");
+
+            return Ok("Email successfully changed.");
+        }
         /// <summary>
         /// used by the front end to delete posts via ajax.
         /// </summary>
