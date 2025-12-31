@@ -7,111 +7,136 @@
   </info>
   <Documents>
     <DocumentSet importMode="root">
-      <forum id="1089" key="6e08726b-67b8-41f5-994f-f46a451b15e5" parentID="-1" level="1" creatorID="-1" sortOrder="1" createDate="2025-12-16T11:39:35" updateDate="2025-12-18T08:41:00" nodeName="Forums" urlName="forums" path="-1,1089" isDoc="" nodeType="1079" nodeTypeAlias="forum" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1059" isPublished="true">
+      <forum id="1089" key="6e08726b-67b8-41f5-994f-f46a451b15e5" parentID="-1" level="1" creatorID="-1" sortOrder="1" createDate="2025-12-16T11:39:35" updateDate="2025-12-20T14:40:31" nodeName="Forums" urlName="forums" path="-1,1089" isDoc="" nodeType="1079" nodeTypeAlias="forum" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1059" isPublished="true">
         <umbracoNaviHide>0</umbracoNaviHide>
         <hideChildrenFromNav>1</hideChildrenFromNav>
+        <umbracoUrlAlias><![CDATA[forums]]></umbracoUrlAlias>
         <forumTitle><![CDATA[Welcome to MediaWiz Forums for Umbraco! ]]></forumTitle>
         <forumDescription><![CDATA[{"markup":"\u003Cp\u003EThis package brings a modern, community\u2011driven forum experience directly into your Umbraco site. Whether you\u2019re here to ask questions, share knowledge, or test new features, our forums are designed to be simple, flexible, and fun. Register today to start posting, connecting, and shaping the conversation.\u003C/p\u003E\u003Cp\u003EThis is the latest codebase updated to work with .NET 10 and Umbraco 17.\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></forumDescription>
+        <intPageSize><![CDATA[10]]></intPageSize>
+        <isActive>1</isActive>
+        <membersOnly>0</membersOnly>
         <postAtRoot>0</postAtRoot>
         <requireApproval>0</requireApproval>
-        <isActive>1</isActive>
         <allowImages>1</allowImages>
-        <intPageSize><![CDATA[10]]></intPageSize>
-        <membersOnly>0</membersOnly>
-        <forum id="1090" key="0823dc89-42e9-4fcc-a2d6-dea2652c3496" parentID="1089" level="2" creatorID="-1" sortOrder="0" createDate="2025-12-16T11:39:36" updateDate="2025-12-18T10:56:15" nodeName="Test Forum" urlName="test-forum" path="-1,1089,1090" isDoc="" nodeType="1079" nodeTypeAlias="forum" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1059" isPublished="true">
+        <forum id="1090" key="0823dc89-42e9-4fcc-a2d6-dea2652c3496" parentID="1089" level="2" creatorID="-1" sortOrder="0" createDate="2025-12-16T11:39:36" updateDate="2025-12-20T14:45:47" nodeName="Test Forum" urlName="test-forum" path="-1,1089,1090" isDoc="" nodeType="1079" nodeTypeAlias="forum" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1059" isPublished="true">
           <umbracoNaviHide>0</umbracoNaviHide>
           <hideChildrenFromNav>1</hideChildrenFromNav>
-          <forumTitle><![CDATA[Test Forum]]></forumTitle>
-          <forumDescription><![CDATA[{"markup":"\u003Cp\u003EThis forum gives you a chance to become more familiar with how this product responds to different features and keeps testing in one place instead of posting tests all over. Happy Posting!\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></forumDescription>
+          <forumTitle><![CDATA[Child Forum]]></forumTitle>
+          <forumDescription><![CDATA[{"markup":"\u003Cp\u003EThis is a child forum, it works like a category, you can go as deep as you want, only when \u003Cstrong\u003E\u003Cspan style=\u0022color: rgb(6, 6, 6); font-family: Lato, \u0026quot;Helvetica Neue\u0026quot;, Helvetica, Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 700; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;\u0022\u003EAllow Topics\u003C/span\u003E\u003C/strong\u003E is set can posts then be created in the forum.\u003C/p\u003E\u003Cp\u003EHappy posting!\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></forumDescription>
+          <intPageSize><![CDATA[10]]></intPageSize>
+          <isActive>1</isActive>
+          <membersOnly>0</membersOnly>
           <postAtRoot>1</postAtRoot>
           <requireApproval>0</requireApproval>
-          <isActive>1</isActive>
           <allowImages>1</allowImages>
-          <intPageSize><![CDATA[10]]></intPageSize>
-          <membersOnly>0</membersOnly>
-          <forumPost id="1091" key="e7e38b9c-dc96-4be1-9372-2124358bfd60" parentID="1090" level="3" creatorID="-1" sortOrder="0" createDate="2025-12-16T11:39:36" updateDate="2025-12-18T10:55:40" nodeName="Welcome Post" urlName="welcome-post" path="-1,1089,1090,1091" isDoc="" nodeType="1080" nodeTypeAlias="forumPost" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1060" isPublished="true">
+          <forumPost id="1091" key="e7e38b9c-dc96-4be1-9372-2124358bfd60" parentID="1090" level="3" creatorID="-1" sortOrder="0" createDate="2025-12-16T11:39:36" updateDate="2025-12-24T07:59:13" nodeName="Welcome Post" urlName="welcome-post" path="-1,1089,1090,1091" isDoc="" nodeType="1080" nodeTypeAlias="forumPost" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1060" isPublished="true">
             <umbracoNaviHide>0</umbracoNaviHide>
             <hideChildrenFromNav>0</hideChildrenFromNav>
             <postType>1</postType>
-            <postTitle><![CDATA[Welcome!]]></postTitle>
-            <postBody><![CDATA[{"markup":"\u003Cp\u003EThank you for installing the MediaWiz forum package. We hope you enjoy this great tool to support your organization!\u003C/p\u003E\u003Cp\u003EMany thanks go out to\u0026nbsp;\u003Ca target=\u0022_blank\u0022 data-router-slot=\u0022disabled\u0022 href=\u0022https://github.com/KevinJump\u0022 rel=\u0022noopener\u0022 type=\u0022external\u0022\u003EKevin Jump\u003C/a\u003E\u0026nbsp;for the original source code and to all the members of the Umbraco Community who have helped out.\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></postBody>
-            <approved>0</approved>
-            <postCreator><![CDATA[Administrator]]></postCreator>
+            <postTitle><![CDATA[How it works]]></postTitle>
+            <postBody><![CDATA[<p>This is a new post in a Forum, when the title is set, the post will get a proper name.</p>
+<p>The Forums provides it's own membership authentication, although if you already have one then you can use that by setting the <code>MemberTypeAlias</code> in appsettings.</p>
+<ul>
+<li>
+<p>Posts are ordered by date, and you can make posts sticky in the backoffice by setting the stickyness value, the higher the value the stickier the post.</p>
+</li>
+<li>
+<p>Posts are stored as content nodes in Umbraco, so you can go in and see what's going on.</p>
+</li>
+<li>
+<p>Posts are created by a SurfaceController, which checks permissions and fires notifications before and after a post is created, so if you want you can add extra checks to the posts ( for things like flood control etc.)</p>
+</li>
+<li>
+<p>To speed stuff up, there is a Cache helper which works out the latest posts and post counts.</p>
+</li>
+</ul>
+<p>The Forum uses ViewComponents for most of it's HTML renderring, although these are contained in the RCL it is possible to override them locally if required.</p>
+<p><a href="https://learn.microsoft.com/en-us/aspnet/core/razor-pages/ui-class?view=aspnetcore-10.0&amp;tabs=visual-studio" target="" type="external" data-router-slot="disabled">Reusable Razor UI in class libraries with </a><a href="http://ASP.NET" target="" type="external" data-router-slot="disabled">ASP.NET</a><a href="https://learn.microsoft.com/en-us/aspnet/core/razor-pages/ui-class?view=aspnetcore-10.0&amp;tabs=visual-studio" target="" type="external" data-router-slot="disabled"> Core | Microsoft Learn</a></p>]]></postBody>
+            <intPageSize><![CDATA[10]]></intPageSize>
+            <answer>0</answer>
             <replyCount>0</replyCount>
             <unapprovedReplies>0</unapprovedReplies>
-            <answer>0</answer>
+            <editDate>2025-12-29T23:18:23</editDate>
             <deletedByAuthor>0</deletedByAuthor>
+            <postCreator><![CDATA[Administrator]]></postCreator>
+            <approved>0</approved>
             <allowReplies>1</allowReplies>
             <stickiness>99</stickiness>
-            <intPageSize><![CDATA[10]]></intPageSize>
+            <forumPost id="1130" key="f2ccb347-4fd8-4f45-a3a9-76f4e92a0f1b" parentID="1091" level="4" creatorID="-1" sortOrder="0" createDate="2025-12-21T00:20:24" updateDate="2025-12-29T12:33:02" nodeName="reply_20251221122024" urlName="reply_20251221122024" path="-1,1089,1090,1091,1130" isDoc="" nodeType="1080" nodeTypeAlias="forumPost" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1060" isPublished="true">
+              <umbracoNaviHide>0</umbracoNaviHide>
+              <hideChildrenFromNav>0</hideChildrenFromNav>
+              <postType>0</postType>
+              <postBody><![CDATA[{"markup":"\u003Cp\u003EAnd a reply ?\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></postBody>
+              <intPageSize><![CDATA[15]]></intPageSize>
+              <answer>0</answer>
+              <replyCount>0</replyCount>
+              <unapprovedReplies>0</unapprovedReplies>
+              <deletedByAuthor>0</deletedByAuthor>
+              <postCreator><![CDATA[Test Member]]></postCreator>
+              <approved>1</approved>
+              <allowReplies>1</allowReplies>
+              <stickiness>0</stickiness>
+            </forumPost>
           </forumPost>
         </forum>
-        <forum id="1110" key="3cb02289-849e-4578-91a7-1ce0c67215ea" parentID="1089" level="2" creatorID="-1" sortOrder="1" createDate="2025-12-16T19:39:36" updateDate="2025-12-16T19:40:26" nodeName="Bug Forum" urlName="bug-forum" path="-1,1089,1110" isDoc="" nodeType="1079" nodeTypeAlias="forum" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1059" isPublished="true">
-          <umbracoNaviHide>0</umbracoNaviHide>
-          <hideChildrenFromNav>1</hideChildrenFromNav>
-          <forumTitle><![CDATA[Bug Forum]]></forumTitle>
-          <forumDescription><![CDATA[{"markup":"\u003Cp\u003EFound any problems or weird behaviour? Drop us a quick post in here and we\u0027ll take a look.\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></forumDescription>
-          <postAtRoot>1</postAtRoot>
-          <requireApproval>0</requireApproval>
-          <isActive>1</isActive>
-          <allowImages>1</allowImages>
-          <intPageSize><![CDATA[20]]></intPageSize>
-          <membersOnly>0</membersOnly>
-        </forum>
-        <forumAuthHolder id="1093" key="d77b7ba5-943c-497e-90c0-601a2d7af388" parentID="1089" level="2" creatorID="-1" sortOrder="2" createDate="2025-12-16T11:39:36" updateDate="2025-12-16T19:40:25" nodeName="Membership" urlName="membership" path="-1,1089,1093" isDoc="" nodeType="1081" nodeTypeAlias="forumAuthHolder" creatorName="Administrator" writerName="Administrator" writerID="-1" template="" isPublished="true">
+        <forumAuthHolder id="1093" key="d77b7ba5-943c-497e-90c0-601a2d7af388" parentID="1089" level="2" creatorID="-1" sortOrder="2" createDate="2025-12-16T11:39:36" updateDate="2025-12-20T14:57:05" nodeName="Membership" urlName="membership" path="-1,1089,1093" isDoc="" nodeType="1081" nodeTypeAlias="forumAuthHolder" creatorName="Administrator" writerName="Administrator" writerID="-1" template="" isPublished="true">
           <title><![CDATA[Membership Holder page, does not do anything.]]></title>
           <umbracoNaviHide>1</umbracoNaviHide>
-          <forumRegister id="1094" key="9d96ec77-ae97-4acb-a57c-cc184691fcb8" parentID="1093" level="3" creatorID="-1" sortOrder="0" createDate="2025-12-16T11:39:36" updateDate="2025-12-16T11:45:10" nodeName="Register" urlName="register" path="-1,1089,1093,1094" isDoc="" nodeType="1086" nodeTypeAlias="register" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1065" isPublished="true">
-            <title><![CDATA[Welcome to Media Wizards Forums! ]]></title>
-            <message><![CDATA[{"markup":"\u003Cp\u003EJoin our community to share ideas, ask questions, and connect with fellow makers and developers. Registration is quick, free, and gives you access to post topics, reply to discussions, and personalize your experience.\u003C/p\u003E\u003Cp\u003E\u0026nbsp;\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></message>
-            <umbracoUrlAlias><![CDATA[register,forum/register]]></umbracoUrlAlias>
+          <forumRegister id="1094" key="9d96ec77-ae97-4acb-a57c-cc184691fcb8" parentID="1093" level="3" creatorID="-1" sortOrder="0" createDate="2025-12-16T11:39:36" updateDate="2025-12-20T12:29:30" nodeName="Register" urlName="register" path="-1,1089,1093,1094" isDoc="" nodeType="1086" nodeTypeAlias="register" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1065" isPublished="true">
+            <title><![CDATA[Sign up!]]></title>
+            <message><![CDATA[{"markup":"\u003Cp\u003EJoining our forum opens the door to a more connected, personalised experience. As a registered member, you can start new discussions, reply to topics, customise your profile, and engage directly with a community of makers and developers who share your interests. Registration also unlocks helpful features like notifications, saved preferences, and access to member\u2011only areas designed to support your projects and spark new ideas. It\u2019s quick, free, and the best way to get the most out of the community.\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></message>
+            <umbracoUrlAlias><![CDATA[register,forums/register]]></umbracoUrlAlias>
             <umbracoNaviHide>0</umbracoNaviHide>
             <useCaptcha>1</useCaptcha>
           </forumRegister>
           <forumLogin id="1095" key="db6422b9-ce53-4fb7-aefb-96e66a4404d4" parentID="1093" level="3" creatorID="-1" sortOrder="1" createDate="2025-12-16T11:39:36" updateDate="2025-12-17T12:09:52" nodeName="Login" urlName="login" path="-1,1089,1093,1095" isDoc="" nodeType="1083" nodeTypeAlias="login" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1062" isPublished="true">
-            <title><![CDATA[Forum Membership]]></title>
-            <message><![CDATA[{"markup":"\u003Cp\u003ENew here ? Why not\u0026nbsp;\u003Ca target=\u0022\u0022 data-router-slot=\u0022disabled\u0022 href=\u0022/register\u0022 title=\u0022Join Us\u0022 type=\u0022external\u0022\u003EJoin\u0026nbsp;Us\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u0026nbsp;\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></message>
-            <umbracoUrlAlias><![CDATA[login,forum/login]]></umbracoUrlAlias>
+            <title><![CDATA[Sign in]]></title>
+            <message><![CDATA[{"markup":"\u003Cp\u003E\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></message>
+            <umbracoUrlAlias><![CDATA[login,forums/login]]></umbracoUrlAlias>
             <umbracoNaviHide>0</umbracoNaviHide>
+            <useCaptcha>1</useCaptcha>
           </forumLogin>
           <forumProfile id="1096" key="b4000556-9a74-41d4-8d09-f5a11cf22919" parentID="1093" level="3" creatorID="-1" sortOrder="2" createDate="2025-12-16T11:39:36" updateDate="2025-12-16T11:45:21" nodeName="Profile" urlName="profile" path="-1,1089,1093,1096" isDoc="" nodeType="1085" nodeTypeAlias="profile" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1064" isPublished="true">
-            <title><![CDATA[Update your account.]]></title>
+            <title><![CDATA[Member Profile.]]></title>
             <message><![CDATA[{"markup":"\u003Cp\u003EIf you change your email address an email will be sent to the new address to validate it is real, your account will be locked until you use the verification link.\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></message>
-            <umbracoUrlAlias><![CDATA[profile,forum/profile]]></umbracoUrlAlias>
+            <umbracoUrlAlias><![CDATA[profile,forums/profile]]></umbracoUrlAlias>
             <umbracoNaviHide>0</umbracoNaviHide>
           </forumProfile>
           <forumVerify id="1097" key="bbcd4837-bbb1-4d38-9818-3f3f5579595f" parentID="1093" level="3" creatorID="-1" sortOrder="4" createDate="2025-12-16T11:39:36" updateDate="2025-12-16T11:45:26" nodeName="Verify" urlName="verify" path="-1,1089,1093,1097" isDoc="" nodeType="1088" nodeTypeAlias="verify" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1067" isPublished="true">
-            <title><![CDATA[Email validation]]></title>
-            <message><![CDATA[{"markup":"\u003Cp\u003EThank you for registering.\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></message>
+            <title><![CDATA[Email Validation]]></title>
+            <message><![CDATA[{"markup":"\u003Cp\u003EThank you for registering and confirming your email.\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></message>
             <umbracoUrlAlias><![CDATA[verify, forums/verify]]></umbracoUrlAlias>
             <umbracoNaviHide>0</umbracoNaviHide>
           </forumVerify>
           <forumReset id="1098" key="8e645940-c2fb-4df8-b1bb-dcd2c00e978e" parentID="1093" level="3" creatorID="-1" sortOrder="5" createDate="2025-12-16T11:39:36" updateDate="2025-12-16T11:45:32" nodeName="Reset" urlName="reset" path="-1,1089,1093,1098" isDoc="" nodeType="1087" nodeTypeAlias="reset" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1066" isPublished="true">
             <title><![CDATA[Forgot your password?]]></title>
-            <message><![CDATA[{"markup":"\u003Cp\u003EAn email will be sent to your email address to validate it is real, please use the link in the email to reset your password.\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></message>
+            <message><![CDATA[{"markup":"\u003Cp\u003EAn email will be sent to your address to validate it is real, please use the link in the email to reset your password.\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></message>
             <umbracoUrlAlias><![CDATA[forgotpassword,forums/forgotpassword]]></umbracoUrlAlias>
             <umbracoNaviHide>0</umbracoNaviHide>
             <useCaptcha>1</useCaptcha>
-            <postMessage><![CDATA[{"markup":"\u003Cp\u003EPlease create a new password using the form below.\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></postMessage>
+            <postMessage><![CDATA[{"markup":"\u003Cp\u003ECreate a new password using the form below.\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></postMessage>
           </forumReset>
         </forumAuthHolder>
         <forumSearch id="1099" key="e8aca891-2080-4a11-a5de-ec206fa97f2c" parentID="1089" level="2" creatorID="-1" sortOrder="3" createDate="2025-12-16T11:39:36" updateDate="2025-12-16T19:40:25" nodeName="Search" urlName="search" path="-1,1089,1099" isDoc="" nodeType="1082" nodeTypeAlias="searchPage" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1061" isPublished="true">
           <umbracoNaviHide>1</umbracoNaviHide>
           <hideChildrenFromNav>0</hideChildrenFromNav>
-          <umbracoUrlAlias><![CDATA[forumsearch]]></umbracoUrlAlias>
-          <title><![CDATA[Search the Forums]]></title>
+          <umbracoUrlAlias><![CDATA[forumsearch,forum-search,forums/forumsearch]]></umbracoUrlAlias>
+          <title><![CDATA[Search]]></title>
           <intPageSize><![CDATA[25]]></intPageSize>
         </forumSearch>
-        <activeTopics id="1100" key="d9962b88-c85f-4c67-ae7b-ebccefe41336" parentID="1089" level="2" creatorID="-1" sortOrder="4" createDate="2025-12-16T11:39:36" updateDate="2025-12-16T19:40:25" nodeName="Topics" urlName="topics" path="-1,1089,1100" isDoc="" nodeType="1078" nodeTypeAlias="activeTopics" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1058" isPublished="true">
+        <activeTopics id="1100" key="d9962b88-c85f-4c67-ae7b-ebccefe41336" parentID="1089" level="2" creatorID="-1" sortOrder="4" createDate="2025-12-16T11:39:36" updateDate="2025-12-20T12:10:06" nodeName="Topics" urlName="topics" path="-1,1089,1100" isDoc="" nodeType="1078" nodeTypeAlias="activeTopics" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1058" isPublished="true">
           <umbracoNaviHide>1</umbracoNaviHide>
           <hideChildrenFromNav>0</hideChildrenFromNav>
+          <umbracoUrlAlias><![CDATA[latest-posts,recent-activity,forums/topics]]></umbracoUrlAlias>
           <title><![CDATA[Latest Posts]]></title>
           <intPageSize><![CDATA[25]]></intPageSize>
         </activeTopics>
         <forumMembers id="1101" key="84513b4c-3b6d-4f31-8c07-9708226f882d" parentID="1089" level="2" creatorID="-1" sortOrder="5" createDate="2025-12-16T11:39:36" updateDate="2025-12-16T19:40:25" nodeName="Members" urlName="members" path="-1,1089,1101" isDoc="" nodeType="1084" nodeTypeAlias="members" creatorName="Administrator" writerName="Administrator" writerID="-1" template="1063" isPublished="true">
           <umbracoNaviHide>1</umbracoNaviHide>
           <hideChildrenFromNav>0</hideChildrenFromNav>
-          <title><![CDATA[Forum members]]></title>
+          <umbracoUrlAlias><![CDATA[forum-members,forummembers,forums/members]]></umbracoUrlAlias>
+          <title><![CDATA[Members]]></title>
           <message><![CDATA[{"markup":"\u003Cp\u003ECurrent members of the forum.\u003C/p\u003E","blocks":{"contentData":[],"settingsData":[],"expose":[],"Layout":{}}}]]></message>
           <intPageSize><![CDATA[25]]></intPageSize>
         </forumMembers>
@@ -150,7 +175,7 @@
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Do not display in the Menu]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
@@ -166,7 +191,7 @@
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Do not display child items in the menu.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
@@ -182,7 +207,7 @@
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Alternate Urls for the page. Comma separated list.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
       </GenericProperties>
@@ -229,7 +254,7 @@
       <Structure />
       <GenericProperties>
         <GenericProperty>
-          <Name>Title</Name>
+          <Name>Page Heading</Name>
           <Alias>title</Alias>
           <Key>5b17d93f-41fe-43f2-aa9f-d5f51bc379b7</Key>
           <Type>Umbraco.TextBox</Type>
@@ -241,11 +266,11 @@
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Header text for the holder page.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
-          <Name>Int PageSize</Name>
+          <Name>Page Size</Name>
           <Alias>intPageSize</Alias>
           <Key>334ecce6-9f98-42c3-a967-e03af7d36390</Key>
           <Type>Umbraco.Slider</Type>
@@ -257,7 +282,7 @@
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Number of recent Topics to display per page.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
       </GenericProperties>
@@ -308,14 +333,14 @@
           <Key>e201e3ab-c36e-4d2d-873e-6036bd17d110</Key>
           <Type>Umbraco.TextBox</Type>
           <Definition>0cc0eba1-9960-42c9-bf9b-60e150b429ae</Definition>
-          <Tab Alias="general">General</Tab>
-          <SortOrder>0</SortOrder>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>1</SortOrder>
           <Mandatory>False</Mandatory>
           <LabelOnTop>True</LabelOnTop>
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Title of the Forum]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
@@ -324,43 +349,30 @@
           <Key>99866e98-dee0-438b-b119-0b6f66557c02</Key>
           <Type>Umbraco.RichText</Type>
           <Definition>ca90c950-0aff-4e72-b976-a30b1ac57dad</Definition>
-          <Tab Alias="general">General</Tab>
-          <SortOrder>1</SortOrder>
-          <Mandatory>False</Mandatory>
-          <LabelOnTop>True</LabelOnTop>
-          <MandatoryMessage></MandatoryMessage>
-          <Validation></Validation>
-          <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
-          <Variations>Nothing</Variations>
-        </GenericProperty>
-        <GenericProperty>
-          <Name>Post At Root</Name>
-          <Alias>postAtRoot</Alias>
-          <Key>569a5474-d72e-4b86-8425-50ce9b8ce463</Key>
-          <Type>Umbraco.TrueFalse</Type>
-          <Definition>92897bc6-a5f3-4ffe-ae27-f2e7e33dda49</Definition>
-          <Tab Alias="general">General</Tab>
+          <Tab Alias="content">Content</Tab>
           <SortOrder>2</SortOrder>
           <Mandatory>False</Mandatory>
           <LabelOnTop>True</LabelOnTop>
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[Can users post at this level (or is this a container for other forums?)]]></Description>
+          <Description><![CDATA[Description for the Forum content.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
-          <Name>Approve Posts</Name>
-          <Alias>requireApproval</Alias>
-          <Key>84c6263a-e95d-4c0d-b425-30ae795a4a6c</Key>
-          <Type>Umbraco.TrueFalse</Type>
-          <Definition>218e9112-5da6-4332-9bff-f2ff79e2e887</Definition>
-          <Tab Alias="general">General</Tab>
+          <Name>Page Size</Name>
+          <Alias>intPageSize</Alias>
+          <Key>1bb5c900-cdc9-4ec0-81d6-6b06e9477156</Key>
+          <Type>Umbraco.Slider</Type>
+          <Definition>d62b131a-74c3-4f33-bf9a-3e1f5882fae9</Definition>
+          <Tab Alias="content">Content</Tab>
           <SortOrder>3</SortOrder>
           <Mandatory>False</Mandatory>
           <LabelOnTop>True</LabelOnTop>
-          <Description><![CDATA[Do posts in this Forum need approval]]></Description>
+          <MandatoryMessage></MandatoryMessage>
+          <Validation></Validation>
+          <ValidationRegExpMessage></ValidationRegExpMessage>
+          <Description><![CDATA[Number of Topics to display on a Forum page]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
@@ -372,11 +384,56 @@
           <Tab Alias="settings">Settings</Tab>
           <SortOrder>1</SortOrder>
           <Mandatory>False</Mandatory>
-          <LabelOnTop>False</LabelOnTop>
+          <LabelOnTop>True</LabelOnTop>
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
           <Description><![CDATA[]]></Description>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>Visibility</Name>
+          <Alias>membersOnly</Alias>
+          <Key>434c27ce-de58-4570-ae72-e9f4845d80f2</Key>
+          <Type>Umbraco.TrueFalse</Type>
+          <Definition>a79bc1d9-8224-43db-9241-b4261c3cb894</Definition>
+          <Tab Alias="settings">Settings</Tab>
+          <SortOrder>2</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>True</LabelOnTop>
+          <MandatoryMessage></MandatoryMessage>
+          <Validation></Validation>
+          <ValidationRegExpMessage></ValidationRegExpMessage>
+          <Description><![CDATA[Visibility level of the Forum, if Members Only, log in is required to access.]]></Description>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>Allow Topics</Name>
+          <Alias>postAtRoot</Alias>
+          <Key>569a5474-d72e-4b86-8425-50ce9b8ce463</Key>
+          <Type>Umbraco.TrueFalse</Type>
+          <Definition>92897bc6-a5f3-4ffe-ae27-f2e7e33dda49</Definition>
+          <Tab Alias="settings">Settings</Tab>
+          <SortOrder>3</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>True</LabelOnTop>
+          <MandatoryMessage></MandatoryMessage>
+          <Validation></Validation>
+          <ValidationRegExpMessage></ValidationRegExpMessage>
+          <Description><![CDATA[Can users post at this level (or is this a container for other forums?)]]></Description>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>Post Moderation</Name>
+          <Alias>requireApproval</Alias>
+          <Key>84c6263a-e95d-4c0d-b425-30ae795a4a6c</Key>
+          <Type>Umbraco.TrueFalse</Type>
+          <Definition>218e9112-5da6-4332-9bff-f2ff79e2e887</Definition>
+          <Tab Alias="settings">Settings</Tab>
+          <SortOrder>4</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>True</LabelOnTop>
+          <Description><![CDATA[Do posts in this Forum need approval before becoming public]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
@@ -386,9 +443,9 @@
           <Type>Umbraco.TrueFalse</Type>
           <Definition>92897bc6-a5f3-4ffe-ae27-f2e7e33dda49</Definition>
           <Tab Alias="settings">Settings</Tab>
-          <SortOrder>2</SortOrder>
+          <SortOrder>5</SortOrder>
           <Mandatory>False</Mandatory>
-          <LabelOnTop>False</LabelOnTop>
+          <LabelOnTop>True</LabelOnTop>
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
@@ -396,39 +453,7 @@
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
-          <Name>Page Size</Name>
-          <Alias>intPageSize</Alias>
-          <Key>1bb5c900-cdc9-4ec0-81d6-6b06e9477156</Key>
-          <Type>Umbraco.Slider</Type>
-          <Definition>d62b131a-74c3-4f33-bf9a-3e1f5882fae9</Definition>
-          <Tab Alias="settings">Settings</Tab>
-          <SortOrder>3</SortOrder>
-          <Mandatory>False</Mandatory>
-          <LabelOnTop>True</LabelOnTop>
-          <MandatoryMessage></MandatoryMessage>
-          <Validation></Validation>
-          <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[Number of posts to show on a page]]></Description>
-          <Variations>Nothing</Variations>
-        </GenericProperty>
-        <GenericProperty>
-          <Name>Members Only</Name>
-          <Alias>membersOnly</Alias>
-          <Key>434c27ce-de58-4570-ae72-e9f4845d80f2</Key>
-          <Type>Umbraco.TrueFalse</Type>
-          <Definition>92897bc6-a5f3-4ffe-ae27-f2e7e33dda49</Definition>
-          <Tab Alias="authorisation">Authorisation</Tab>
-          <SortOrder>0</SortOrder>
-          <Mandatory>False</Mandatory>
-          <LabelOnTop>True</LabelOnTop>
-          <MandatoryMessage></MandatoryMessage>
-          <Validation></Validation>
-          <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[Only members can view this forum (default is everyone)]]></Description>
-          <Variations>Nothing</Variations>
-        </GenericProperty>
-        <GenericProperty>
-          <Name>Restricted Posting</Name>
+          <Name>Restrict Posting</Name>
           <Alias>canPostGroup</Alias>
           <Key>ebaa714e-0011-4e32-8f47-9b869ac4b7c1</Key>
           <Type>Umbraco.MemberGroupPicker</Type>
@@ -444,7 +469,7 @@
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
-          <Name>Restricted Viewing</Name>
+          <Name>Restrict Viewing</Name>
           <Alias>canViewGroup</Alias>
           <Key>0e11ab12-dbba-4736-90cd-de5f22d66d74</Key>
           <Type>Umbraco.MemberGroupPicker</Type>
@@ -465,8 +490,8 @@
           <Id>59</Id>
           <Key>1aacf359-9064-47d9-a2e6-7f72abd7f12e</Key>
           <Type>Tab</Type>
-          <Caption>General</Caption>
-          <Alias>general</Alias>
+          <Caption>Content</Caption>
+          <Alias>content</Alias>
           <SortOrder>0</SortOrder>
         </Tab>
         <Tab>
@@ -519,13 +544,13 @@
           <Type>Umbraco.TrueFalse</Type>
           <Definition>4d4c1220-72c9-42be-bf25-0c44dfdd5d1a</Definition>
           <Tab Alias="general">General</Tab>
-          <SortOrder>0</SortOrder>
+          <SortOrder>1</SortOrder>
           <Mandatory>False</Mandatory>
-          <LabelOnTop>False</LabelOnTop>
+          <LabelOnTop>True</LabelOnTop>
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[Is it a Topic or a Reply]]></Description>
+          <Description><![CDATA[]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
@@ -535,7 +560,7 @@
           <Type>Umbraco.TextBox</Type>
           <Definition>0cc0eba1-9960-42c9-bf9b-60e150b429ae</Definition>
           <Tab Alias="general">General</Tab>
-          <SortOrder>1</SortOrder>
+          <SortOrder>2</SortOrder>
           <Mandatory>False</Mandatory>
           <LabelOnTop>True</LabelOnTop>
           <MandatoryMessage></MandatoryMessage>
@@ -551,7 +576,7 @@
           <Type>Umbraco.RichText</Type>
           <Definition>ca90c950-0aff-4e72-b976-a30b1ac57dad</Definition>
           <Tab Alias="general">General</Tab>
-          <SortOrder>2</SortOrder>
+          <SortOrder>3</SortOrder>
           <Mandatory>False</Mandatory>
           <LabelOnTop>True</LabelOnTop>
           <MandatoryMessage></MandatoryMessage>
@@ -561,48 +586,32 @@
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
-          <Name>Approval</Name>
-          <Alias>approved</Alias>
-          <Key>6bf64b84-b947-438c-ba89-eb66e9cfffb8</Key>
-          <Type>Umbraco.TrueFalse</Type>
-          <Definition>5ca602e3-cbe7-44dd-82d9-9b562ae65e03</Definition>
+          <Name>Page Size</Name>
+          <Alias>intPageSize</Alias>
+          <Key>3723ca7d-3f68-4e37-96fd-8992d256bb55</Key>
+          <Type>Umbraco.Slider</Type>
+          <Definition>d62b131a-74c3-4f33-bf9a-3e1f5882fae9</Definition>
           <Tab Alias="general">General</Tab>
-          <SortOrder>3</SortOrder>
-          <Mandatory>False</Mandatory>
-          <LabelOnTop>True</LabelOnTop>
-          <Description><![CDATA[If posts require approval you can approve it here.]]></Description>
-          <Variations>Nothing</Variations>
-        </GenericProperty>
-        <GenericProperty>
-          <Name>Author</Name>
-          <Alias>postAuthor</Alias>
-          <Key>865f122d-5e62-4bc9-9021-e7226445c18f</Key>
-          <Type>Umbraco.MemberPicker</Type>
-          <Definition>1ea2e01f-ebd8-4ce1-8d71-6b1149e63548</Definition>
-          <Tab Alias="general">General</Tab>
-          <SortOrder>4</SortOrder>
-          <Mandatory>False</Mandatory>
-          <LabelOnTop>True</LabelOnTop>
-          <MandatoryMessage></MandatoryMessage>
-          <Validation></Validation>
-          <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[Member who made the post]]></Description>
-          <Variations>Nothing</Variations>
-        </GenericProperty>
-        <GenericProperty>
-          <Name>Post Creator</Name>
-          <Alias>postCreator</Alias>
-          <Key>2af528c0-12c5-4ca0-99e9-d0b818abe2a8</Key>
-          <Type>Umbraco.TextBox</Type>
-          <Definition>0cc0eba1-9960-42c9-bf9b-60e150b429ae</Definition>
-          <Tab Alias="postInfo">Post Info</Tab>
-          <SortOrder>0</SortOrder>
+          <SortOrder>5</SortOrder>
           <Mandatory>False</Mandatory>
           <LabelOnTop>False</LabelOnTop>
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[Name of the user who created the post, stored in case the Member is deleted.]]></Description>
+          <Description><![CDATA[How many replies to show before paging.]]></Description>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>Answered</Name>
+          <Alias>answer</Alias>
+          <Key>00cc1c63-9086-4a72-a21b-6cc84960b79b</Key>
+          <Type>Umbraco.TrueFalse</Type>
+          <Definition>dc500a08-593c-44bd-9e46-905d859c9adb</Definition>
+          <Tab Alias="postInfo">Post Info</Tab>
+          <SortOrder>0</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Description><![CDATA[Marked as solution/resolved.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
@@ -612,7 +621,7 @@
           <Type>Umbraco.Integer</Type>
           <Definition>2e6d3631-066e-44b8-aec4-96f09099b2b5</Definition>
           <Tab Alias="postInfo">Post Info</Tab>
-          <SortOrder>1</SortOrder>
+          <SortOrder>2</SortOrder>
           <Mandatory>False</Mandatory>
           <LabelOnTop>False</LabelOnTop>
           <Description><![CDATA[Number of replies.]]></Description>
@@ -625,23 +634,10 @@
           <Type>Umbraco.Integer</Type>
           <Definition>2e6d3631-066e-44b8-aec4-96f09099b2b5</Definition>
           <Tab Alias="postInfo">Post Info</Tab>
-          <SortOrder>2</SortOrder>
-          <Mandatory>False</Mandatory>
-          <LabelOnTop>False</LabelOnTop>
-          <Description><![CDATA[Number of UnApproved replies.]]></Description>
-          <Variations>Nothing</Variations>
-        </GenericProperty>
-        <GenericProperty>
-          <Name>Answered</Name>
-          <Alias>answer</Alias>
-          <Key>00cc1c63-9086-4a72-a21b-6cc84960b79b</Key>
-          <Type>Umbraco.TrueFalse</Type>
-          <Definition>dc500a08-593c-44bd-9e46-905d859c9adb</Definition>
-          <Tab Alias="postInfo">Post Info</Tab>
           <SortOrder>3</SortOrder>
           <Mandatory>False</Mandatory>
           <LabelOnTop>False</LabelOnTop>
-          <Description><![CDATA[Marked as solution/resolved.]]></Description>
+          <Description><![CDATA[Number of UnApproved replies.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
@@ -677,13 +673,58 @@
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
+          <Name>Author</Name>
+          <Alias>postAuthor</Alias>
+          <Key>865f122d-5e62-4bc9-9021-e7226445c18f</Key>
+          <Type>Umbraco.MemberPicker</Type>
+          <Definition>1ea2e01f-ebd8-4ce1-8d71-6b1149e63548</Definition>
+          <Tab Alias="postInfo">Post Info</Tab>
+          <SortOrder>6</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>True</LabelOnTop>
+          <MandatoryMessage></MandatoryMessage>
+          <Validation></Validation>
+          <ValidationRegExpMessage></ValidationRegExpMessage>
+          <Description><![CDATA[Member who made the post]]></Description>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>Author Text</Name>
+          <Alias>postCreator</Alias>
+          <Key>2af528c0-12c5-4ca0-99e9-d0b818abe2a8</Key>
+          <Type>Umbraco.TextBox</Type>
+          <Definition>0cc0eba1-9960-42c9-bf9b-60e150b429ae</Definition>
+          <Tab Alias="postInfo">Post Info</Tab>
+          <SortOrder>7</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <MandatoryMessage></MandatoryMessage>
+          <Validation></Validation>
+          <ValidationRegExpMessage></ValidationRegExpMessage>
+          <Description><![CDATA[Username of the member who created the post, stored as text in case the Member record is deleted.]]></Description>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>Approval</Name>
+          <Alias>approved</Alias>
+          <Key>6bf64b84-b947-438c-ba89-eb66e9cfffb8</Key>
+          <Type>Umbraco.TrueFalse</Type>
+          <Definition>5ca602e3-cbe7-44dd-82d9-9b562ae65e03</Definition>
+          <Tab Alias="settings">Settings</Tab>
+          <SortOrder>0</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>True</LabelOnTop>
+          <Description><![CDATA[If posts require approval you can approve it here.]]></Description>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
           <Name>Allow Replies</Name>
           <Alias>allowReplies</Alias>
           <Key>08c53285-f7db-4345-b19c-6939ed9e5c76</Key>
           <Type>Umbraco.TrueFalse</Type>
           <Definition>92897bc6-a5f3-4ffe-ae27-f2e7e33dda49</Definition>
           <Tab Alias="settings">Settings</Tab>
-          <SortOrder>0</SortOrder>
+          <SortOrder>1</SortOrder>
           <Mandatory>False</Mandatory>
           <LabelOnTop>False</LabelOnTop>
           <MandatoryMessage></MandatoryMessage>
@@ -699,29 +740,13 @@
           <Type>Umbraco.Integer</Type>
           <Definition>2e6d3631-066e-44b8-aec4-96f09099b2b5</Definition>
           <Tab Alias="settings">Settings</Tab>
-          <SortOrder>1</SortOrder>
-          <Mandatory>False</Mandatory>
-          <LabelOnTop>False</LabelOnTop>
-          <MandatoryMessage></MandatoryMessage>
-          <Validation></Validation>
-          <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[How sticky (to the top) is this post - the higher the better]]></Description>
-          <Variations>Nothing</Variations>
-        </GenericProperty>
-        <GenericProperty>
-          <Name>Page Size</Name>
-          <Alias>intPageSize</Alias>
-          <Key>3723ca7d-3f68-4e37-96fd-8992d256bb55</Key>
-          <Type>Umbraco.Slider</Type>
-          <Definition>d62b131a-74c3-4f33-bf9a-3e1f5882fae9</Definition>
-          <Tab Alias="settings">Settings</Tab>
           <SortOrder>2</SortOrder>
           <Mandatory>False</Mandatory>
           <LabelOnTop>False</LabelOnTop>
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[How many replies to show before paging.]]></Description>
+          <Description><![CDATA[How sticky (to the top) is this post - the higher the better]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
       </GenericProperties>
@@ -778,23 +803,23 @@
       </Structure>
       <GenericProperties>
         <GenericProperty>
-          <Name>Title</Name>
+          <Name>Page Heading</Name>
           <Alias>title</Alias>
           <Key>324ef3ec-7515-4550-9b6f-d2c3827863ca</Key>
           <Type>Umbraco.TextBox</Type>
           <Definition>0cc0eba1-9960-42c9-bf9b-60e150b429ae</Definition>
           <Tab Alias="general">General</Tab>
           <SortOrder>1</SortOrder>
-          <Mandatory>True</Mandatory>
+          <Mandatory>False</Mandatory>
           <LabelOnTop>False</LabelOnTop>
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Header text for the holder page.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
-          <Name>Message</Name>
+          <Name>Page Summary</Name>
           <Alias>message</Alias>
           <Key>2c71e5e4-e998-446a-8f39-d40b1ce8f265</Key>
           <Type>Umbraco.RichText</Type>
@@ -806,7 +831,7 @@
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Brief summary to display on the page.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
@@ -822,7 +847,7 @@
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Alternate URLs for this page.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
@@ -838,7 +863,7 @@
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Do not display in Menus.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
       </GenericProperties>
@@ -865,7 +890,7 @@
     <DocumentType Folders="Forum+Types" FolderKeys="f98fccc3-2e6a-440a-9d98-6aaaa70fb289">
       <Info>
         <Name>ForumSearchPage</Name>
-        <Alias>forumSearch</Alias>
+        <Alias>searchPage</Alias>
         <Key>49fe2244-5d29-47ad-95ef-dc9e89ee99ac</Key>
         <Icon>icon-search color-deep-purple</Icon>
         <Thumbnail>folder.png</Thumbnail>
@@ -885,7 +910,7 @@
       <Structure />
       <GenericProperties>
         <GenericProperty>
-          <Name>Title</Name>
+          <Name>Page Heading</Name>
           <Alias>title</Alias>
           <Key>2eb17990-6545-4e39-b89b-f4e97395787d</Key>
           <Type>Umbraco.TextBox</Type>
@@ -897,7 +922,7 @@
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Header text for the holder page.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
@@ -913,7 +938,7 @@
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Number of results to show per page.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
       </GenericProperties>
@@ -952,7 +977,7 @@
       <Structure />
       <GenericProperties>
         <GenericProperty>
-          <Name>Title</Name>
+          <Name>Page Heading</Name>
           <Alias>title</Alias>
           <Key>b56a6862-074d-4cdd-86ff-035be62f81f1</Key>
           <Type>Umbraco.TextBox</Type>
@@ -964,11 +989,11 @@
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Header text for the holder page.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
-          <Name>Message</Name>
+          <Name>Page Summary</Name>
           <Alias>message</Alias>
           <Key>374dffce-764f-413a-8511-b6d1f3fb9702</Key>
           <Type>Umbraco.RichText</Type>
@@ -980,7 +1005,7 @@
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Brief summary to display on the page.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
@@ -996,7 +1021,7 @@
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Number of members to display per page.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
       </GenericProperties>
@@ -1034,8 +1059,31 @@
         <DefaultTemplate>forumLogin</DefaultTemplate>
       </Info>
       <Structure />
-      <GenericProperties />
-      <Tabs />
+      <GenericProperties>
+        <GenericProperty>
+          <Name>Use Captcha</Name>
+          <Alias>useCaptcha</Alias>
+          <Key>7a2e7929-b979-4427-afc5-eefef93ad8ab</Key>
+          <Type>Umbraco.TrueFalse</Type>
+          <Definition>92897bc6-a5f3-4ffe-ae27-f2e7e33dda49</Definition>
+          <Tab Alias="general">General</Tab>
+          <SortOrder>0</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Description><![CDATA[Use the Captcha control when signing in, prevents Bot login attacks.]]></Description>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+      </GenericProperties>
+      <Tabs>
+        <Tab>
+          <Id>77</Id>
+          <Key>d93fd851-32ec-435f-a698-c0747fd16731</Key>
+          <Type>Group</Type>
+          <Caption>General</Caption>
+          <Alias>general</Alias>
+          <SortOrder>0</SortOrder>
+        </Tab>
+      </Tabs>
       <HistoryCleanupPolicy preventCleanup="false" />
     </DocumentType>
     <DocumentType>
@@ -1100,7 +1148,7 @@
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Use the Captcha control when registering.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
@@ -1132,7 +1180,7 @@
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[Do not allow these domains to register]]></Description>
+          <Description><![CDATA[Do not allow these domains to register.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
@@ -1208,7 +1256,7 @@
           <MandatoryMessage></MandatoryMessage>
           <Validation></Validation>
           <ValidationRegExpMessage></ValidationRegExpMessage>
-          <Description><![CDATA[]]></Description>
+          <Description><![CDATA[Use the Captcha control when requesting a password reset.]]></Description>
           <Variations>Nothing</Variations>
         </GenericProperty>
         <GenericProperty>
@@ -1273,13 +1321,24 @@
       <Name>ForumMaster</Name>
       <Key>9ba2ed87-f408-4e7b-9c0f-f35eae73b6fd</Key>
       <Alias>forumMaster</Alias>
-      <Design>
-      <![CDATA[@using MediaWiz.Forums.Extensions
+      <Design><![CDATA[@using MediaWiz.Forums.Extensions
 @using Umbraco.Cms.Core.Models.PublishedContent
 @using Umbraco.Cms.Core.Security
 @using Umbraco.Extensions
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 @inject IMemberManager _memberManager
+@{
+    Layout = "mediawizMaster.cshtml";
+
+    // Replace the layout with your own master template.
+
+    // You will also need to add the section definitions for Styles and Scripts to your master template
+    // For example:
+
+    // @await RenderSectionAsync("MediaWizHeader", required:false) //should go in your head section
+    // @await RenderSectionAsync("MediaWizScripts", required:false) //should go just above your closing body tag
+
+}
 @{
 
     IList<string> roles = new List<string>();
@@ -1291,31 +1350,39 @@
         returnUrl = (string)TempData["returnUrl"];
         TempData["returnUrl"] = null;
     }
-
 }
-@{
 
-    // Replace the layout with your own master template if it isn't called mediawizMaster.cshtml
-
-    // You will also need to add the section definitions for Styles and Scripts
-    // For example:
-
-    // @RenderSection("MediaWizHeader", false) should go in your head section
-    // @RenderSection("MediaWizScripts", false) should go just above your closing body tag
-
-    Layout = "layout.cshtml";
-
-}
 
 @section MediaWizHeader {
     @if (returnUrl != null)
     {
         <meta http-equiv="Refresh" content="3;url=@returnUrl" />
     }
-    <link href="/css/forum.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-    <renderstoredcontent asp-key="css-block"></renderstoredcontent>
 
+    <link rel="stylesheet" type="text/css" href="~/css/forum.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.3/animate.min.css" />
+    <style>
+        #mediawiz-forums h3 {
+            color: #527AB3;
+        }
+
+        .alert {
+            position: relative;
+        }
+
+        .alert .close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 1em;
+        }
+
+        .alert .fa {
+            margin-right: .3em;
+        }
+    </style>
+    <renderstoredcontent asp-key="css-block"></renderstoredcontent>
 }
 
 <div class="breadcrumb mt-3 ">
@@ -1329,13 +1396,13 @@
         <div class="sidebar p-3 bg-white text-dark" id="sidebar">
             <nav>
                 <span class="h6">@await Component.InvokeAsync("ForumMembership", new { Template = "LoginStatus" })</span>
-                <a href="@ForumUrl/forums" class="nav-link" title="View List of Forums"><i class="fs-5 bi-folder me-3"></i><span class="d-none d-sm-none d-md-inline">Forums</span></a>
-                <a href="@ForumUrl/active-topics" class="nav-link" title="View Active Topics"><i class="fs-5 bi-list me-3"></i><span class="d-none d-sm-none d-md-inline">Topics</span></a>
+                <a href="@ForumUrl" class="nav-link" title="View List of Forums"><i class="fs-5 bi-folder me-3"></i><span class="d-none d-sm-none d-md-inline">Forums</span></a>
+                <a href="/active-topics" class="nav-link" title="View Active Topics"><i class="fs-5 bi-list me-3"></i><span class="d-none d-sm-none d-md-inline">Topics</span></a>
                 @if (_memberManager.IsLoggedIn())
                 {
-                    <a href="@ForumUrl/members" class="nav-link" title="View list of Forum members"><i class="fs-5 bi-people me-3"></i><span class="d-none d-sm-none d-md-inline">Members</span></a>
+                    <a href="/members" class="nav-link" title="View list of Forum members"><i class="fs-5 bi-people me-3"></i><span class="d-none d-sm-none d-md-inline">Members</span></a>
                 }
-                <a href="@ForumUrl/forumsearch" class="nav-link" title="Search forum posts"><i class="fs-5 bi-search me-3"></i><span class="d-none d-sm-none d-md-inline">Search</span></a>
+                <a href="/forumsearch" class="nav-link" title="Search forum posts"><i class="fs-5 bi-search me-3"></i><span class="d-none d-sm-none d-md-inline">Search</span></a>
                 @if (_memberManager.IsLoggedIn())
                 {
                     var user = _memberManager.GetCurrentMemberAsync().Result;
@@ -1344,7 +1411,7 @@
                         roles = _memberManager.GetRolesAsync(user).Result;
                         if (roles.Contains("ForumAdministrator"))
                         {
-                            <a href="@ForumUrl/createforum" class="nav-link" title="Create Forum" data-bs-toggle="modal" data-bs-target="#forumModal"><i class="fs-5 bi-folder me-3"></i><span class="d-none d-sm-inline">Create Forum</span></a>
+                            <a href="/createforum" class="nav-link" title="Create Forum" data-bs-toggle="modal" data-bs-target="#forumModal"><i class="fs-5 bi-folder me-3"></i><span class="d-none d-sm-inline">Create Forum</span></a>
                         }
                     }
                     <a href="@Url.SurfaceAction("Logout", "ForumsSurface")" class="nav-link" title="Logout"><i class="fs-5 bi-door-closed me-3"></i><span class="d-none d-sm-none d-md-inline">@Umbraco.GetDictionaryValueOrDefault("Forums.Signout", "Logout")</span></a>
@@ -1352,6 +1419,7 @@
             </nav>
         </div>
         <div class="main bg-white" id="mediawiz-forums">
+            <div id="pageErrors"></div>
             @RenderBody()
         </div>
     </div>
@@ -1375,10 +1443,13 @@
         var MediaWiz = MediaWiz || { };
         MediaWiz.returnUrl = '@TempData["returnUrl"]';
         MediaWiz.tools = MediaWiz.tools + "| emoticons ";
-        if ('@allowimages' === 'True') {
+        if ('@allowimages'.toLowerCase() === 'true') {
             MediaWiz.tools = MediaWiz.tools + "| image ";
         }
-
+        // Toggle sidebar collapse
+        document.getElementById('toggleWizBtn').addEventListener('click', function () {
+            document.getElementById('sidebar-forum').classList.toggle('collapsed');
+        });
 
     </script>
     <renderstoredcontent asp-key="script-block"></renderstoredcontent>
@@ -1388,11 +1459,9 @@
       <Name>ActiveTopics</Name>
       <Key>1d655bb3-8de5-4e6f-b144-58fadd5129f9</Key>
       <Alias>activeTopics</Alias>
-      <Design>
-  <![CDATA[@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<MediaWiz.Forums.ViewModels.SearchViewModel>
+      <Design><![CDATA[@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<MediaWiz.Forums.ViewModels.SearchViewModel>
 @using MediaWiz.Forums.Extensions
 @using Umbraco.Extensions
-
 @{
     Layout = "forumMaster.cshtml";
 
@@ -1419,10 +1488,11 @@
     {
         <div class="wiz-topics">
             <div class="d-flex flex-row flex-wrap p-2 color_dark bold">
-                <div class="col-7">@Umbraco.GetDictionaryValueOrDefault("Forums.Topic", "Topic")</div>
+                <div class="col-6">@Umbraco.GetDictionaryValueOrDefault("Forums.Topic", "Topic")</div>
                 <div class="col-3">@Umbraco.GetDictionaryValueOrDefault("Forums.Forum", "Forum")</div>
                 <div class="col-1">@Umbraco.GetDictionaryValueOrDefault("Forums.Replies", "Replies")</div>
                 <div class="col-1">@Umbraco.GetDictionaryValueOrDefault("Forums.Views", "Views")</div>
+                <div class="col-1">@Umbraco.GetDictionaryValueOrDefault("Forums.Activity", "Activity")</div>
             </div>
             <div class="wiz-body">
                 @foreach (var result in Model.PagedResult)
@@ -1449,27 +1519,42 @@
 <storecontent asp-key="script-block">
     <script>
         $(document).ready(function () {
-            MediaWiz.InitTinyMce("textarea.new-post");
             $("#active-since").on("change", function () {
                 $("#topics-since").submit();
             });
+            $("#active-filter").on("change", function () {
+                $("#topics-since").submit();
+            });
+            MediaWiz.InitTinyMce("textarea.new-post");
         });
     </script>
-</storecontent>
-]]></Design>
+</storecontent>]]></Design>
     </Template>
     <Template>
       <Name>Forum</Name>
       <Key>9fe91c87-8c9b-4e2e-b6a4-a894f2800f14</Key>
       <Alias>forum</Alias>
-      <Design>
-      <![CDATA[@using MediaWiz.Forums.Extensions
+      <Design><![CDATA[@using MediaWiz.Forums.Extensions
 @using Umbraco.Extensions
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 
 @{
-	Layout = "forumMaster.cshtml";
+
+    Layout = "forumMaster.cshtml";
+    var test = Context.Request.Query["emailconfirmed"];
+    if(!string.IsNullOrWhiteSpace(test) && test == "true")
+    {
+        var msg = Umbraco.GetDictionaryValueOrDefault("Forums.EmailConfirmed", "Email successfully confirmed");
+        <storecontent asp-key="script-block">
+            <script>
+                $(document).ready(function () {
+                    createAlert('','Nice Work!','@msg','success',true,true,'pageMessages');
+                });
+            </script>
+        </storecontent>
+    }
 }
+<div id="pageMessages"></div>
 @if (Model.Value<bool>("isActive"))
 {
     <div class="row" id="fInfo">
@@ -1495,10 +1580,12 @@
     <storecontent asp-key="script-block">
         <script>
             $(document).ready(function () {
-                    MediaWiz.InitTinyMce("textarea.new-post");
+                if(document.getElementsByClassName("new-post"))
+                    {MediaWiz.InitTinyMce("textarea.new-post");}
             });
         </script>
     </storecontent>
+
 
 }
 else
@@ -1514,8 +1601,7 @@ else
       <Name>ForumPost</Name>
       <Key>a92f6b63-c72c-4a12-8d1c-503500b60dec</Key>
       <Alias>forumPost</Alias>
-      <Design>
-  <![CDATA[@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+      <Design><![CDATA[@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 @using MediaWiz.Core.Services
 @using MediaWiz.Forums.Extensions
 @using Umbraco.Cms.Infrastructure.Scoping
@@ -1567,16 +1653,14 @@ else
                         }
                     },
                     error: function(jqXHR, exception) {
-                        console.log(jqXHR);
-                        alert(exception);
+                        createAlert('','Nice Work!',exception,'danger',true,true,'pageMessages');
                     }
                 });
             });
         });
 
     </script>
-</storecontent>
-]]></Design>
+</storecontent>]]></Design>
     </Template>
     <Template>
       <Name>ForumSearch</Name>
@@ -1587,9 +1671,12 @@ else
 @using System.Text.RegularExpressions
 @using Umbraco.Cms.Core.Security
 @using Umbraco.Extensions
-@inject IForumCacheService _forumCache;
+@inject IForumCacheService _forumCache
 @inject IMemberManager _memberManager
-@{ Layout = "forumMaster.cshtml";
+@inject ForumSearchService SearchService
+
+@{ 
+    Layout = "forumMaster.cshtml";
     var currentUser = _memberManager.GetUserAsync(Context.User).Result;
     IList<string> roles = new List<string>();
     if (currentUser != null)
@@ -1605,6 +1692,7 @@ else
     var totalPages = (int)Math.Ceiling((double)Model.TotalResults / (double)pageSize);
     ViewBag.Page = pagenum;
     ViewBag.TotalPages = totalPages;
+    var results = Model.RawResult;
 }
 <div class="wiz-forum-info">
     <div class="page-header">
@@ -1616,105 +1704,64 @@ else
 </div>
 
 <div class="row">
-    @{ if (Model.PagedResult != null && Model.PagedResult.Any())
+    @if (results == null || !results.Any())
+    {
+        @if (!string.IsNullOrWhiteSpace(Model.query))
         {
-            <div class="forum-posts col-sm-12">
-                <div class="wiz-topics">
-                    <div class="wiz-body">
-                        @foreach (var result in Model.PagedResult)
-                        {
-                            var post = Umbraco.Content(result.Id);
-                            var forum = post;
-                            if (post.Parent().ContentType.Alias == "forum")
-                            {
-                                forum = post.Parent();
-                            }
-                            else if (post.Parent().Parent().ContentType.Alias == "forum")
-                            {
-                                forum = post.Parent().Parent();
-                            }
-                            bool isApproved = !forum.Value<bool>("requireApproval") || post.Value<bool>("approved");
-                            string locked = post.Value<bool>("allowReplies") ? "" : "locked";
-                            string solved = post.Value<bool>("answer") ? "solved" : "";
-                            string approvereplies = "notapproved";
-                            if (isApproved )
-                            {
-                                approvereplies = "";
-                                if (post.Value<int>("unapprovedReplies") > 0)
-                                {
-                                    approvereplies = "require-approval";
-                                };
-                            }
-                            isApproved = isApproved && post.Value<int>("unapprovedReplies") == 0;
-                            var cacheInfo = _forumCache.GetPost(post, "Topic_" + post.Id);
-                            @if (isApproved || roles.Contains("ForumAdministrator") || roles.Contains("ForumMederator"))
-                            {
-                                <div class="d-flex flex-row flex-wrap topic @locked @solved mb-2 p-3 @approvereplies rounded-3">
-                                    <div class="col-7 ">
-                                        @if (post.Value<int>("stickiness") > 0)
-                                        {
-                                            <i class="bi bi-star"></i>
-                                        }
-                                        @if (!post.Value<bool>("postType"))
-                                        {
-                                            <a href="@post.Parent().Url()" style="display: block;" title="Navigate to @post.Parent().Value("postTitle")">@post.Parent().Value("postTitle")</a>
-                                        }
-                                        else
-                                        {
-                                            <a href="@post.Url()" title="View post @post.Value("postTitle")" style="display: block;">@post.Value("postTitle")</a>
-
-                                        }
-                                    </div>
-                                    <div class="col-5">
-                                        Posted: @post.CreateDate.ToString("MMM dd, yyyy HH:ss")
-                                        @if (cacheInfo.latestPost != DateTime.MinValue && cacheInfo.latestPost.ToString("MMM dd, yyyy HH:ss") != post.CreateDate.ToString("MMM dd, yyyy HH:ss"))
-                                        {
-                                            <span> - Last update:</span>
-                                            @cacheInfo.latestPost.ToString("MMM dd, yyyy HH:ss")
-                                        }
-                                    </div>
-                                    <div class="col-12 topic-summary pt-1">
-                                        @if (post.Value<bool>("postType"))
-                                        {
-                                            @Regex.Replace(post.Value<string>("postBody"), "<[^>]*(>|$)", string.Empty)
-                                        }
-                                        else
-                                        {
-                                            @Regex.Replace(post.Parent().Value<string>("postBody"), "<[^>]*(>|$)", string.Empty)
-                                        }
-                                    </div>
-                                </div>
-                            }
-                        }
-                    </div>
-                </div>
-                @if (totalPages > 1)
+            var suggestions = SearchService.GetSuggestions(Model.query);
+            <p>No results found. Did you mean:</p>
+            <ul class="list-unstyled">
+                @foreach (var s in suggestions)
                 {
-                    @await Component.InvokeAsync("Navigation", new { Template = "PagerView", Model = Model })
+                    <li><a href="@s.Url">@s.Subject</a></li>
                 }
-            </div>
-        }
-        else
-        {
-            if (!string.IsNullOrWhiteSpace(Model.query) && !string.IsNullOrWhiteSpace(Model.searchIn))
-            {
-                <p>No results found in @Model.searchIn for search terms '@Model.query'</p>
-            }
+            </ul>
         }
     }
-</div>]]></Design>
+    else
+    {
+        <ul class="list-unstyled">
+            <li class="row justify-content-end">
+                <div class="col-md-3">
+                    <select id="searchWhere" name="searchWhere" class="form-select form-select-sm me-2">
+                        <option value="any">@Umbraco.GetDictionaryValueOrDefault("Forums.Search.sortBy.Relevence", "Relevence")</option>
+                        <option value="open">@Umbraco.GetDictionaryValueOrDefault("Forums.Search.sortBy.Newest", "Newest")</option>
+                        <option value="closed">@Umbraco.GetDictionaryValueOrDefault("Forums.Search.sortBy.Oldest", "Oldest")</option>
+                    </select>
+                </div>
+            </li>
+            @foreach (var r in results)
+            {
+                <li>
+                    <a href="@r.Url">@r.Subject</a><br />
+                    @Html.Raw(r.MessageSnippet)<br />
+                    <small>Score: @r.Score (@r.ScoreExplanation)</small>
+                    <hr />
+                </li>
+            }
+        </ul>
+    }
+    @if (totalPages > 1)
+    {
+        @await Component.InvokeAsync("Navigation", new { Template = "PagerView", Model = Model })
+    }
+</div>
+]]></Design>
     </Template>
     <Template>
       <Name>Forum Login</Name>
       <Key>9058832c-9d5a-4e2c-8961-2f6c1138e5ee</Key>
       <Alias>forumLogin</Alias>
-      <Design>
-  <![CDATA[@using Umbraco.Extensions
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+      <Design><![CDATA[@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using MediaWiz.Forums.Extensions
+@using Umbraco.Extensions
+
+
 
 @{
     Layout = "forumMaster.cshtml";
 }
+
 <storecontent asp-key="css-block">
     <meta name="robots" content="noindex,nofollow" />
 </storecontent>
@@ -1727,14 +1774,57 @@ else
         @Html.Raw(Model.Value("message"))
     </div>
 </div>
-@await Component.InvokeAsync("ForumMembership",new {Template = "Login"})]]></Design>
+@await Component.InvokeAsync("ForumMembership", new { Template = "Login" })
+<storecontent asp-key="script-block">
+    <script type="text/javascript" src="/umbraco/surface/JavascriptSurface/LoadResources/?keys=Forums.CaptchaErrMsg"></script>
+    <script id="login-v">
+        $.fn.clearValidation = function(){var v = $(this).validate();$('[name]',this).each(function(){v.successList.push(this);v.showErrors();});v.resetForm();v.reset();};
+
+        $(document).ready(function() {
+            document.getElementById("Captcha").focus();
+            if ('@Model.Value("useCaptcha")' !== 'True') {
+                $('#login-submit').show();
+            }
+        });
+
+        $('#Captcha').on("keyup",function (event) {
+                    if (event.which == 13 || event.which == 13) {
+                        $("#btn-captcha").trigger("click");
+                        event.preventDefault();
+                        return false;
+                    }
+                });
+        $(document).on('click', "#btn-captcha", function (e) {
+
+            e.preventDefault();
+            MediaWiz.captchaCheck($("#Captcha").val(), function(data) {
+                if (data) {
+                    $("#captcha-check").hide();
+                    $('#login-form-id').show();
+                    $("#login-form-id").clearValidation();
+                } else {
+                    $("#Captcha").val("");
+                    $("#Captcha").attr("placeholder", local.ForumsCaptchaErrMsg);
+                }
+            });
+        });
+        $(document).on("click","#captcha-refresh", function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "/umbraco/surface/ForumsSurface/RefreshCaptcha",
+                success: function (data) {
+                    $("#captchaimage-div").html(data);
+                }
+            });
+        });
+    </script>
+</storecontent>]]></Design>
     </Template>
     <Template>
-      <Name>Members</Name>
+      <Name>Forum Members</Name>
       <Key>c5f7a0ec-6ded-4e6f-97b3-068a4ab527d4</Key>
-      <Alias>members</Alias>
-      <Design>
-  <![CDATA[@using Umbraco.Extensions
+      <Alias>forumMembers</Alias>
+      <Design><![CDATA[@using Umbraco.Extensions
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 
 @{
@@ -1774,8 +1864,7 @@ else
       <Name>Forum Profile</Name>
       <Key>bb5f1512-2163-476c-9afa-c95e9d6dcaa4</Key>
       <Alias>forumProfile</Alias>
-      <Design>
-  <![CDATA[@using System.Text.RegularExpressions
+      <Design><![CDATA[@using System.Text.RegularExpressions
 @using MediaWiz.Forums.Extensions
 @using Umbraco.Extensions
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
@@ -1808,7 +1897,27 @@ else
 </div>
 @await Component.InvokeAsync("ForumMembership",new {Template = "EditProfile",qryUser = Context.Request.Query["user"].ToString()})
 <storecontent asp-key="script-block">
-    <script>
+    <script id="profile">
+        (function () {
+          'use strict'
+
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.querySelectorAll('.needs-validation')
+
+          // Loop over them and prevent submission
+          Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+              form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                  event.preventDefault()
+                  event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+              }, false)
+            })
+        })();
+
         $('.nav-tabs button').on('shown.bs.tab', function (event) {
 
             var x = $(event.target).text();         // active tab
@@ -1818,24 +1927,24 @@ else
             }
         });
     </script>
-</storecontent>
-]]></Design>
+</storecontent>]]></Design>
     </Template>
     <Template>
       <Name>Forum Register</Name>
       <Key>0f058722-23c4-4075-a8d8-5587ebd282d9</Key>
       <Alias>forumRegister</Alias>
-      <Design>
-  <![CDATA[@using MediaWiz.Forums.Extensions
+      <Design><![CDATA[@using MediaWiz.Forums.Extensions
 @using Umbraco.Extensions
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 
 @{
     Layout = "forumMaster.cshtml";
 }
+
 <storecontent asp-key="css-block">
     <meta name="robots" content="noindex,nofollow" />
 </storecontent>
+
 <div class="wiz-forum-info">
     <div class="page-header">
         <h3>@Model.Value("title")</h3>
@@ -1845,16 +1954,26 @@ else
     </div>
 </div>
 @await Component.InvokeAsync("ForumMembership",new {Template = "Register"})
-<storecontent asp-key="script-block">
+<storecontent asp-key="script-block" >
     <script type="text/javascript" src="/umbraco/surface/JavascriptSurface/LoadResources/?keys=Forums.CaptchaErrMsg"></script>
-    <script>
+    <script id="register-v">
         $.fn.clearValidation = function(){var v = $(this).validate();$('[name]',this).each(function(){v.successList.push(this);v.showErrors();});v.resetForm();v.reset();};
 
         $(document).ready(function() {
+            document.getElementById("Captcha").focus();
             if ('@Model.Value("useCaptcha")' !== 'True') {
                 $('#register-submit').show();
             }
         });
+
+        $('#Captcha').on("keyup",function (event) {
+                    if (event.which == 13 || event.which == 13) {
+                        $("#btn-captcha").trigger("click");
+                        event.preventDefault();
+                        return false;
+                    }
+                });
+
         $(document).on('click', "#btn-captcha", function (e) {
 
             e.preventDefault();
@@ -1879,15 +1998,13 @@ else
             });
         });
     </script>
-</storecontent>
-]]></Design>
+</storecontent>]]></Design>
     </Template>
     <Template>
       <Name>Forum Reset</Name>
       <Key>a141ae9b-23d2-441f-953e-2d1d476db887</Key>
       <Alias>forumReset</Alias>
-      <Design>
-  <![CDATA[@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<MediaWiz.Forums.Controllers.VerifyViewModel>
+      <Design><![CDATA[@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<MediaWiz.Forums.Controllers.VerifyViewModel>
 @using MediaWiz.Forums.Extensions
 @using Umbraco.Extensions
 
@@ -1905,7 +2022,8 @@ else
 }
 else if (error)
 {
-    <h3 class="text-warning">Validation failed. @TempData["ValidationError"]</h3>
+    @* <h3 class="text-warning">Validation failed. @TempData["ValidationError"]</h3> *@
+    @await Component.InvokeAsync("PasswordManager", new { Template = "ForgotPassword", captcha=false })
 }
 else if (Model.ResetToken != null)
 {
@@ -1949,10 +2067,33 @@ else
 
 }
 <storecontent asp-key="script-block">
-    <script>
-        $.fn.clearValidation = function(){var v = $(this).validate();$('[name]',this).each(function(){v.successList.push(this);v.showErrors();});v.resetForm();v.reset();};
+    <script id="reset">
+        //$.fn.clearValidation = function(){var v = $(this).validate();$('[name]',this).each(function(){v.successList.push(this);v.showErrors();});v.resetForm();v.reset();};
+        (function () {
+          'use strict'
+
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.querySelectorAll('.needs-validation')
+
+          // Loop over them and prevent submission
+          Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+              form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                  event.preventDefault()
+                  event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+              }, false)
+            })
+        })();
 
         $(document).ready(function() {
+
+            if ('@error' !== ''){
+                $('.validation-summary-errors').show();
+            }
             if ('@Model.Value("useCaptcha")' !== 'True' && '@Model.Value("useCaptcha")' !== 'true') {
                 $('#forgot-form-id').show();
                 $('#forgotten-submit').show();
@@ -1988,15 +2129,14 @@ else
             });
         });
 </script>
-</storecontent>
-]]></Design>
+</storecontent>]]></Design>
     </Template>
     <Template>
       <Name>Forum Verify</Name>
       <Key>1064136e-6c97-4dc0-863d-c3cbdff666ee</Key>
       <Alias>forumVerify</Alias>
-      <Design>
-  <![CDATA[@using Umbraco.Extensions
+      <Design><![CDATA[@using Umbraco.Extensions
+	  @using MediaWiz.Forums.Extensions
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<MediaWiz.Forums.Controllers.VerifyViewModel>
 
 @{
@@ -2007,6 +2147,7 @@ else
 <storecontent asp-key="css-block">
     <meta name="robots" content="noindex,nofollow" />
 </storecontent>
+
 @if (success)
 {
     <storecontent asp-key="css-block">
@@ -2033,30 +2174,80 @@ else
     <p class="text-warning">Validation failed. @Model.Error</p>
 }]]></Design>
     </Template>
+    <Template>
+      <Name>MediawizMaster</Name>
+      <Key>bc7732d2-35b3-436e-869c-31d1b779413f</Key>
+      <Alias>mediawizMaster</Alias>
+      <Design><![CDATA[@using MediaWiz.Forums.Extensions
+@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.Name</title>
+    <meta name="title" content="@Model.Value("title")">
+    <meta name="description" content="@Model.Value("title")">
+    <meta name="author" content="Huw Reddick">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+    <link rel="preconnect" type="text/css" href="https://fonts.googleapis.com">
+    <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    @await RenderSectionAsync("MediaWizHeader", required: false)
+    <link rel="stylesheet" type="text/css" href="~/css/prism.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/prism-vsc-dark-plus.css" />
+    <style>
+        .language-css .token.string, .style .token.string, .token.entity, .token.operator, .token.url {
+            color: #9a6e3a;
+            background: transparent !important;
+        }
+    </style>
+</head>
+
+<body class="frontpage bg-light">
+<wrapper class="d-flex flex-column">
+    <header>
+        @await Html.PartialAsync("Navigation/_TopNavigation")
+    </header>
+    <main class="flex-fill content-body">
+        @RenderBody()
+    </main>
+</wrapper>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" type="text/javascript" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <script src="~/scripts/prism.js" crossorigin="anonymous" type="text/javascript"></script>
+
+@await RenderSectionAsync("MediaWizScripts", required: false)
+</body>
+</html>
+]]></Design>
+    </Template>
   </Templates>
   <Stylesheets />
   <Scripts />
   <PartialViews />
   <DictionaryItems>
-    <DictionaryItem Key="2ce181d6-3e1a-435b-9bdb-4d3ae6d69004" Name="MediaWizForums">
-      <DictionaryItem Key="6c95fbbe-10c7-46cc-b10f-2a5c3befd9b9" Name="Forums.CaptchaErrMsg">
-        <Value LanguageCultureAlias="en-US"><![CDATA[Incorrect answer]]></Value>
-      </DictionaryItem>
-      <DictionaryItem Key="2e848e6c-6434-4f75-8842-477ccc6ed6ba" Name="Forums.ForgotPasswordView">
-        <Value LanguageCultureAlias="en-US"><![CDATA[/reset]]></Value>
-      </DictionaryItem>
-      <DictionaryItem Key="c46be7ec-3158-4e77-aabe-e4aa46b93f72" Name="Forums.ForumUrl">
-        <Value LanguageCultureAlias="en-US"><![CDATA[/]]></Value>
-      </DictionaryItem>
-      <DictionaryItem Key="353010c9-7553-435c-af3b-641476105f8a" Name="Forums.LoginUrl">
-        <Value LanguageCultureAlias="en-US"><![CDATA[/login]]></Value>
-      </DictionaryItem>
-      <DictionaryItem Key="a6696d28-c249-434c-9d88-874c6b436997" Name="Forums.RegisterUrl">
-        <Value LanguageCultureAlias="en-US"><![CDATA[/register]]></Value>
-      </DictionaryItem>
-      <DictionaryItem Key="764e52e7-5036-4afb-8b8e-f50d96f88ec3" Name="Forums.VerifyUrl">
-        <Value LanguageCultureAlias="en-US"><![CDATA[/verify]]></Value>
-      </DictionaryItem>
+    <DictionaryItem Key="6328d2e4-f1fb-447c-b258-c74d81cd2b41" Name="Forums.ForumUrl">
+      <Value LanguageCultureAlias="en-US"><![CDATA[/forums]]></Value>
+    </DictionaryItem>
+    <DictionaryItem Key="67d1de70-04b8-4eb9-8b2a-5ee01b04977a" Name="Forums.LoginUrl">
+      <Value LanguageCultureAlias="en-US"><![CDATA[/login]]></Value>
+    </DictionaryItem>
+    <DictionaryItem Key="daa3f2d2-07b7-40a9-83ba-552e7975262f" Name="Forums.Members.TermsUrl">
+      <Value LanguageCultureAlias="en-US"><![CDATA[/Terms]]></Value>
+    </DictionaryItem>
+    <DictionaryItem Key="c740698e-8430-45da-a3a3-de3bbe59f3f5" Name="Forums.RegisterUrl">
+      <Value LanguageCultureAlias="en-US"><![CDATA[/register]]></Value>
+    </DictionaryItem>
+    <DictionaryItem Key="5eefc6bd-1a10-45d1-8db2-b907f3a8851b" Name="Forums.Error.CaptchaFail">
+      <Value LanguageCultureAlias="en-US"><![CDATA[Wrong value of sum, please try again.]]></Value>
+    </DictionaryItem>
+    <DictionaryItem Key="8243ee6a-6d0f-4fdd-9194-ffa087d10adf" Name="Forums.Email.Notconfigured">
+      <Value LanguageCultureAlias="en-US"><![CDATA[Email is not configured]]></Value>
     </DictionaryItem>
   </DictionaryItems>
   <Languages />
@@ -2066,9 +2257,10 @@ else
     <DataType Name="Forum - Page Size - Search" Id="Umbraco.Slider" EditorUiAlias="Umb.PropertyEditorUi.Slider" Definition="cc9c0125-73ed-4bbe-b431-ad7cdcfa93b8" DatabaseType="Nvarchar" Configuration="{&quot;enableRange&quot;:false,&quot;minVal&quot;:10,&quot;maxVal&quot;:100,&quot;step&quot;:5}" />
     <DataType Name="Forum - Page Size - Topics" Id="Umbraco.Slider" EditorUiAlias="Umb.PropertyEditorUi.Slider" Definition="d62b131a-74c3-4f33-bf9a-3e1f5882fae9" DatabaseType="Nvarchar" Configuration="{&quot;enableRange&quot;:false,&quot;minVal&quot;:10,&quot;maxVal&quot;:100,&quot;step&quot;:5}" />
     <DataType Name="Forum - Post Type - Toggle" Id="Umbraco.TrueFalse" EditorUiAlias="Umb.PropertyEditorUi.Toggle" Definition="4d4c1220-72c9-42be-bf25-0c44dfdd5d1a" DatabaseType="Integer" Configuration="{&quot;default&quot;:true,&quot;showLabels&quot;:true,&quot;labelOn&quot;:&quot;Topic&quot;,&quot;labelOff&quot;:&quot;Reply&quot;}" />
-    <DataType Name="Forum - Require - Toggle" Id="Umbraco.TrueFalse" EditorUiAlias="Umb.PropertyEditorUi.Toggle" Definition="218e9112-5da6-4332-9bff-f2ff79e2e887" DatabaseType="Integer" Configuration="{&quot;default&quot;:false,&quot;showLabels&quot;:true,&quot;labelOn&quot;:&quot;Required&quot;,&quot;labelOff&quot;:&quot;Not Required&quot;}" />
+    <DataType Name="Forum - Require - Toggle" Id="Umbraco.TrueFalse" EditorUiAlias="Umb.PropertyEditorUi.Toggle" Definition="218e9112-5da6-4332-9bff-f2ff79e2e887" DatabaseType="Integer" Configuration="{&quot;default&quot;:false,&quot;showLabels&quot;:true,&quot;labelOn&quot;:&quot;Approval Required&quot;,&quot;labelOff&quot;:&quot;No Approval Required&quot;}" />
     <DataType Name="Forum - Resolved - Toggle" Id="Umbraco.TrueFalse" EditorUiAlias="Umb.PropertyEditorUi.Toggle" Definition="dc500a08-593c-44bd-9e46-905d859c9adb" DatabaseType="Integer" Configuration="{&quot;default&quot;:false,&quot;showLabels&quot;:true,&quot;labelOn&quot;:&quot;Answered&quot;,&quot;labelOff&quot;:&quot;Not Answered&quot;}" />
     <DataType Name="Forum - Is Active - Toggle" Id="Umbraco.TrueFalse" EditorUiAlias="Umb.PropertyEditorUi.Toggle" Definition="0bace0ef-7d3b-4c81-b2be-3637a1386b21" DatabaseType="Integer" Configuration="{&quot;showLabels&quot;:true,&quot;labelOn&quot;:&quot;Active&quot;,&quot;labelOff&quot;:&quot;Locked&quot;}" />
+    <DataType Name="Forum - Auth - Toggle" Id="Umbraco.TrueFalse" EditorUiAlias="Umb.PropertyEditorUi.Toggle" Definition="a79bc1d9-8224-43db-9241-b4261c3cb894" DatabaseType="Integer" Configuration="{&quot;showLabels&quot;:true,&quot;labelOn&quot;:&quot;Members Only&quot;,&quot;labelOff&quot;:&quot;Public&quot;}" />
   </DataTypes>
   <MediaItems />
 </umbPackage>
