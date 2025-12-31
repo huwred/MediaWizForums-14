@@ -7,7 +7,8 @@
     var success = TempData["FormSuccess"] != null;
     if (Model.CurrentUser == null)
     {
-        Context.Response.Redirect("/forums");
+        <p class="text-success">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Profile.NoAccess", "Only Members can view.")</p>
+        return;
     }
     var titleStr = umbracoHelper.GetDictionaryValueOrDefault("Forums.Forum.Userprofile", "{0}'s Profile");
 }

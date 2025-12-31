@@ -34,10 +34,10 @@
     </nav>
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active p-3" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            @using (Html.BeginUmbracoForm<MediaWizProfileController>
+            @using (Html.BeginUmbracoForm<UmbProfileController>
                     ("HandleUpdateProfile", null, new { @id = "updateProfileForm", RedirectUrl = Model.ProfileModel?.RedirectUrl, @class = "needs-validation", novalidate = "" }, FormMethod.Post))
                 {
-                <input asp-for="@Model.ProfileModel.Key" type="hidden" />
+                @* <input asp-for="@Model.ProfileModel.Key" type="hidden" /> *@
                 @if (!string.IsNullOrWhiteSpace(Model.ProfileModel.UserName))
                 {
                     <div class="mb-3">
@@ -88,7 +88,7 @@
 
                     }
                 }
-                <div asp-validation-summary="All" class="invalid-feedback" id="profile-val"></div>
+                <div asp-validation-summary="All" class="text-danger" id="profile-val"></div>
 
                 <button type="submit" class="btn btn-dark mb-3">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Update","Update")</button>
 

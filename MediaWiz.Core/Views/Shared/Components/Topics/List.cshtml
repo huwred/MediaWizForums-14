@@ -19,15 +19,19 @@
             <div class="wiz-topics">
                 <div class="d-flex flex-row flex-wrap mb-3 p-2 color_dark bold">
                     <div class="col-6">@DictionaryService.GetOrCreateDictionaryValue("Forums.Topic", "Topic")</div>
-                    
                     <div class="col-1">@DictionaryService.GetOrCreateDictionaryValue("Forums.Replies", "Replies")</div>
                     <div class="col-1">@DictionaryService.GetOrCreateDictionaryValue("Forums.Views", "Views")</div>
                     <div class="col-3">@DictionaryService.GetOrCreateDictionaryValue("Forums.Activity", "Activity")</div>
                 </div>
                 <div class="wiz-body m-0 mb-2">
-                    @foreach (var post in posts.Skip((pagenum - 1) * pageSize).Take(pageSize)
-                    .OrderByDescending(x => x.Value<int>("stickiness"))
-                    .ThenByDescending(x => _cacheService.GetPost(x, "Topic_" + x.Id).latestPost))
+                    @{
+                        var orderedposts = posts
+                        .OrderByDescending(x => x.Value<int>("stickiness")) //Sticky First
+                        .ThenByDescending(x => _cacheService.GetPost(x, "Topic_" + x.Id).latestPost)
+                        .ThenByDescending(x => x.CreateDate);
+                    }
+                    @foreach (var post in orderedposts
+                    .Skip((pagenum - 1) * pageSize).Take(pageSize))
                     {
                         @await Component.InvokeAsync("Posts",new {Template = "DisplayTopic",Model = post,showTitle = true})
                     }

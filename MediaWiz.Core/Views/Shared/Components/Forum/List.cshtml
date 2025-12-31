@@ -47,7 +47,7 @@
                                         <p class="wiz-topic-meta">
                                             <a class="d-block" href="@cachedForum.lastPostUrl#post_@cachedForum.Id" title="@umbracoHelper.GetDictionaryValueOrDefault("Forums.Forum.Jumpto","Jump to latest post")">@cachedForum.latestPost.GetRelativeDate()</a>
                                             by
-                                            <a href="~/profile/?user=@cachedForum.lastpostAuthorId" title="@String.Format(titleStr,cachedForum.lastpostAuthor)" class="wiz-author-link">
+                                            <a href="~/profile/?user=@cachedForum.lastpostAuthor" title="@String.Format(titleStr,cachedForum.lastpostAuthor)" class="wiz-author-link">
                                                 @cachedForum.lastpostAuthor
                                             </a>
                                         </p>

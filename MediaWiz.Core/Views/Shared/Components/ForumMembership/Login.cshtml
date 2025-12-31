@@ -1,31 +1,52 @@
-﻿@model LoginModel
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
 @using MediaWiz.Forums.Controllers
 @using MediaWiz.Forums.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Umbraco.Cms.Core.Services
 @using Umbraco.Cms.Web.Common.Models
+@using Umbraco.Cms.Web.Website.Controllers
+@using Umbraco.Cms.Web.Website.Models
 @using Umbraco.Extensions
 @using Umbraco.Cms.Web.Common
 
-<div class="card w-100 mx-auto" style="max-width: 640px;">
+@{
+    var noCaptcha = ViewBag.NoCaptcha == true;
+    var loginModel = new LoginModel();
+    loginModel.RedirectUrl = "/forums";
+    var useCaptcha = Model.Value<bool>("useCaptcha");
+    var success = TempData["FormSuccess"] != null;
+}
+    @if (useCaptcha && !noCaptcha)
+    {
+        
+        <div id="captchaimage-div">
+            @await Component.InvokeAsync("Captcha")
+        </div>
+    }
+
+<div class="card w-100 mx-auto" style="max-width: 640px;display:none;" id="login-form-id">
     <div class="card-body">
         <div class="text-center">
-            <h1 class="card-title h3">Sign in</h1>
             <p class="card-text text-muted">Sign in below to begin posting</p>
+            <p>
+                New here ? Why not <a target="" data-router-slot="disabled" href="/register" title="Join Us"
+                                      type="external">Join our Community</a>
+            </p>
         </div>
         <div class="mt-4">
-            @using (Html.BeginUmbracoForm<ForumMemberController>("HandleLogin", null, new { RedirectUrl = Model.RedirectUrl, @class = "needs-validation", novalidate = "" }, FormMethod.Post))
+            @using (Html.BeginUmbracoForm<ForumMemberController>("HandleLogin", null, new { RedirectUrl = loginModel.RedirectUrl, @class = "needs-validation", novalidate = "" }, FormMethod.Post))
             {
                 <hr />
                 <div class="mb-3">
-                    <label asp-for="@Model.Username" class="form-label"></label>
-                    <input asp-for="@Model.Username" class="form-control" autocomplete="new-password" aria_required="true" required/>
-                    <span asp-validation-for="@Model.Username" class="invalid-feedback"></span>
+                    <label asp-for="@loginModel.Username" class="form-label"></label>
+                    <input asp-for="@loginModel.Username" class="form-control" autocomplete="new-password" aria_required="true" required />
+                    <span asp-validation-for="@loginModel.Username" class="invalid-feedback"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="@Model.Password" class="form-label"></label>
-                    <input asp-for="@Model.Password" class="form-control" autocomplete="new-password" aria_required="true" type="password" required/>
-                    <span asp-validation-for="@Model.Password" class="invalid-feedback"></span>
+                    <label asp-for="@loginModel.Password" class="form-label"></label>
+                    <input asp-for="@loginModel.Password" class="form-control" autocomplete="new-password" aria_required="true" type="password" required />
+                    <span asp-validation-for="@loginModel.Password" class="invalid-feedback"></span>
                 </div>
                 <div class="mb-3">
                     <a href="@DictionaryService.GetOrCreateDictionaryValue("Forums.ForgotPassword", "/ForgotPassword")" class="nav-link ps-0" title="Forgot Password">@DictionaryService.GetOrCreateDictionaryValue("Forums.Profile.Forgotpassword", "Forgot Password ?")</a>
@@ -35,10 +56,10 @@
                         <button class="btn btn-lg btn-secondary mb-3" type="submit">@DictionaryService.GetOrCreateDictionaryValue("Forums.Signin", "Sign in")</button>
                     </div>
                 </div>
-                <div asp-validation-summary="ModelOnly" class="invalid-feedback"></div>
+                <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="mb-3 form-check">
-                    <input asp-for="@Model.RememberMe" class="form-check-input" aria_required="true" type="checkbox" />
-                    <label asp-for="@Model.RememberMe" class="form-check-label">
+                    <input asp-for="@loginModel.RememberMe" class="form-check-input" aria_required="true" type="checkbox" />
+                    <label asp-for="@loginModel.RememberMe" class="form-check-label">
                         @DictionaryService.GetOrCreateDictionaryValue("Forums.Signin.RememberMe", "keep me logged in")
                     </label>
                 </div>
@@ -49,6 +70,14 @@
 
 <storecontent asp-key="script-block">
     <script type="text/javascript" id="login">
+        document.addEventListener("DOMContentLoaded", (event) => {
+            if ("@useCaptcha".toLowerCase() === "false" || "@noCaptcha".toLowerCase() == "true") {
+                $('#login-form-id').show();
+            }
+            if ("@success".toLowerCase() === "true") {
+                $(".forum-intro").hide();
+            }
+        });
 
         (function () {
           'use strict'

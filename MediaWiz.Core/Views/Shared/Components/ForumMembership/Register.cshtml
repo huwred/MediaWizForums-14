@@ -10,7 +10,7 @@
 @using Umbraco.Cms.Web.Website.Models
 @using Umbraco.Extensions
 
-@inject MemberModelBuilderFactory memberModelBuilderFactory;
+@inject MemberModelBuilderFactory memberModelBuilderFactory
 @inject IOptions<GlobalSettings> hostingSettings
 @inject IOptions<ForumConfigOptions> forumOptions
 
@@ -47,7 +47,7 @@ else
         </div>
     }
 
-    using (Html.BeginUmbracoForm<ForumMemberController>("RegisterMe", null, new { @id = "register-form-id", style = "display:none", autocomplete = "off", @class = "w-75 mx-auto needs-validation mt-5", novalidate="" }, FormMethod.Post))
+    @using (Html.BeginUmbracoForm<ForumMemberController>("RegisterMe", null, new { @id = "register-form-id", style = "display:none", autocomplete = "off", @class = "w-75 mx-auto needs-validation mt-5", novalidate="" }, FormMethod.Post))
     {
         <div class="row gy-3 gy-md-4 overflow-hidden">
         <div class="col-12 gy-1">
@@ -57,7 +57,7 @@ else
         </div>
             <div class="col-12 gy-2">
             <label asp-for="@registerModel.Username" class="form-label"></label>
-            <input title="The Username field is required." asp-for="@registerModel.Username" class="form-control" autocomplete="off" aria_required="true" required aria-describedby="UsernameFeedback"/>
+            <input title="The Username field is required." asp-for="@registerModel.Username" class="form-control" autocomplete="off" aria_required="true" required aria-describedby="UsernameFeedback" placeholder="Enter a username, used to login"/>
                 <div id="UsernameFeedback" class="invalid-feedback">
                     The Username field is required.
                 </div>

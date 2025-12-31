@@ -16,9 +16,9 @@
     var CurrentPage = UmbracoContext.PublishedRequest.PublishedContent;
     var ForumUrl = DictionaryService.GetOrCreateDictionaryValue("Forums.ForumUrl", "/").TrimEnd('/');
 }
-    <div class="logo">
-        <button title="@DictionaryService.GetOrCreateDictionaryValue("Forums.ToggleSidebar", "Toggle Sidebar")" class="btn btn-outline-secondary sidebar-toggle mx-2" id="toggleBtn">☰</button>
-        <img src="/wizard.svg?width=45&height=45" alt="MediaWizards Logo" width="45" />
+    <div class="logo justify-content-between" style="width:240px">
+        <span><img src="/wizard.svg?width=45&height=45" alt="MediaWizards Logo" width="45" /></span>
+        <span><button title="@DictionaryService.GetOrCreateDictionaryValue("Forums.ToggleSidebar", "Toggle Sidebar")" class="btn btn-outline-secondary sidebar-toggle mx-2" id="toggleWizBtn">☰</button></span>
     </div>
     @if (CurrentPage.Ancestors().Any())
     {

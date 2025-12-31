@@ -34,6 +34,7 @@
         forum = post.Parent<IPublishedContent>().Parent<IPublishedContent>();
     }
     bool isApproved = !forum.Value<bool>("requireApproval") || post.Value<bool>("approved");
+    bool isSticky = post.Value<int>("stickiness") > 0;
     var currentPageURL = Umbraco.AssignedContentItem.Parent<IPublishedContent>().Url();
     @if (post.IsVisible() && isApproved)
     {
@@ -47,20 +48,14 @@
         }
         <div class="d-flex flex-row flex-wrap topic @locked @solved @approvereplies p-6 mb-2 rounded-3" id="topic-@post.Id">
             <div class="col-6 p-4">
-                <a class="wiz-topic-permalink " href="@post.Url()" style="display: block" title="@post.Value("postTitle")">@post.Value("postTitle")</a>
-                <span class="wiz-topic-meta">
-
-                    @if (!String.IsNullOrWhiteSpace(cacheInfo.lastpostAuthor))
-                    {
-                        <span class="wiz-topic-started-by">
-                            @DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Lastpostby", "last post by") <a href="/profile/?user=@cacheInfo.lastpostAuthorId">@cacheInfo.lastpostAuthor</a>
-                        </span>
-                    }
-                    else
-                    {
-                        var test = post.Value("postAuthor") as IPublishedContent;
-                        <span class="wiz-topic-started-by">@DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Createdby", "topic created by") <a href="/profile/?user=@test?.Id">@post.Value("postCreator")</a> </span>
-                    }
+                @if (isSticky)
+                {
+                    <i class="bi bi-pin-angle"></i>
+                }
+                <a class="wiz-topic-permalink " href="@post.Url()" title="@post.Value("postTitle")">@post.Value("postTitle")</a>
+                <span class="wiz-topic-meta d-block">
+                    <span class="wiz-topic-started-by">@DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Createdby", "topic created by") <a href="/profile/?user=@post.Value("postCreator")">@post.Value("postCreator")</a> </span>
+                    <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span>
                 </span>
             </div>
             @if (activetopics)
@@ -78,67 +73,71 @@
                 @views
             </div>
             <div class="col-1 pt-4">
+                
                 @if (!String.IsNullOrWhiteSpace(cacheInfo.lastpostAuthor))
                 {
                     <a href="@cacheInfo.lastPostUrl" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Forum.Jumpto", "Jump to latest post")">
                         <span title="@cacheInfo.latestPost.ToDisplayDate()">@cacheInfo.latestPost.GetRelativeDate()</span>  
                     </a>
+                        <span class="wiz-topic-started-by text-nowrap">
+                            by <a href="/profile/?user=@cacheInfo.lastpostAuthorId" class="text-nowrap">@cacheInfo.lastpostAuthor</a>
+                        </span>
                 }else{
                     <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span>
 
                 }
             </div>
-    </div>
-}
+        </div>
+    }
     else if (!isApproved)
-{
-    string locked = post.Value<bool>("allowReplies") ? "" : "locked";
-    string solved = post.Value<bool>("answer") ? "solved" : "";
-    /*
-     * Need to check whether to display
-     */
-        if (memberManager.IsLoggedIn() && roles.Contains("ForumAdministrator") || roles.Contains("ForumMederator"))
     {
-        <div class="d-flex flex-row flex-wrap topic @locked @solved notapproved p-6" id="topic-@post.Id">
-            <div class="col-7 p-4">
-                <a class="wiz-topic-permalink " href="@post.Url()" style="display: block" title="@post.Value("postTitle")">@post.Value("postTitle")</a>
-                <span class="wiz-topic-meta">
+        string locked = post.Value<bool>("allowReplies") ? "" : "locked";
+        string solved = post.Value<bool>("answer") ? "solved" : "";
+        /*
+         * Need to check whether to display
+         */
+        if (memberManager.IsLoggedIn() && roles.Contains("ForumAdministrator") || roles.Contains("ForumMederator"))
+        {
+            <div class="d-flex flex-row flex-wrap topic @locked @solved notapproved p-6" id="topic-@post.Id">
+                <div class="col-7 p-4">
+                    <a class="wiz-topic-permalink " href="@post.Url()" style="display: block" title="@post.Value("postTitle")">@post.Value("postTitle")</a>
+                    <span class="wiz-topic-meta">
 
-                    @if (!String.IsNullOrWhiteSpace(cacheInfo.lastpostAuthor))
+                        @if (!String.IsNullOrWhiteSpace(cacheInfo.lastpostAuthor))
+                        {
+                            <span class="wiz-topic-started-by">
+                                @DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Lastpostby", "last post by") <a href="/profile/?user=@cacheInfo.lastpostAuthorId">@cacheInfo.lastpostAuthor</a>
+                                <span title="@cacheInfo.latestPost.ToDisplayDate()">@cacheInfo.latestPost.GetRelativeDate()</span> <a href="@cacheInfo.lastPostUrl" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Forum.Jumpto", "Jump to latest post")"><i class="bi bi-chevron-double-right"></i></a>
+                            </span>
+                        }
+                        else
+                        {
+                            var test = post.Value("postAuthor") as IPublishedContent;
+                            <span class="wiz-topic-started-by">@DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Createdby", "topic created by") <a href="/profile/?user=@(post.Value("postCreator"))">@post.Value("postCreator")</a> <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span></span>
+                        }
+                    </span>
+                </div>
+                <div class="col-2 pt-4">
+                    @if (activetopics)
                     {
-                        <span class="wiz-topic-started-by">
-                            @DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Lastpostby", "last post by") <a href="/profile/?user=@cacheInfo.lastpostAuthorId">@cacheInfo.lastpostAuthor</a>
-                            <span title="@cacheInfo.latestPost.ToDisplayDate()">@cacheInfo.latestPost.GetRelativeDate()</span> <a href="@cacheInfo.lastPostUrl" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Forum.Jumpto", "Jump to latest post")"><i class="bi bi-chevron-double-right"></i></a>
-                        </span>
+                            var p = Umbraco.AssignedContentItem.Parent<IPublishedContent>();
+                            <a href="@currentPageURL" title="@p.Name"><span class="badge rounded-pill bg-warning p-2">@p.Name</span></a>
                     }
                     else
                     {
-                        var test = post.Value("postAuthor") as IPublishedContent;
-                        <span class="wiz-topic-started-by">@DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Createdby", "topic created by") <a href="/profile/?user=@(test.Id)">@post.Value("postCreator")</a> <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span></span>
+                        @(cacheInfo.Count)
                     }
-                </span>
+                </div>
+                <div class="col-2 pt-4">@views</div>
+                <div class="approve-overlay">
+                    <a href="@post.Url()" class="overlay-icon" title="Approve Topic">
+                        <i class="fs-7 bi-file-check"></i>
+                    </a>
+                </div>
             </div>
-            <div class="col-2 pt-4">
-                @if (activetopics)
-                {
-                        var p = Umbraco.AssignedContentItem.Parent<IPublishedContent>();
-                        <a href="@currentPageURL" title="@p.Name"><span class="badge rounded-pill bg-warning p-2">@p.Name</span></a>
-                }
-                else
-                {
-                    @(cacheInfo.Count)
-                }
-            </div>
-            <div class="col-2 pt-4">@views</div>
-            <div class="approve-overlay">
-                <a href="@post.Url()" class="overlay-icon" title="Approve Topic">
-                    <i class="fs-7 bi-file-check"></i>
-                </a>
-            </div>
-        </div>
-    }
+        }
 
-}
+    }
 
 }
 

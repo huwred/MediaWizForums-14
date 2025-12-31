@@ -14,10 +14,20 @@
 @inject IIdKeyMap keyMap
 
 @{
+
     if (UserCanPostHere(Model))
     {
-        var showTitle = (bool)TempData["showTitle"];
-
+        var user = memberManager.GetCurrentMemberAsync().Result;
+        if(user == null)
+        {
+            <h3>@DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.LoginToPost", "You must be logged in to post") </h3>
+            return;
+        }
+        var showTitle = false;
+        if (TempData["showTitle"] != null)
+        {
+            showTitle = (bool)TempData["showTitle"];
+        }
         var edit = false;
         if (TempData["edit"] != null)
         {
@@ -29,17 +39,14 @@
         var btn = edit ? DictionaryService.GetOrCreateDictionaryValue("Forums.Save", "Save") : (showTitle ? DictionaryService.GetOrCreateDictionaryValue("Forums.Submit", "Submit") : DictionaryService.GetOrCreateDictionaryValue("Forums.Save", "Save"));
 
         var Post = new ForumsPostModel();
-        var user = memberManager.GetCurrentMemberAsync().Result;
-        IPublishedContent member = memberManager.AsPublishedMember(user);
+        IPublishedContent? member = memberManager.AsPublishedMember(user);
         if (edit)
         {
-            
-            if (member.Id != Model.Value<IPublishedContent>("postAuthor").Id)
+            if (member?.Id != Model.Value<IPublishedContent>("postAuthor")?.Id)
             {
-                <h3>You can't edit this post, it's not yours</h3>
+                <h3>@DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.NotAuthor", "You can't edit this post, you are not the Author") </h3>
                 return;
             }
-
             Post.Id = Model.Id;
             Post.Body = Model.Value<string>("postBody", "");
             Post.Title = Model.Value<string>("postTitle", "");
@@ -60,18 +67,13 @@
                     @using (Html.BeginUmbracoForm<ForumsSurfaceController>("CreatePost", null, new { @class = "form-horizontal forum-reply-form" }))
                     {
                         <fieldset>
-
-                            @Html.ValidationSummary("Reply", true)
-
                             @if (showTitle)
                             {
                                 <div class="mb-3">
                                         <input asp-for="@Post.Title" class="form-control" aria_required="true" placeholder="Type title" />
                                         <span asp-validation-for="@Post.Title" class="form-text text-danger"></span>
                                 </div>
-
                             }
-
                             <div class="mb-3">
                                 <textarea asp-for="@Post.Body" class="form-control new-post" aria_required="true" rows="10" cols="20"></textarea>
                                 <span asp-validation-for="@Post.Body" class="form-text text-danger"></span>
@@ -80,18 +82,32 @@
                             <input asp-for="@Post.ParentId" type="hidden" />
                             <input asp-for="@Post.AuthorId" type="hidden" />
                             <input asp-for="@Post.IsTopic" type="hidden" />
-
+                            <div asp-validation-summary="All" class="text-danger" id="postform-validation"></div>
                             <div class="col ms-5 p-2">
-                                <button type="submit" class="btn btn-dark">@btn</button> <button type="button" class="btn btn-secondary btn-cancel">@DictionaryService.GetOrCreateDictionaryValue("Forums.Cancel", "Cancel")</button>
+                                <button type="submit" class="btn btn-dark">@btn</button> <button type="reset" class="btn btn-secondary btn-cancel">@DictionaryService.GetOrCreateDictionaryValue("Forums.Cancel", "Cancel")</button>
                             </div>
                         </fieldset>
                     }
                 </div>
             </div>
         </div>
-
     }
 }
+<storecontent asp-key="script-block">
+    <script>
+        $(document).ready(function () {
+            if ($("#postform-validation li").css("visibility") === "hidden" || $("#postform-validation li").css("opacity") === "0" ||
+            $("#postform-validation li").css("display") === "none") {
+                console.log("The element is visually hidden.");
+            }else{
+                $('.accordion-collapse').collapse('show');
+                $("#mediawiz-forums").animate({
+                    scrollTop: $('#mediawiz-forums').get(0).scrollHeight
+                }, 1000);
+            }
+        });
+    </script>
+</storecontent>
 
 @functions {
 

@@ -55,7 +55,7 @@
             <div class="@topicClass @solved @alertwarning" style="overflow: auto">
 
                 <div class="d-flex wiz-reply-content" id="content_@post.Id" style="overflow: auto;">
-                            <div class="w-2 flex-md-column p-2">
+                    <div class="w-2 flex-md-column p-2 text-center">
                         <a href="/profile/?user=@post.Value("postCreator")" title="View @post.Value("postCreator")'s profile" class="wiz-author-link">
                             <span>
                                 @{
@@ -63,7 +63,10 @@
                                 }
                             </span>
                         </a>
-
+                        @if (author != null)
+                        {
+                            <span class="d-block text-nowrap">@author.Value("postCount") posts</span>
+                        }
                         <div class="wiz-author-role">
                             @{
                                 DisplayRole(author);
@@ -74,11 +77,8 @@
                         <div id="post_@post.Id" class="wiz-reply-header @solved @alertwarning">
 
                             <span class="wiz-topic-meta ">
-                                <span class="wiz-author-name mr-3">@post.Value("postCreator")</span>
-                                @if (author != null)
-                                {
-                                    <span>@author.Value("postCount") posts</span>
-                                }
+                                @* <span class="wiz-author-name mr-3">@post.Value("postCreator")</span>*@
+
                                 <span class="wiz-reply-post-date" title="@post.CreateDate">@post.CreateDate.ToString("MMM dd, yyyy @ HH:mm")</span>
                                 @if (post.Value<DateTime>("editDate").ToLocalTime() > post.CreateDate.AddSeconds(10))
                                 {
@@ -126,7 +126,7 @@
     </li>
 }
 @{
-    void DisplayAvatar(IPublishedContent author)
+    void DisplayAvatar(IPublishedContent? author)
     {
         int authorId = author?.Id ?? -1;
         if (authorId > 0)
@@ -141,7 +141,7 @@
         }
     }
 
-    void DisplayRole(IPublishedContent author)
+    void DisplayRole(IPublishedContent? author)
     {
         int authorId = author?.Id ?? -1;
 
@@ -163,16 +163,16 @@
 
     }
 
-    void DisplayPostTools(IPublishedContent post)
+    void DisplayPostTools(IPublishedContent? post)
     {
         var isLoggedIn = Context.User?.Identity?.IsAuthenticated ?? false;
-        var lastpostDate = post.CreateDate;
+        var lastpostDate = post?.CreateDate;
 
         if (!isLoggedIn)
         {
             return;
         }
-        int authorId = post.Value<IPublishedContent>("postAuthor")?.Id ?? -1;
+        int authorId = post?.Value<IPublishedContent>("postAuthor")?.Id ?? -1;
         IList<string> roles = new List<string>();
         var user = memberManager.GetCurrentMemberAsync().Result;
         if (user != null)

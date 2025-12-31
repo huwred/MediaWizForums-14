@@ -6,33 +6,27 @@
     string activesince = Context.Request.Query["TopicsSince"];
     activesince ??= "7d";
 }
-<form action="/Active-Topics" class="col-10 offset-1" id="topics-since">
+<form action="/latest-posts" class="col-10 offset-1" id="topics-since">
     <div class="row mb-3">
-        <div class="col-2">
-            <label class="form-label pt-2">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince", "Within the")</label>
-        </div>
         <div class="col-6">
-                <fieldset>
-                    <select class="form-select" name="TopicsSince" id="active-since">
-                    <option value="60m" selected-val="@activesince">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.LastHour", "Last hour")</option>
-                    <option value="1d" selected-val="@activesince">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.Yesterday", "Yesterday")</option>
-                    <option value="7d" selected-val="@activesince">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.LastWeek", "Last week")</option>
-                    <option value="1m" selected-val="@activesince">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.LastMonth", "Last month")</option>
-                    <option value="1y" selected-val="@activesince">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.LastYear", "Last year")</option>
-                    </select>
-                </fieldset>
+            <label class="form-label pt-2">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince", "Within the")</label>
+            <select class="form-select" name="TopicsSince" id="active-since">
+                <option value="60m" selected-val="@activesince">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.LastHour", "Last hour")</option>
+                <option value="1d" selected-val="@activesince">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.Yesterday", "Yesterday")</option>
+                <option value="7d" selected-val="@activesince">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.LastWeek", "Last week")</option>
+                <option value="1m" selected-val="@activesince">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.LastMonth", "Last month")</option>
+                <option value="1y" selected-val="@activesince">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.LastYear", "Last year")</option>
+            </select>
+        </div>
+        <div class="col-4">
+            <label class="form-label pt-2">Filter By</label>
+            <select class="form-select" name="showonly" id="active-filter">
+                <option value="" selected-val="@activesince">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.ANy", "All")</option>
+                <option value="noreply" selected-val="@activesince">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.Noreply", "No replies")</option>
+                <option value="solved" selected-val="@activesince">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.Solved", "Solved")</option>
+                <option value="unsolved" selected-val="@activesince">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince.Unsolved", "Un-Solved")</option>
+            </select>
         </div>
     </div>
-    <fieldset>
-        <label class="mb-3">Filter By</label>
-        <div class="row">
-            <div class="col-6 p-2">
-                <a class="col-12 badge rounded-pill border bg-light text-dark p-3" href="/active-topics/?showonly=unsolved">SHOW ONLY UNSOLVED TOPICS</a>
-            </div>
-            <div class="col-6 p-2">
-                <a class="col-12 badge rounded-pill border bg-light text-dark p-3" href="/active-topics/?showonly=noreply">SHOW ONLY TOPICS WITH NO REPLIES</a>
-            </div>
-        </div>
-    </fieldset>    
 </form>
 

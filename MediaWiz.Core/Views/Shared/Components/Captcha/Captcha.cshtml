@@ -19,17 +19,3 @@
         <button class="btn-captcha btn btn-dark" id="btn-captcha" type="button">@umbracoHelper.GetDictionaryValueOrDefault("Forums.Captcha.Button", "Not a Robot")</button>
     </div>
 </div>
-<storecontent asp-key="script-block">
-    <script id="capjs">
-        window.onload = function() {
-          document.getElementById("Captcha").focus();
-        };
-        $('#Captcha').on("keyup",function (event) {
-                    if (event.which == 13 || event.which == 13) {
-                        $("#btn-captcha").trigger("click");
-                        event.preventDefault();
-                        return false;
-                    }
-                });
-    </script>
-</storecontent>
