@@ -16,6 +16,7 @@ namespace MediaWiz.Forums.ViewModels
 
         public long TotalResults { get; set; }
         public Dictionary<int,string> Forums { get; set; }
+        public IEnumerable<ForumSearchResult> RawResult { get; set; }
         public IEnumerable<IPublishedContent> PagedResult { get; set; }
 
         public SearchViewModel(IPublishedContent content, IPublishedValueFallback publishedValueFallback) : base(content, publishedValueFallback)
