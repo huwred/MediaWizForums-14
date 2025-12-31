@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using MediaWiz.Forums.Extensions;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace MediaWiz.Forums.Models
@@ -8,10 +9,12 @@ namespace MediaWiz.Forums.Models
         public int Id { get; set; }
         public int ParentId { get; set; }
 
-        [DisplayName("Title")] public string Title { get; set; }
+        [DisplayName("Title")]
+        [RequiredIf(nameof(IsTopic), true, ErrorMessage = "Title is required for a Topic.")]
+        public string Title { get; set; }
 
         [Required]
-        [DisplayName("Reply")]
+        [DisplayName("Message")]
         public string Body { get; set; }
 
         [Required] public int AuthorId { get; set; }
