@@ -1,4 +1,5 @@
-﻿using MediaWiz.Forums.Extensions;
+﻿using MediaWiz.Forums.Events;
+using MediaWiz.Forums.Extensions;
 using MediaWiz.Forums.Interfaces;
 using MediaWiz.Forums.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -15,10 +16,12 @@ using System.Threading.Tasks;
 using System.Web;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Cache;
+using Umbraco.Cms.Core.Events;
 using Umbraco.Cms.Core.Logging;
 using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Routing;
+using Umbraco.Cms.Core.Scoping;
 using Umbraco.Cms.Core.Security;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Web;
@@ -47,6 +50,9 @@ namespace MediaWiz.Forums.Controllers
         private readonly IDictionaryItemService _dictionaryService;
         private readonly ILanguageService _languageService;
         private readonly IIdKeyMap _keyMap;
+        private readonly ICoreScopeProvider _coreScopeProvider;
+        private readonly IEventAggregator _eventAggregator;
+
         public ForumsSurfaceController(IUmbracoContextAccessor umbracoContextAccessor, IUmbracoDatabaseFactory databaseFactory, ServiceContext services, AppCaches appCaches, IProfilingLogger profilingLogger, IPublishedUrlProvider publishedUrlProvider,
             IMemberService memberService,
             IMemberSignInManager signInManager,
@@ -54,7 +60,9 @@ namespace MediaWiz.Forums.Controllers
             IMemberManager memberManager,
             IContentService contentService,
             IForumMailService mailService,IHttpContextAccessor httpContextAccessor,IDictionaryItemService dictionaryService,
-            ILanguageService languageService,IIdKeyMap keyMap) 
+            ILanguageService languageService,IIdKeyMap keyMap,
+            ICoreScopeProvider coreScopeProvider,
+            IEventAggregator eventAggregator) 
             : base(umbracoContextAccessor, databaseFactory, services, appCaches, profilingLogger, publishedUrlProvider)
         {
             _memberService = memberService;
@@ -68,6 +76,8 @@ namespace MediaWiz.Forums.Controllers
             _dictionaryService = dictionaryService;
             _languageService = languageService;
             _keyMap = keyMap;
+            _coreScopeProvider = coreScopeProvider;
+            _eventAggregator = eventAggregator;
         }
         [HttpGet]
         public IActionResult EditPost(int id)
@@ -339,13 +349,25 @@ namespace MediaWiz.Forums.Controllers
                     {
                         post.SetValue("editDate",DateTime.UtcNow);
                     }
+                    try
+                    {
+                        //pre-save notification here?
+                        _eventAggregator.Publish(new ForumPostBeforeSaveNotification(post));
 
+                        using ICoreScope scope = _coreScopeProvider.CreateCoreScope();
+                        var saveresult = _contentService.Save(post);
+                        scope.Notifications.Publish(new ForumPostAfterSaveNotification(post,saveresult));
+                        //post-save notification here?
+                        var result = _contentService.Publish(post, new string[] { "*" });
+                        scope.Complete();
+                        return RedirectToCurrentUmbracoPage();
+                    }
+                    catch (Exception e)
+                    {
+                        ModelState.AddModelError("Post", e.Message);
+                        return CurrentUmbracoPage();
+                    }
 
-                    var saveresult = _contentService.Save(post);
-                    
-                    var result = _contentService.Publish(post, new string[] { "*" });
-
-                    return RedirectToCurrentUmbracoPage();
                 }
             }
             ModelState.AddModelError("Post",_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.PostError","Error creating the post") );
@@ -565,7 +587,16 @@ namespace MediaWiz.Forums.Controllers
         /// <returns>new Captcha ViewComponent instance</returns>
         public IActionResult RefreshCaptcha()
         {
-            return ViewComponent("Captcha");
+            try
+            {
+                return ViewComponent("Captcha");
+
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
         }
         #endregion
     }
