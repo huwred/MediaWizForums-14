@@ -36,6 +36,7 @@ namespace MediaWiz.Forums.Indexing
                 options.FieldDefinitions = new(
                     new("id", FieldDefinitionTypes.Integer),
                     new("message", FieldDefinitionTypes.FullText),
+                    new("raw_message", FieldDefinitionTypes.Raw),
                     new("subject", FieldDefinitionTypes.FullText),
                     new("author", FieldDefinitionTypes.FullText),
                     new("edited", FieldDefinitionTypes.DateTime),
@@ -43,12 +44,14 @@ namespace MediaWiz.Forums.Indexing
                     new("updated", FieldDefinitionTypes.Long), //changed to long
                     new("lastpost", FieldDefinitionTypes.DateTime),
                     new("lastTicks", FieldDefinitionTypes.Long),
-                    new("answered", FieldDefinitionTypes.FullText),
-                    new("replies", FieldDefinitionTypes.FullText),
+                    new("answered", FieldDefinitionTypes.Integer),
+                    new("replies", FieldDefinitionTypes.Integer),
                     new("requireApproval", FieldDefinitionTypes.Integer),
                     new("approved", FieldDefinitionTypes.Integer),
                     new("status", FieldDefinitionTypes.Integer),
-                    new("forumid", FieldDefinitionTypes.Integer)
+                    new("forumid", FieldDefinitionTypes.Integer),
+                    new("isActive", FieldDefinitionTypes.Integer),
+                    new("postAtRoot", FieldDefinitionTypes.Integer)
                     );
 
                 options.UnlockIndex = true;

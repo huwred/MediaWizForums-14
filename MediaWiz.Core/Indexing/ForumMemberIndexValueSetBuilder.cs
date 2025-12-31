@@ -21,6 +21,7 @@ namespace MediaWiz.Forums.Indexing
                     ["id"] = content.Id,
                     ["joinedDate"] = content.GetValue<DateTime?>("joinedDate"),
                     ["postCount"] = content.GetValue<int>("postCount"),
+                    ["lastLogin"] = content.LastLoginDate,
                     ["hasVerifiedAccount"] = content.GetValue<bool>("hasVerifiedAccount") ? 1 : 0
                 };
 

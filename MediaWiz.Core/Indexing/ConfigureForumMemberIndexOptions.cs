@@ -30,6 +30,8 @@ namespace MediaWiz.Forums.Indexing
                 new("name", FieldDefinitionTypes.FullText),
                 new("joinedDate", FieldDefinitionTypes.DateTime),
                 new("postCount", FieldDefinitionTypes.Integer),
+                //new("lastPost", FieldDefinitionTypes.DateTime),
+                new("lastLogin", FieldDefinitionTypes.DateTime),
                 new("hasVerifiedAccount", FieldDefinitionTypes.Integer)
             );
 
