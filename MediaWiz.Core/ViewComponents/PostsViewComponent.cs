@@ -25,12 +25,13 @@ namespace MediaWiz.Forums.ViewComponents
                 case "EditPostForm":
                 {
                     var post = _contentService.GetById(Id);
+                    var htmlText = MessageParser.StripMarkup(post.GetValue<string>("postBody"));
                     var model = new ForumsPostModel
                     {
                         Id = Id,
                         ParentId = post.ParentId,
                         Title = post.GetValue<string>("postTitle"),
-                        Body = post.GetValue<string>("postBody"),
+                        Body = htmlText,
                         AuthorId = post.GetValue<int>("postAuthor"),
                         IsTopic = post.GetValue<bool>("postType"),
                         //string referer = Request.Headers["Referer"].ToString();
