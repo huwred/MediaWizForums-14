@@ -2,7 +2,6 @@
         $(document).on("click","#btn-captcha", function(e) {
             e.preventDefault();
             MediaWiz.captchaCheck($("#Captcha").val(), function(data) {
-                alert(data);
                 if (data) {
                     $("#captcha-check").hide();
                     $("#captcha-refresh").hide();
@@ -17,7 +16,6 @@
             });
         });
         $(document).on("click","#captcha-refresh", function(e) {
-            alert("refresh");
             e.preventDefault();
             $.ajax({
                 url: "/umbraco/surface/forumssurface/refreshcaptcha",

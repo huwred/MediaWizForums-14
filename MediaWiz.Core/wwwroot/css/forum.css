@@ -1,7 +1,10 @@
-﻿body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+﻿
+
+mark {
+    background-color: #f8db75;
+    padding: 0;
 }
+
 
 /* Fixed header */
 .header {
@@ -35,7 +38,11 @@
     overflow: hidden;
     border: 1px solid darkgrey;
 }
-
+.forum.container .code-toolbar {
+    position: relative;
+    width: 95%;
+    max-width: 800px;
+}
 /* Sidebar styles */
 .sidebar {
     width: 240px;
@@ -110,7 +117,9 @@
     color: #6c757d;
     border-color: #ced4da;
 }
-
+.solved, .solution {
+    background-color: #27d72568;
+}
 @media (min-width: 576px) {
     .breadcrumb {
         max-width: 540px;
