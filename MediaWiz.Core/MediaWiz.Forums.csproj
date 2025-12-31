@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net10.0</TargetFrameworks>
-    <Version>17.0.0-rc78</Version>
+    <Version>17.0.0-rc236</Version>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <ContentTargetFolders>.</ContentTargetFolders>
     <PackageId>MediaWiz.Forums.14</PackageId>
@@ -10,7 +10,7 @@
     <Authors>Huw Reddick</Authors>
     <Product>MediaWiz Forums</Product>
     <Description>MediaWiz Forums for Umbraco</Description>
-    <Title>MediaWizard Forums 17</Title>
+    <Title>MediaWizard Forums for Umbraco 17</Title>
     <Copyright>Huw Reddick</Copyright>
     <PackageProjectUrl>https://umbraco.themediawizards.co.uk</PackageProjectUrl>
     <PackageTags>umbraco-marketplace umbraco plugin package</PackageTags>
@@ -26,10 +26,7 @@
 <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Graphics" Version="10.0.11" />
     <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="10.0.11" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.119.1" />
-    <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Text.Encodings.Web" Version="10.0.1" />
-    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.116.1" />
     <PackageReference Include="Umbraco.Cms.Core" Version="17.0.2" />
 	<PackageReference Include="Umbraco.Cms.Examine.Lucene" Version="17.0.2" />
 	<PackageReference Include="Umbraco.Cms.Infrastructure" Version="17.0.2" />
@@ -53,46 +50,23 @@
       <Pack>true</Pack>
       <PackagePath>buildTransitive</PackagePath>
     </None>
+	
     <None Include="bundleconfig.json" />
     <None Include="docs\readme.md" Pack="true" PackagePath="\" />
+	<None Include="docs\configuration.md" Pack="true" PackagePath="\" />
     <None Include="wwwroot\**" />
 	</ItemGroup>
   
 <ItemGroup>
-  <Compile Remove="Extensions\ScriptBlockExtensions.cs" />
+  <Compile Remove="Search\LuceneQueryBuilder.cs" />
 </ItemGroup>
-
+	
 	<ItemGroup>
     <Content Remove="bundleconfig.json" />
     <Content Remove="package-lock.json" />
-    <Content Remove="Views\activeTopics.cshtml" />
-    <Content Remove="Views\forum.cshtml" />
-    <Content Remove="Views\forumMaster.cshtml" />
-    <Content Remove="Views\forumPost.cshtml" />
-    <Content Remove="Views\login.cshtml" />
-    <Content Remove="Views\mediawizMaster.cshtml" />
-    <Content Remove="Views\members.cshtml" />
-    <Content Remove="Views\profile.cshtml" />
-    <Content Remove="Views\register.cshtml" />
-    <Content Remove="Views\reset.cshtml" />
-    <Content Remove="Views\searchPage.cshtml" />
-    <Content Remove="Views\verify.cshtml" />
-    <Content Remove="Views\_ViewStart.cshtml" />
   </ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="views\activeTopics.cshtml" />
-	  <None Remove="views\forum.cshtml" />
-	  <None Remove="views\forumMaster.cshtml" />
-	  <None Remove="views\forumPost.cshtml" />
-	  <None Remove="views\login.cshtml" />
-	  <None Remove="views\mediawizMaster.cshtml" />
-	  <None Remove="views\members.cshtml" />
-	  <None Remove="views\profile.cshtml" />
-	  <None Remove="views\register.cshtml" />
-	  <None Remove="views\reset.cshtml" />
-	  <None Remove="views\searchPage.cshtml" />
-	  <None Remove="views\verify.cshtml" />
 	  <None Remove="views\_ViewStart.cshtml" />
 	</ItemGroup>
 
@@ -107,5 +81,8 @@
 	    <PackagePath>\</PackagePath>
 	  </None>
     <None Include=".\icon.png" Pack="true" PackagePath="\" />
+		<None Include="appsettings-schema.mediawiz-forums.json" Pack="true" PackagePath="\" />
+
 	</ItemGroup>
+
 </Project>
