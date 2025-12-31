@@ -11,6 +11,7 @@ using Umbraco.Cms.Core.Notifications;
 
 namespace MediaWiz.Forums.Composers
 {
+
     public class MediaWizComposer : IComposer
     {
         public void Compose(IUmbracoBuilder builder)
@@ -21,7 +22,7 @@ namespace MediaWiz.Forums.Composers
             builder.Services.AddScoped<IForumMailService, ForumMailService>();
 
             builder.AddNotificationHandler<ContentUnpublishedNotification, ForumPostUnPublishEvent>();
-            builder.AddNotificationHandler<ContentSavingNotification, ForumPostSavingEvent>();
+            //builder.AddNotificationHandler<ContentSavingNotification, ForumPostSavingEvent>();
             builder.AddNotificationHandler<ContentPublishedNotification, ForumPostPublishedEvent>();
             builder.AddNotificationHandler<ContentMovedToRecycleBinNotification, ForumPostDeletedHandler>();
 
