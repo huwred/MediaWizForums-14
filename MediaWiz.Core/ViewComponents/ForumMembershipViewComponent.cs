@@ -1,18 +1,24 @@
 ﻿using MediaWiz.Forums.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using MediaWiz.Forums.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using StackExchange.Profiling.Internal;
+using System;
+using System.Threading.Tasks;
+using Umbraco.Cms.Core.Security;
 using Umbraco.Cms.Core.Services;
+using Umbraco.Cms.Web.Common;
 using Umbraco.Cms.Web.Common.Models;
 using Umbraco.Cms.Web.Website.Models;
-using Umbraco.Cms.Core.Security;
-using Umbraco.Cms.Web.Common;
-using System;
 
 namespace MediaWiz.Forums.ViewComponents
 {
     public class ForumMembershipViewComponent : ViewComponent
     {
+        [ViewContext]
+        public new ViewContext ViewContext { get; set; }
+
         private readonly UmbracoHelper _umbracoHelper;
         private readonly MemberModelBuilderFactory _memberModelBuilderFactory;
         private readonly IMemberService _memberService;
@@ -38,11 +44,11 @@ namespace MediaWiz.Forums.ViewComponents
                     return await Task.FromResult((IViewComponentResult)View(Template));
 
                 case "Login" :
-                    var loginModel = new LoginModel();
+                    //var loginModel = new LoginModel();
 
-                    string forumUrl = _umbracoHelper.GetDictionaryValueOrDefault("Forums.ForumUrl","/");
-                    loginModel.RedirectUrl = forumUrl;
-                    return await Task.FromResult((IViewComponentResult)View(Template,loginModel));
+                    //string forumUrl = _umbracoHelper.GetDictionaryValueOrDefault("Forums.ForumUrl","/");
+                    //loginModel.RedirectUrl = forumUrl;
+                    return await Task.FromResult((IViewComponentResult)View(Template));
 
                 case "LoginStatus" :
                     return await Task.FromResult((IViewComponentResult)View(Template));
@@ -63,12 +69,26 @@ namespace MediaWiz.Forums.ViewComponents
 
                     if (model.CurrentUser != null)
                     {
+                        if(qryUser.IsNullOrWhiteSpace())
+                        {
+                            qryUser = model.CurrentUser?.UserName;
+                            model.Username = qryUser;
+                        }
                         model.MemberIdentity = _memberManager.FindByNameAsync(qryUser).Result;
                         if(model.MemberIdentity == null)
                         {
                             model.MemberIdentity = _memberManager.FindByIdAsync(qryUser).Result;
+                            if (model.MemberIdentity != null)
+                            {
+                                model.Username = model.MemberIdentity.UserName;
+                            }
+                            else
+                            {
+                                return await Task.FromResult((IViewComponentResult)View("Deleted"));
+                            }
                         }
                         model.ViewMember = _memberService.GetById(model.MemberIdentity.Key);
+
                     }
 
                     if (model.Username == model.CurrentUser?.UserName)
