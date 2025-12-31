@@ -125,15 +125,11 @@ namespace MediaWiz.Forums.Events
                             }
                         }
                     }
-
-
-
                 }
             }
             foreach (var cache in invalidCacheList)
             {
                 _runtimeCache.ClearByKey(cache);
-
             }
 
             if (invalidCacheList.Any())
