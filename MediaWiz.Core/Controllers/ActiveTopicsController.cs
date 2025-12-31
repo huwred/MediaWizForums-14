@@ -39,7 +39,10 @@ namespace MediaWiz.Forums.Controllers
         /// Added date range query
         /// </summary>
         [HttpGet]
-        public IActionResult Index([FromQuery(Name = "page")] int page, [FromQuery(Name = "TopicsSince")] string query, [FromQuery(Name = "showonly")] string filter)
+        public IActionResult Index(
+            [FromQuery(Name = "page")] int page, 
+            [FromQuery(Name = "TopicsSince")] string query, 
+            [FromQuery(Name = "showonly")] string filter)
         {
             ISearchResults results = null;
             var today = DateTime.Now;
@@ -74,20 +77,26 @@ namespace MediaWiz.Forums.Controllers
             int pageSize = CurrentPage.Value<int>("intPageSize");
             if(filter != null)
             {
+
                 if (_examineManager.TryGetIndex("ForumIndex", out var index))
                 {
                     var searcher = index.Searcher;
 
                     var examineQuery = searcher.CreateQuery(IndexTypes.Content)
-                    .Field("postType", "Topic");
+                    .Field("__NodeTypeAlias", "forumPost")
+                    .And().Field("postType", "Topic");
 
                     if (filter == "noreply")
                     {
-                        examineQuery = examineQuery.And().Field("replies", "0");
+                        examineQuery = examineQuery.And().RangeQuery<int>(new string[] { "replies" }, -1, 0);
                     }
                     if (filter == "unsolved")
                     {
                         examineQuery = examineQuery.And().Field("answered", "0");
+                    }
+                    if (filter == "solved")
+                    {
+                        examineQuery = examineQuery.And().Field("answered", "1");
                     }
                     results = examineQuery.OrderByDescending(new SortableField[] { new SortableField("lastTicks") }).Execute();
                 }
@@ -99,8 +108,8 @@ namespace MediaWiz.Forums.Controllers
                     var searcher = index.Searcher;
 
                     var examineQuery = searcher.CreateQuery(IndexTypes.Content)
-                    .Field("postType", "Topic")
-                        //.And().Field("approved", "1")
+                    .Field("__NodeTypeAlias", "forumPost")
+                    .And().Field("postType", "Topic")
                         .And().RangeQuery<long>(new string[] { "lastTicks" }, min, max)
                         .OrderByDescending(new SortableField[] { new SortableField("lastTicks") });
                 
