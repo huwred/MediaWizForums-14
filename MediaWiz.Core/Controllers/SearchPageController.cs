@@ -1,11 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Examine;
+﻿using Examine;
+using Examine.Lucene.Providers;
+using Examine.Lucene.Search;
+using Examine.Search;
 using MediaWiz.Forums.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Services;
@@ -23,13 +28,16 @@ namespace MediaWiz.Forums.Controllers
         private readonly IExamineManager _examineManager;
         private readonly IVariationContextAccessor _variationContextAccessor;
         private readonly ServiceContext _serviceContext;
-        public SearchPageController(ILogger<SearchPageController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor, IVariationContextAccessor variationContextAccessor, ServiceContext context,IPublishedContentQuery publishedContentQuery,IExamineManager examineManager)
+        private readonly ForumSearchService _searchService;
+
+        public SearchPageController(ILogger<SearchPageController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor, IVariationContextAccessor variationContextAccessor, ServiceContext context,IPublishedContentQuery publishedContentQuery
+            , ForumSearchService searchService )
             : base(logger, compositeViewEngine, umbracoContextAccessor)
         {
             _variationContextAccessor = variationContextAccessor;
             _serviceContext = context;
             _publishedContentQuery = publishedContentQuery;
-            _examineManager = examineManager;
+            _searchService = searchService;
         }
         public override IActionResult Index()
         {
@@ -44,7 +52,7 @@ namespace MediaWiz.Forums.Controllers
                 query = "",
                 searchIn = "",
                 TotalResults = 0,
-                PagedResult = null,
+                RawResult = null,
                 Forums = GetForumsAllowingPosts().ToDictionary(x => x.Id, x => x.Name)
             };
 
@@ -53,15 +61,20 @@ namespace MediaWiz.Forums.Controllers
             return CurrentTemplate(searchPageViewModel);
 
         }
-        //searchForum=All&searchWhere=any&searchDate=before
+
         [HttpGet]
-        public IActionResult Index([FromQuery(Name = "page")] int page, [FromQuery(Name = "searchIn")] string searchIn, [FromQuery(Name = "query")] string query, 
+        public IActionResult Index(
+            [FromQuery(Name = "page")] int page, 
+            [FromQuery(Name = "searchIn")] string searchIn, 
+            [FromQuery(Name = "query")] string term, 
             [FromQuery(Name = "searchForum")] string forumid,
             [FromQuery(Name = "searchAuthor")] string author,
             [FromQuery(Name = "searchWhere")] string where, 
-            [FromQuery(Name = "searchWhen")] string when, [FromQuery(Name = "searchDate")] string date)
+            [FromQuery(Name = "searchWhen")] string when, 
+            [FromQuery(Name = "searchDate")] string date,
+            [FromQuery(Name = "searchPhrase")] string phrase = "any")
         {
-            if (String.IsNullOrWhiteSpace(query))
+            if (String.IsNullOrWhiteSpace(term))
             {
                 SearchViewModel pageViewModel = new SearchViewModel(CurrentPage,
                     new PublishedValueFallback(_serviceContext, _variationContextAccessor))
@@ -75,13 +88,11 @@ namespace MediaWiz.Forums.Controllers
                     searchWhen = when,
                     searchDate = date,
                     TotalResults = 0,
-                    PagedResult = null,
+                    RawResult = null,
                     Forums = GetForumsAllowingPosts().ToDictionary(x => x.Id, x => x.Name)
                 };
                 return CurrentTemplate(pageViewModel);
             }
-
-            ISearchResults results = null;
 
             var textFields = new List<string>();
 
@@ -104,83 +115,49 @@ namespace MediaWiz.Forums.Controllers
             }
 
             if (page == 0) page = 1;
-
             int pageIndex = page - 1;
             int pageSize = CurrentPage.Value<int>("intPageSize");
 
-            if (_examineManager.TryGetIndex("ForumIndex", out var index))
+            DateTime? parsedDate = null;
+            if (DateTime.TryParseExact(date, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime convDate))
             {
-                var searcher = index.Searcher;
-                //var value = "" + query + "*";
-                var search = searcher.CreateQuery(IndexTypes.Content)
-                    .Field("__NodeTypeAlias","forumPost").And()
-                    .GroupedOr(textFields.ToArray(), query.Boost(2.0f))
-                    .Or()
-                    .GroupedOr(textFields.ToArray(), query.MultipleCharacterWildcard());
-                    if(forumid.IsNullOrWhiteSpace() == false && forumid != "All")
-                    {
-                        if (int.TryParse(forumid, out var forumIdInt))
-                        {
-                            search = search.And().Field("forumid", forumIdInt);
-                        }
-                    }
-                    if (author.IsNullOrWhiteSpace() == false)
-                    {
-                        search = search.And().Field("author", author);
-                    }
-                    if(where.IsNullOrWhiteSpace() == false)
-                    {
-                        switch (where)
-                        {
-                            case "any":
-                                //default behaviour
-                                break;
-                                case "open":
-                                    search = search.And().Field("status", 1);
-                                    break;
-                                case "closed":  
-                                    search = search.And().Field("status", 0);
-                                    break;
-                                case "solved":
-                                    search = search.And().Field("answered", 1);
-                                    break;
-                            default:
-                                break;
-                        }
-
-                    }
-                    if (date.IsNullOrWhiteSpace() == false)
-                    {
-                        switch (when)
-                        {
-                            case "before":
-                                if (DateTime.TryParse(date, out var beforeDate))
-                                {
-                                    var beforeEpoch = ((DateTimeOffset)beforeDate).Ticks;
-                                    search = search.And().RangeQuery<long>(new[] { "lastTicks" }, long.MinValue, beforeEpoch - 1);
-                                }
-                                break;
-                            case "after":
-                                if (DateTime.TryParse(date, out var afterDate))
-                                {
-                                    var afterEpoch = ((DateTimeOffset)afterDate).Ticks;
-                                    search = search.And().RangeQuery<long>(new[] { "lastTicks" } , afterEpoch, int.MaxValue);
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                results = search.Execute();
+                parsedDate = convDate;
             }
-            var totalResults = results.TotalItemCount;
+
+            WhereTopic? searchwhere()
+            {
+                switch (where)
+                {
+                    case "open":
+                        return WhereTopic.Open;
+                    case "closed":
+                        return WhereTopic.Closed;
+                    case "solved":
+                        return WhereTopic.Solved;
+                    default:
+                        return null;
+                }
+            }
+
+            var results = _searchService.SearchPosts(
+                textFields.ToArray(),
+                queryTerms: term,
+                phrasetype: PhraseType.Phrase,
+                wheretopic: searchwhere(),
+                author: author,
+                forum: forumid,
+                from: when == "after" ? parsedDate : null,
+                to: when == "before" ? parsedDate : null,
+                page: 1,
+                pageSize: 20
+            );
+
+            var totalResults = results.Count();
             var pagedResults = results.Skip(pageIndex * pageSize).Take(pageSize);
-            var pagedResultsAsContent = _publishedContentQuery.Content(pagedResults.Select(x => x.Id));
 
             SearchViewModel searchPageViewModel = new SearchViewModel(CurrentPage, new PublishedValueFallback(_serviceContext, _variationContextAccessor))
             {
-                //do the search
-                query = query,
+                query = term,
                 searchIn = searchIn,
                 searchWhere = where,
                 searchForum = forumid,
@@ -188,7 +165,7 @@ namespace MediaWiz.Forums.Controllers
                 searchWhen = when,
                 searchDate = date,
                 TotalResults = totalResults,
-                PagedResult = pagedResultsAsContent,
+                RawResult = pagedResults,
                 Forums = GetForumsAllowingPosts().ToDictionary(x => x.Id, x => x.Name)
             };
             //then return the custom model:
@@ -196,25 +173,7 @@ namespace MediaWiz.Forums.Controllers
         }
         private IEnumerable<IPublishedContent> GetForumsAllowingPosts()
         {
-            if (_examineManager.TryGetIndex("ExternalIndex", out var externalIndex) == false)
-            {
-                return Enumerable.Empty<IPublishedContent>();
-            }
-
-            var searcher = externalIndex.Searcher;
-
-            // Booleans may be indexed as "1" or "true" depending on data type/converter,
-            // so we match both and both possible field casings.
-            var query = searcher.CreateQuery(IndexTypes.Content)
-                .GroupedOr(new[] { "__NodeTypeAlias" }, new[] { "forum" })
-                .And()
-                .GroupedOr(new[] { "isActive", "isActive" }, new[] { "1", "true" })
-                .And()
-                .GroupedOr(new[] { "postAtRoot", "postAtRoot" }, new[] { "1", "true" });
-
-            var results = query.Execute();
-
-            var ids = results.Select(x => x.Id);
+            var ids = _searchService.GetForumsAllowingPosts().Select(x => x.NodeId);
             return _publishedContentQuery.Content(ids).WhereNotNull();
         }
     }
