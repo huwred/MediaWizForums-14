@@ -1,14 +1,17 @@
 ﻿using Examine;
 using Examine.Search;
 using MediaWiz.Forums.Extensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Persistence.Querying;
+using Umbraco.Cms.Core.Security;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Web.Common.Controllers;
@@ -22,14 +25,19 @@ namespace MediaWiz.Forums.Controllers
         private readonly ServiceContext _serviceContext;
         private readonly IDictionaryItemService _dictionaryService;
         private readonly IExamineManager _examineManager;
+        private readonly IMemberManager _userManager;
 
-        public VerifyController(ILogger<VerifyController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor,IMemberService memberService, IExamineManager examineManager,IVariationContextAccessor variationContextAccessor,ServiceContext context,IDictionaryItemService dictionaryService) : base(logger, compositeViewEngine, umbracoContextAccessor)
+        public VerifyController(ILogger<VerifyController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor,
+            IMemberService memberService,
+            IMemberManager userManager,
+            IExamineManager examineManager,IVariationContextAccessor variationContextAccessor,ServiceContext context,IDictionaryItemService dictionaryService) : base(logger, compositeViewEngine, umbracoContextAccessor)
         {
             _memberService = memberService;
             _variationContextAccessor = variationContextAccessor;
             _serviceContext = context;
             _dictionaryService = dictionaryService;
             _examineManager = examineManager;
+            _userManager = userManager;
         }
         public override IActionResult Index()
         {
@@ -106,6 +114,7 @@ namespace MediaWiz.Forums.Controllers
             return CurrentTemplate(viewModel);
         }
 
+
     }
     public class ForumVerifyController : RenderController
     {
@@ -114,14 +123,19 @@ namespace MediaWiz.Forums.Controllers
         private readonly ServiceContext _serviceContext;
         private readonly IDictionaryItemService _dictionaryService;
         private readonly IExamineManager _examineManager;
+        private readonly IMemberManager _userManager;
 
-        public ForumVerifyController(ILogger<ForumVerifyController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor,IMemberService memberService, IExamineManager examineManager, IVariationContextAccessor variationContextAccessor,ServiceContext context,IDictionaryItemService dictionaryService) : base(logger, compositeViewEngine, umbracoContextAccessor)
+        public ForumVerifyController(ILogger<ForumVerifyController> logger, ICompositeViewEngine compositeViewEngine, IUmbracoContextAccessor umbracoContextAccessor,
+            IMemberService memberService,
+            IMemberManager userManager, 
+            IExamineManager examineManager, IVariationContextAccessor variationContextAccessor,ServiceContext context,IDictionaryItemService dictionaryService) : base(logger, compositeViewEngine, umbracoContextAccessor)
         {
             _memberService = memberService;
             _variationContextAccessor = variationContextAccessor;
             _serviceContext = context;
             _dictionaryService = dictionaryService;
             _examineManager = examineManager;
+            _userManager = userManager;
         }
         public override IActionResult Index()
         {

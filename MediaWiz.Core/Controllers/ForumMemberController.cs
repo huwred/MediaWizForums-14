@@ -53,7 +53,7 @@ namespace MediaWiz.Forums.Controllers
             _forumOptions = forumOptions;
         }
 
-        private string? GetReferer()
+        private string GetReferer()
         {
             try
             {
@@ -79,8 +79,9 @@ namespace MediaWiz.Forums.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> HandleLoginAsync(LoginModel login)
+        public async Task<IActionResult> HandleLoginAsync([Bind(Prefix = "LoginModel")] LoginModel login)
         {
+            ViewBag.NoCaptcha = true;
             if (ModelState.IsValid == false)
             {
                 return CurrentUmbracoPage();
@@ -133,10 +134,10 @@ namespace MediaWiz.Forums.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterMeAsync([Bind(Prefix = "registerModel")] Umbraco.Cms.Web.Website.Models.RegisterModel newmember)
         {
+            ViewBag.NoCaptcha = true;
 
             if (ModelState.IsValid == false)
             {
-                ViewBag.NoCaptcha = true;
                 return CurrentUmbracoPage();
             }
 
@@ -144,7 +145,6 @@ namespace MediaWiz.Forums.Controllers
             if (usernamecheck != null)
             {
                 ModelState.AddModelError("",_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.DuplicateUsername","The username is already in use, please use another") );
-                ViewBag.NoCaptcha = true;
                 return CurrentUmbracoPage();
             }
 
@@ -159,7 +159,6 @@ namespace MediaWiz.Forums.Controllers
                     {
                         ModelState.AddModelError("", identityError.Description);
                     }
-                    ViewBag.NoCaptcha = true;
                     return CurrentUmbracoPage();
                 }
             }
