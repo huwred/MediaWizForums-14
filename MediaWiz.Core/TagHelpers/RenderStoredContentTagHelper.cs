@@ -24,7 +24,7 @@ namespace MediaWiz.Forums.TagHelpers
 
         [HtmlAttributeNotBound]
         [ViewContext]
-        public ViewContext? ViewContext { get; set; }
+        public ViewContext ViewContext { get; set; }
 
         [HtmlAttributeName(KeyAttributeName)]
         public required string Key { get; set; }
@@ -34,7 +34,7 @@ namespace MediaWiz.Forums.TagHelpers
             output.TagName = String.Empty;
 
             var storageProvider = ViewContext!.TempData;
-            Dictionary<string, List<HtmlString>>? storage;
+            Dictionary<string, List<HtmlString>> storage;
 
             if (!storageProvider.ContainsKey(_storageKey) || !(storageProvider[_storageKey] is Dictionary<string, List<HtmlString>>))
             {

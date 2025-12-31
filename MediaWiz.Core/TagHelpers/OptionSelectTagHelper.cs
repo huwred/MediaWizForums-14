@@ -14,7 +14,7 @@ public class OptionSelectTagHelper : TagHelper
     /// Specifies a value to check to see if this option is selected.
     /// </summary>
     [HtmlAttributeName("selected-val")]
-    public string? Selected { get; set; }
+    public string Selected { get; set; }
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
         var tag = output.Attributes["value"];
