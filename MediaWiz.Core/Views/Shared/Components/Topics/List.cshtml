@@ -18,10 +18,10 @@
         <div>
             <div class="wiz-topics">
                 <div class="d-flex flex-row flex-wrap mb-3 p-2 color_dark bold">
-                    <div class="col-6">@DictionaryService.GetOrCreateDictionaryValue("Forums.Topic", "Topic")</div>
-                    <div class="col-1">@DictionaryService.GetOrCreateDictionaryValue("Forums.Replies", "Replies")</div>
-                    <div class="col-1">@DictionaryService.GetOrCreateDictionaryValue("Forums.Views", "Views")</div>
-                    <div class="col-3">@DictionaryService.GetOrCreateDictionaryValue("Forums.Activity", "Activity")</div>
+                    <div class="col-6">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Topic", "Topic")</div>
+                    <div class="col-1">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Replies", "Replies")</div>
+                    <div class="col-1">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Views", "Views")</div>
+                    <div class="col-3">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Activity", "Activity")</div>
                 </div>
                 <div class="wiz-body m-0 mb-2">
                     @{
@@ -48,13 +48,13 @@
         <div>
             <div class="wiz-topics">
                 <div class="d-flex flex-row flex-wrap mb-3 p-2 color_dark bold">
-                    <div class="col-6">@DictionaryService.GetOrCreateDictionaryValue("Forums.Topic","Topic")</div>
-                    <div class="col-3">@DictionaryService.GetOrCreateDictionaryValue("Forums.Replies","Replies")</div>
-                    <div class="col-1">@DictionaryService.GetOrCreateDictionaryValue("Forums.Views", "Views")</div>
+                    <div class="col-6">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Topic", "Topic")</div>
+                    <div class="col-3">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Replies", "Replies")</div>
+                    <div class="col-1">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Views", "Views")</div>
                 </div>
                 <div class="wiz-body m-0 mb-2">
                     <div class="d-flex wiz-topic-title col-sm-12 align-center">
-                        @DictionaryService.GetOrCreateDictionaryValue("Forums.NoPosts","No posts yet, be the first to make one.")
+                        @await DictionaryService.GetOrCreateDictionaryValue("Forums.NoPosts", "No posts yet, be the first to make one.")
                     </div>
                 </div>
             </div>

@@ -84,13 +84,13 @@
                                 <select class="form-select" name="Sortby" id="thread-sort">
                                     @if (sortdir != "DESC")
                                     {
-                                        <option value="DESC">@DictionaryService.GetOrCreateDictionaryValue("Forums.Sort.Newest", "Newest First")</option>
-                                        <option value="ASC" selected="selected">@DictionaryService.GetOrCreateDictionaryValue("Forums.Sort.Oldest", "Oldest First")</option>
+                                        <option value="DESC">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Sort.Newest", "Newest First")</option>
+                                        <option value="ASC" selected="selected">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Sort.Oldest", "Oldest First")</option>
                                     }
                                     else
                                     {
-                                        <option value="DESC" selected="selected">@DictionaryService.GetOrCreateDictionaryValue("Forums.Sort.Newest", "")Newest First</option>
-                                        <option value="ASC">@DictionaryService.GetOrCreateDictionaryValue("Forums.Sort.Oldest", "Oldest First")</option>
+                                        <option value="DESC" selected="selected">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Sort.Newest", "")Newest First</option>
+                                        <option value="ASC">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Sort.Oldest", "Oldest First")</option>
                                     }
 
                                 </select>

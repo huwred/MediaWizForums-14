@@ -70,11 +70,11 @@
 <table class="table">
     <thead>
         <tr>
-            <th scope="col"><a href="@ForumUrl/members/?page=@pagenum&sort=Name&dir=@sortdir" class="@if(sortby == "Name") { <text>active</text> } @sortdir">@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Name","Name")</a></th>
-            <th scope="col"><a href="@ForumUrl/members/?page=@pagenum&sort=CreateDate&dir=@sortdir" class="@if(sortby == "CreateDate") { <text>active</text> } @sortdir">@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.CreateDate","Member Since")</a></th>
-            <th scope="col"><a href="@ForumUrl/members/?page=@pagenum&sort=umbracoMemberLastLogin&dir=@sortdir" class="@if(sortby == "umbracoMemberLastLogin") { <text>active</text> } @sortdir">@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Lastvisit","Last Visit")</a></th>
-            <th scope="col">@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Posts", "Posts")</th>
-            <th scope="col">@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Status", "Status")</th>
+            <th scope="col"><a href="@ForumUrl/members/?page=@pagenum&sort=Name&dir=@sortdir" class="@if(sortby == "Name") { <text>active</text> } @sortdir">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Name","Name")</a></th>
+            <th scope="col"><a href="@ForumUrl/members/?page=@pagenum&sort=CreateDate&dir=@sortdir" class="@if(sortby == "CreateDate") { <text>active</text> } @sortdir">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Members.CreateDate","Member Since")</a></th>
+            <th scope="col"><a href="@ForumUrl/members/?page=@pagenum&sort=umbracoMemberLastLogin&dir=@sortdir" class="@if(sortby == "umbracoMemberLastLogin") { <text>active</text> } @sortdir">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Lastvisit","Last Visit")</a></th>
+            <th scope="col">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Posts", "Posts")</th>
+            <th scope="col">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Status", "Status")</th>
         </tr>
     </thead>
     <tbody>
@@ -103,26 +103,26 @@
 
                         @if (roles.Contains("ForumAdministrator"))
                         {
-                            <a href="#" data-mode="unlock" data-userid="@user.Id" class="lock-user" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Unlock", "UnLock user")"><i class="bi bi-unlock fs-5"></i></a>
+                            <a href="#" data-mode="unlock" data-userid="@user.Id" class="lock-user" title="@await DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Unlock", "UnLock user")"><i class="bi bi-unlock fs-5"></i></a>
                         }
                         else
                         {
-                            <i class="bi bi-lock fs-5" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Locked", "Account locked")"></i>
+                            <i class="bi bi-lock fs-5" title="@await DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Locked", "Account locked")"></i>
                         }
                     }
                     else
                     {
                         @if (user.LastLoginDate.HasValue && user.LastLoginDate.Value > DateTime.UtcNow.AddMinutes(-10))
                         {
-                            <i class="bi bi-person-check fs-5" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Online", "User is online")"></i>
+                            <i class="bi bi-person-check fs-5" title="@await DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Online", "User is online")"></i>
                         }
                         else
                         {
-                            <i class="bi bi-person fs-5" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Offline", "User is offline")"></i>
+                            <i class="bi bi-person fs-5" title="@await DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Offline", "User is offline")"></i>
                         }
                         @if (roles.Contains("ForumAdministrator"))
                         {
-                            <a href="#" data-mode="lock" data-userid="@user.Id" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Lock", "Lock user")" class="lock-user"><i class="bi bi-lock fs-5"></i></a>
+                            <a href="#" data-mode="lock" data-userid="@user.Id" title="@await DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Lock", "Lock user")" class="lock-user"><i class="bi bi-lock fs-5"></i></a>
                         }
                     }
                 </td>

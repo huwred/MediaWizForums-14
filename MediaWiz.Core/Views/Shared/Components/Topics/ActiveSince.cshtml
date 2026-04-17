@@ -6,7 +6,7 @@
     string activesince = Context.Request.Query["TopicsSince"];
     activesince ??= "7d";
 }
-<form action="/latest-posts" class="col-10 offset-1" id="topics-since">
+<form action="@Context.Request.Path" class="col-10 offset-1" id="topics-since">
     <div class="row mb-3">
         <div class="col-6">
             <label class="form-label pt-2">@umbracoHelper.GetDictionaryValueOrDefault("Forums.ActiveSince", "Within the")</label>

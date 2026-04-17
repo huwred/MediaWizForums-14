@@ -54,7 +54,7 @@
                 }
                 <a class="wiz-topic-permalink " href="@post.Url()" title="@post.Value("postTitle")">@post.Value("postTitle")</a>
                 <span class="wiz-topic-meta d-block">
-                    <span class="wiz-topic-started-by">@DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Createdby", "topic created by") <a href="/profile/?user=@post.Value("postCreator")">@post.Value("postCreator")</a> </span>
+                    <span class="wiz-topic-started-by">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Createdby", "topic created by") <a href="/profile/?user=@post.Value("postCreator")">@post.Value("postCreator")</a> </span>
                     <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span>
                 </span>
             </div>
@@ -76,7 +76,7 @@
                 
                 @if (!String.IsNullOrWhiteSpace(cacheInfo.lastpostAuthor))
                 {
-                    <a href="@cacheInfo.lastPostUrl" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Forum.Jumpto", "Jump to latest post")">
+                    <a href="@cacheInfo.lastPostUrl" title="@await DictionaryService.GetOrCreateDictionaryValue("Forums.Forum.Jumpto", "Jump to latest post")">
                         <span title="@cacheInfo.latestPost.ToDisplayDate()">@cacheInfo.latestPost.GetRelativeDate()</span>  
                     </a>
                         <span class="wiz-topic-started-by text-nowrap">
@@ -106,14 +106,14 @@
                         @if (!String.IsNullOrWhiteSpace(cacheInfo.lastpostAuthor))
                         {
                             <span class="wiz-topic-started-by">
-                                @DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Lastpostby", "last post by") <a href="/profile/?user=@cacheInfo.lastpostAuthorId">@cacheInfo.lastpostAuthor</a>
-                                <span title="@cacheInfo.latestPost.ToDisplayDate()">@cacheInfo.latestPost.GetRelativeDate()</span> <a href="@cacheInfo.lastPostUrl" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Forum.Jumpto", "Jump to latest post")"><i class="bi bi-chevron-double-right"></i></a>
+                                @await DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Lastpostby", "last post by") <a href="/profile/?user=@cacheInfo.lastpostAuthorId">@cacheInfo.lastpostAuthor</a>
+                                <span title="@cacheInfo.latestPost.ToDisplayDate()">@cacheInfo.latestPost.GetRelativeDate()</span> <a href="@cacheInfo.lastPostUrl" title="@await DictionaryService.GetOrCreateDictionaryValue("Forums.Forum.Jumpto", "Jump to latest post")"><i class="bi bi-chevron-double-right"></i></a>
                             </span>
                         }
                         else
                         {
                             var test = post.Value("postAuthor") as IPublishedContent;
-                            <span class="wiz-topic-started-by">@DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Createdby", "topic created by") <a href="/profile/?user=@(post.Value("postCreator"))">@post.Value("postCreator")</a> <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span></span>
+                            <span class="wiz-topic-started-by">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Createdby", "topic created by") <a href="/profile/?user=@(post.Value("postCreator"))">@post.Value("postCreator")</a> <span title="@post.CreateDate.ToDisplayDate()">@post.CreateDate.GetRelativeDate()</span></span>
                         }
                     </span>
                 </div>

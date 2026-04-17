@@ -20,7 +20,7 @@
         var user = memberManager.GetCurrentMemberAsync().Result;
         if(user == null)
         {
-            <h3>@DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.LoginToPost", "You must be logged in to post") </h3>
+            <h3>@await DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.LoginToPost", "You must be logged in to post") </h3>
             return;
         }
         var showTitle = false;
@@ -34,9 +34,9 @@
             edit = (bool)TempData["edit"];
         }
 
-        var mode = edit ? DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.EditPost", "Edit Post") : (showTitle ? DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Newpost", "Ask a Question") : DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Reply", "Reply to Question"));
-        var label = edit ? DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Message", "Message") : (showTitle ? DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Message", "Message") : DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Reply", "Reply"));
-        var btn = edit ? DictionaryService.GetOrCreateDictionaryValue("Forums.Save", "Save") : (showTitle ? DictionaryService.GetOrCreateDictionaryValue("Forums.Submit", "Submit") : DictionaryService.GetOrCreateDictionaryValue("Forums.Save", "Save"));
+        var mode = edit ? await DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.EditPost", "Edit Post") : (showTitle ? await DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Newpost", "Ask a Question") : await DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Reply", "Reply to Question"));
+        var label = edit ? await DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Message", "Message") : (showTitle ? await DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Message", "Message") : await DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Reply", "Reply"));
+        var btn = edit ? await DictionaryService.GetOrCreateDictionaryValue("Forums.Save", "Save") : (showTitle ? await DictionaryService.GetOrCreateDictionaryValue("Forums.Submit", "Submit") : await DictionaryService.GetOrCreateDictionaryValue("Forums.Save", "Save"));
 
         var Post = new ForumsPostModel();
         IPublishedContent? member = memberManager.AsPublishedMember(user);
@@ -44,7 +44,7 @@
         {
             if (member?.Id != Model.Value<IPublishedContent>("postAuthor")?.Id)
             {
-                <h3>@DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.NotAuthor", "You can't edit this post, you are not the Author") </h3>
+                <h3>@await DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.NotAuthor", "You can't edit this post, you are not the Author") </h3>
                 return;
             }
             Post.Id = Model.Id;
@@ -84,7 +84,7 @@
                             <input asp-for="@Post.IsTopic" type="hidden" />
                             <div asp-validation-summary="All" class="text-danger" id="postform-validation"></div>
                             <div class="col ms-5 p-2">
-                                <button type="submit" class="btn btn-dark">@btn</button> <button type="reset" class="btn btn-secondary btn-cancel">@DictionaryService.GetOrCreateDictionaryValue("Forums.Cancel", "Cancel")</button>
+                                <button type="submit" class="btn btn-dark">@btn</button> <button type="reset" class="btn btn-secondary btn-cancel">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Cancel", "Cancel")</button>
                             </div>
                         </fieldset>
                     }

@@ -20,17 +20,17 @@
                     <div class="row g-3 mb-3">
                         <div class="col-md-5">
                             <div class="input-group ">
-                                <input id="query" name="query" placeholder="@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.Queryplaceholder", "Search terms")" value="@Model.query" type="text" class="form-control" required="required">
+                                <input id="query" name="query" placeholder="@await DictionaryService.GetOrCreateDictionaryValue("Forums.Search.Queryplaceholder", "Search terms")" value="@Model.query" type="text" class="form-control" required="required">
                             </div>
                         </div>
                         <div class="col-md-7">
                             <div class="input-group">
                                 <select id="searchIn" name="searchIn" class="form-select me-2">
-                                    <option value="Subject" selected-val="@Model.searchIn">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.SearchIn.Subject", "Subject")</option>
-                                    <option value="Message" selected-val="@Model.searchIn">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.SearchIn.Message", "Message")</option>
-                                    <option value="Both" selected-val="@Model.searchIn">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.SearchIn.Both", "Subject + Message")</option>
+                                    <option value="Subject" selected-val="@Model.searchIn">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Search.SearchIn.Subject", "Subject")</option>
+                                    <option value="Message" selected-val="@Model.searchIn">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Search.SearchIn.Message", "Message")</option>
+                                    <option value="Both" selected-val="@Model.searchIn">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Search.SearchIn.Both", "Subject + Message")</option>
                                 </select>
-                                <button name="submit" type="submit" class="btn btn-md btn-secondary rounded-3"><i class="bi bi-search"></i> @DictionaryService.GetOrCreateDictionaryValue("Forums.Search", "Search")</button>
+                                <button name="submit" type="submit" class="btn btn-md btn-secondary rounded-3"><i class="bi bi-search"></i> @await DictionaryService.GetOrCreateDictionaryValue("Forums.Search", "Search")</button>
                             </div>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                                         <div class="col-md-6">
                                             <label for="searchForum" class="form-label">Forums</label>
                                             <select id="searchForum" name="searchForum" class="form-select me-2">
-                                                <option value="All">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.SearchIn.All", "All Forums")</option>
+                                                <option value="All">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Search.SearchIn.All", "All Forums")</option>
                                                     @foreach (var item in Model.Forums)
                                                     {
                                                         <option value="@item.Key">@item.Value</option>
@@ -76,10 +76,10 @@
                                         <div class="col-md-6">
                                             <label for="searchWhere" class="form-label">Where topics</label>
                                             <select id="searchWhere" name="searchWhere" class="form-select me-2">
-                                                <option value="any">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchWhere.Any", "any")</option>
-                                                <option value="open">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchWhere.Open", "are open")</option>
-                                                <option value="closed">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchWhere.Closed", "are closed")</option>
-                                                <option value="solved">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchWhere.Solved", "are solved")</option>
+                                                <option value="any">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchWhere.Any", "any")</option>
+                                                <option value="open">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchWhere.Open", "are open")</option>
+                                                <option value="closed">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchWhere.Closed", "are closed")</option>
+                                                <option value="solved">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchWhere.Solved", "are solved")</option>
                                             </select>
                                         </div>
                                     </div>
@@ -92,8 +92,8 @@
                                             <label for="searchWhen" class="form-label">Posted</label>
                                             <div class="input-group">
                                                 <select id="searchWhen" name="searchWhen" class="form-select me-2">
-                                                    <option value="before" selected-val="@Model.searchIn">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchDate.Before", "before")</option>
-                                                    <option value="since" selected-val="@Model.searchIn">@DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchDate.AFter", "since")</option>
+                                                    <option value="before" selected-val="@Model.searchIn">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchDate.Before", "before")</option>
+                                                    <option value="since" selected-val="@Model.searchIn">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Search.searchDate.AFter", "since")</option>
                                                 </select>
                                                 <input type="datetime-local" name="searchDate" class="form-control" id="date" />
                                             </div>

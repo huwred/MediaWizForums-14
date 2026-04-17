@@ -98,7 +98,7 @@
                                 }
                                 @if (isApproved)
                                 {
-                                    <li class="list-inline-item"><a href="#post_@post.Id" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Link.Title","Direct link to post")"><i class="fs-5 bi-link-45deg"></i><span class="tool-label" style="display: none;">@DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Link.Text","Copy link")</span></a> </li>               
+                                    <li class="list-inline-item"><a href="#post_@post.Id" title="@await DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Link.Title","Direct link to post")"><i class="fs-5 bi-link-45deg"></i><span class="tool-label" style="display: none;">@DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Link.Text","Copy link")</span></a> </li>               
                                 }
                             </ul>
                         </div>
@@ -114,11 +114,11 @@
             <div class="wiz-reply-header post-deleted">
                 @if (post.Value<bool>("deletedByAuthor"))
                 {
-                    <div class="alert alert-warning">@DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Deleted","post deleted by author")</div>
+                    <div class="alert alert-warning">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Posts.Deleted","post deleted by author")</div>
                 }
                 else
                 {
-                    <div class="alert alert-warning">@DictionaryService.GetOrCreateDictionaryValue("Forum.Posts.Removed","post has been removed")</div>
+                    <div class="alert alert-warning">@await DictionaryService.GetOrCreateDictionaryValue("Forum.Posts.Removed","post has been removed")</div>
 
                 }
             </div>
