@@ -27,14 +27,15 @@
     var useCaptcha = Model.Value<bool>("useCaptcha");
     var success = TempData["FormSuccess"] != null;
     var _hostingSettings = hostingSettings.Value;
-    var warningMsg = DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Register.Emailwarning", "The email will be coming from {0} so please add this domain to your whitelist. Should you not receive your validation email, please post on the Our Umbraco forums");
+    var warningMsg = await DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Register.Emailwarning", "The email will be coming from {0} so please add this domain to your whitelist. Should you not receive your validation email, please post on the Our Umbraco forums");
+    var successMsg = await DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Register.Success", "Your Registration was successful, you should now receive an email containing a validation link to verify your email address.");
 }
 
 
 @if (success)
 {
     @* This message will show if registerModel.RedirectUrl is not defined (default) *@
-    <p class="text-success">@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Register.Success","Your Registration was successful, you should now receive an email containing a validation link to verify your email address.")</p>
+    <p class="text-success">@successMsg</p>
     <p>@String.Format(warningMsg,_hostingSettings.Smtp.From)</p>
 }
 else
@@ -90,7 +91,7 @@ else
                             <label class="form-check-label" for="receiveNotifications">@Html.LabelFor(m => registerModel.MemberProperties[i].Value, registerModel.MemberProperties[i].Name)</label>
                         </div>
                         <div id="notifyHelp" class="form-text">
-                            @DictionaryService.GetOrCreateDictionaryValue("Forums.Profile.NotifyHelp","Receive an email when someone posts on the forum.")
+                            @await DictionaryService.GetOrCreateDictionaryValue("Forums.Profile.NotifyHelp","Receive an email when someone posts on the forum.")
                         </div>
                     </div>
                 }
@@ -108,7 +109,7 @@ else
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" name="iAgree" id="iAgree" required title="Agree to Terms">
                 <label class="form-check-label text-secondary" for="iAgree">
-                    I agree to the <a href="@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.TermsUrl", "/Terms")" class="link-primary text-decoration-none">terms and conditions</a>
+                    I agree to the <a href="@await DictionaryService.GetOrCreateDictionaryValue("Forums.Members.TermsUrl", "/Terms")" class="link-primary text-decoration-none">terms and conditions</a>
                 </label>
                 <div class="invalid-feedback">
                     You must agree before submitting.
@@ -118,7 +119,7 @@ else
 
         <div class="col-12 gy-2">
             <div class="d-grid">
-                <button class="btn btn-lg btn-secondary" type="submit" id="register-submit">@DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Register", "Sign up")</button>
+                <button class="btn btn-lg btn-secondary" type="submit" id="register-submit">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Members.Register", "Sign up")</button>
             </div>
         </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>

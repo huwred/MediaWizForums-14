@@ -49,7 +49,7 @@ namespace MediaWiz.Forums.Controllers
             return CurrentTemplate(pageViewModel);
         }
         [HttpGet]
-        public IActionResult Index([FromQuery(Name = "verifyGuid")] string guid)
+        public async Task<IActionResult> Index([FromQuery(Name = "verifyGUID")] string guid)
         {
             if (guid != null)
             {
@@ -101,7 +101,7 @@ namespace MediaWiz.Forums.Controllers
                 else
                 {
                     pageViewModel.Success = false;
-                    pageViewModel.Error = _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.Verification","Verification code was not found or has expired");
+                    pageViewModel.Error = await _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.Verification","Verification code was not found or has expired");
                 }
                 return CurrentTemplate(pageViewModel);
             }

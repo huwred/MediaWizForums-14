@@ -57,18 +57,18 @@ namespace MediaWiz.Core.Services
             {
 
                 string baseURL = _hostingEnvironment.ApplicationMainUrl.AbsoluteUri.TrimEnd('/');
-                var resetUrl = baseURL + _dictionaryItemService.GetOrCreateDictionaryValue("Forums.VerifyUrl","/verify").TrimEnd('/') + "/?verifyGUID=" + guid;
+                var resetUrl = baseURL + await _dictionaryItemService.GetOrCreateDictionaryValue("Forums.VerifyUrl","/verify");
                 Dictionary<string, string> parameters = new Dictionary<string, string>
                 {
-                    {"{resetUrl}", resetUrl}
+                    {"{resetUrl}", resetUrl.TrimEnd('/') + "/?verifyGUID=" + guid}
                 };
-                var messageTemplate = _dictionaryItemService.GetOrCreateDictionaryValue("Forums.VerifyBody",@"<h2>Verify your account</h2>
+                var messageTemplate = await _dictionaryItemService.GetOrCreateDictionaryValue("Forums.VerifyBody",@"<h2>Verify your account</h2>
             <p>in order to use your account, you first need to verify your email address using the link below.</p>
             <p><a href='{resetUrl}'>Verify your account</a></p>");
 
-                var messageBody = GetEmailTemplate(messageTemplate, "Forums.NotificationBody", parameters);
+                var messageBody = await GetEmailTemplate(messageTemplate, "Forums.NotificationBody", parameters);
                 EmailMessage message = new EmailMessage(_fromEmail, email,
-                    _dictionaryItemService.GetOrCreateDictionaryValue("Forums.VerifySubject", "Verifiy your account"), messageBody, true);
+                    await _dictionaryItemService.GetOrCreateDictionaryValue("Forums.VerifySubject", "Verifiy your account"), messageBody, true);
 
 
                 await _emailSender.SendAsync(message, emailType: "Contact");
@@ -104,7 +104,7 @@ namespace MediaWiz.Core.Services
                 {"{postTitle}", postUrl},
                 {"{newOld}", newPost ? "New" : "Updated"}
             };
-            var Subject = GetEmailTemplate("{newOld} comment in topic '{postTitle}'", "Forums.NotificationSubject", parameters);
+            var Subject = await GetEmailTemplate("{newOld} comment in topic '{postTitle}'", "Forums.NotificationSubject", parameters);
 
             parameters = new Dictionary<string, string>
             {
@@ -113,7 +113,7 @@ namespace MediaWiz.Core.Services
                 {"{body}", updateBody},
                 {"{threadUrl}", postUrl}
             };
-            var Body = GetEmailTemplate(bodyTemplate, "Forums.NotificationBody", parameters);
+            var Body = await GetEmailTemplate(bodyTemplate, "Forums.NotificationBody", parameters);
 
             EmailMessage message = new EmailMessage(_fromEmail, new string[]{recipients.First()}, null, recipients.ToArray(), new[] { _fromEmail },
                 Subject,
@@ -148,12 +148,12 @@ namespace MediaWiz.Core.Services
                     {
                         {"{_hostingSettings.SiteName}", _hostingSettings.SiteName},
                     };
-                    var subject = GetEmailTemplate(subjectTemplate, "Forums.RestSubject", parameters);
+                    var subject = await GetEmailTemplate(subjectTemplate, "Forums.RestSubject", parameters);
                     var messageTemplate = @"<p>Hi {member.Name},</p>
                     <p>Someone requested a password reset for your account on {_hostingSettings.SiteName}.</p>
                     <p>If this wasn't you then you can ignore this email, otherwise, please click the following password reset link to continue:</p>
-                    <p>Please go to <a href='{resetUrl}'>here</a> to reset your password</p>
-                    <p>&nnbsp;</p>
+                    <p><a href=""{resetUrl}"">Reset your password</a></p>
+                    <p>&nbsp;</p>
                     <p>Kind regards,<br/>The {_hostingSettings.SiteName} Team</p>";
 
                     parameters = new Dictionary<string, string>
@@ -162,7 +162,7 @@ namespace MediaWiz.Core.Services
                         {"{_hostingSettings.SiteName}", _hostingSettings.SiteName},
                         {"{resetUrl}",resetUrl}
                     };
-                    var body = GetEmailTemplate(messageTemplate, "Forums.RestBody", parameters);
+                    var body = await GetEmailTemplate(messageTemplate, "Forums.RestBody", parameters);
 
                     EmailMessage message = new EmailMessage(_fromEmail,email,subject,body,true);
 
@@ -184,9 +184,9 @@ namespace MediaWiz.Core.Services
             }
         }
 
-        public string GetEmailTemplate(string template, string dictionaryString, Dictionary<string,string> parameters)
+        public async Task<string> GetEmailTemplate(string template, string dictionaryString, Dictionary<string,string> parameters)
         {
-            var dictionaryTemplate = _dictionaryItemService.GetAsync(dictionaryString).Result;
+            var dictionaryTemplate = await _dictionaryItemService.GetAsync(dictionaryString);
             if (dictionaryTemplate != null && !string.IsNullOrWhiteSpace(dictionaryTemplate.Translations.FirstOrDefault()?.Value))
             {
                 template = dictionaryTemplate.Translations.FirstOrDefault()?.Value;

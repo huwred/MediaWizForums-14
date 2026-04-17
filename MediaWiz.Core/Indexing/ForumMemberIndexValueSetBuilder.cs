@@ -17,6 +17,7 @@ namespace MediaWiz.Forums.Indexing
                     // this is a special field used to display the content name in the Examine dashboard
                     [UmbracoExamineFieldNames.NodeNameFieldName] = content.Name!,
                     ["name"] = content.Name!,
+                    ["resetGuid"] = content.GetValue<string>("resetGuid") ?? string.Empty,
                     // add the fields you want in the index
                     ["id"] = content.Id,
                     ["joinedDate"] = content.GetValue<DateTime?>("joinedDate"),

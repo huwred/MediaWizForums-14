@@ -56,7 +56,9 @@ namespace MediaWiz.Forums.Controllers
             foreach (var item in keys.Split(","))
             {
                 var translation = _dictionaryService.GetAsync(item).Result;
-                local.AppendLine($"local.{item.Replace(".","")} = \"{HttpUtility.HtmlEncode(translation.GetTranslatedValue(CultureInfo.CurrentCulture.TwoLetterISOLanguageName))}\";");
+                if( translation != null ) {
+                    local.AppendLine($"local.{item.Replace(".","")} = \"{HttpUtility.HtmlEncode(translation.GetTranslatedValue(CultureInfo.CurrentCulture.TwoLetterISOLanguageName))}\";");
+                }
             }
 
             return new  JavaScriptResult(local.ToString());

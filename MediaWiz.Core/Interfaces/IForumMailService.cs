@@ -12,6 +12,6 @@ namespace MediaWiz.Forums.Interfaces
 
         void SendNotificationEmail(IPublishedContent root, IPublishedContent post, object author,List<string> recipients, bool newPost);
 
-        string GetEmailTemplate(string template, string dictionaryString, Dictionary<string,string> parameters);
+        Task<string> GetEmailTemplate(string template, string dictionaryString, Dictionary<string,string> parameters);
     }
 }

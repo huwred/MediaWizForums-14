@@ -1,6 +1,11 @@
 # MediaWizForums 14 #
 Simple Forum add on for Umbraco 14+. 
 
+## Changelog
+
+## 17.0.1
+Fixes deprecated entryPoint usage, now using the new backofficeEntryPoint, this version is compatible with Umbraco 17.0.0 and later.
+
 ## 17.0.0
 Updated to support Umbraco 17 and .net 10
 

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net10.0</TargetFrameworks>
-    <Version>17.0.0-rc236</Version>
+    <Version>17.0.2-rc01</Version>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <ContentTargetFolders>.</ContentTargetFolders>
     <PackageId>MediaWiz.Forums.14</PackageId>
@@ -17,7 +17,7 @@
     <RepositoryUrl>https://github.com/huwred/MediaWizForums-14</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageReleaseNotes>Latest version targetting Umbraco 17</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixes deprecated entryPoint usage</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageOutputPath>E:\Umbraco-Dev\Nuget</PackageOutputPath>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -26,12 +26,13 @@
 <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Graphics" Version="10.0.11" />
     <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="10.0.11" />
+    <PackageReference Include="MimeKit" Version="4.15.1" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.116.1" />
-    <PackageReference Include="Umbraco.Cms.Core" Version="17.0.2" />
-	<PackageReference Include="Umbraco.Cms.Examine.Lucene" Version="17.0.2" />
-	<PackageReference Include="Umbraco.Cms.Infrastructure" Version="17.0.2" />
-	<PackageReference Include="Umbraco.Cms.Web.Common" Version="17.0.2" />
-	<PackageReference Include="Umbraco.Cms.Web.Website" Version="17.0.2" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="17.*" />
+	<PackageReference Include="Umbraco.Cms.Examine.Lucene" Version="17.*" />
+	<PackageReference Include="Umbraco.Cms.Infrastructure" Version="17.*" />
+	<PackageReference Include="Umbraco.Cms.Web.Common" Version="17.*" />
+	<PackageReference Include="Umbraco.Cms.Web.Website" Version="17.*" />
 </ItemGroup>
 	
 <ItemGroup>

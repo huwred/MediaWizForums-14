@@ -34,7 +34,7 @@
     </nav>
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active p-3" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            @using (Html.BeginUmbracoForm<UmbProfileController>
+            @using (Html.BeginUmbracoForm<MediaWizProfileController>
                     ("HandleUpdateProfile", null, new { @id = "updateProfileForm", RedirectUrl = Model.ProfileModel?.RedirectUrl, @class = "needs-validation", novalidate = "" }, FormMethod.Post))
                 {
                 @* <input asp-for="@Model.ProfileModel.Key" type="hidden" /> *@
@@ -66,13 +66,13 @@
                             var checkstate = Model.ProfileModel.MemberProperties[i].Value == "1" ? "checked" : "";
                             <div class="mb-3">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value="@Model.ProfileModel.MemberProperties[i].Value" @checkstate>
+                                    <input class="form-check-input" name="ProfileModel.MemberProperties[@i].Value" type="checkbox" id="flexSwitchCheckDefault" value="1" @checkstate>
                                     <label class="form-check-label" for="flexSwitchCheckDefault">@Html.LabelFor(m => Model.ProfileModel.MemberProperties[i].Value, Model.ProfileModel.MemberProperties[i].Name)</label>
                                 </div>
                                 <div id="notifyHelp" class="form-text">
                                     @umbracoHelper.GetDictionaryValueOrDefault("Forums.Profile.NotifyHelp", "Receive an email when someone posts on the forum.")
                                 </div>
-
+                                @Html.HiddenFor(m => Model.ProfileModel.MemberProperties[i].Alias)
                                 <span asp-validation-for="@Model.ProfileModel.MemberProperties[i].Value" class="invalid-feedback"></span>
                             </div>
                         }
@@ -85,7 +85,6 @@
                                 @Html.HiddenFor(m => Model.ProfileModel.MemberProperties[i].Alias)
                             </div>
                         }
-
                     }
                 }
                 <div asp-validation-summary="All" class="text-danger" id="profile-val"></div>

@@ -98,7 +98,7 @@ namespace MediaWiz.Forums.Controllers
                         return Redirect(login.RedirectUrl);
                     }
 
-                    return Redirect(_dictionaryService.GetOrCreateDictionaryValue("Forums.ForumUrl", "/forums"));
+                    return Redirect(await _dictionaryService.GetOrCreateDictionaryValue("Forums.ForumUrl", "/forums"));
                 }
                 else if (result.IsLockedOut)
                 {
@@ -124,7 +124,7 @@ namespace MediaWiz.Forums.Controllers
             }
             else
             {
-                ModelState.AddModelError("", _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.InvalidCredentials","The username or password provided is incorrect.") );
+                ModelState.AddModelError("", await _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.InvalidCredentials","The username or password provided is incorrect.") );
             }
             // If there is a specified path to redirect to then use it.
 
@@ -144,7 +144,7 @@ namespace MediaWiz.Forums.Controllers
             var usernamecheck = _memberManager.FindByNameAsync(newmember.Name).Result;
             if (usernamecheck != null)
             {
-                ModelState.AddModelError("",_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.DuplicateUsername","The username is already in use, please use another") );
+                ModelState.AddModelError("", await _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.DuplicateUsername","The username is already in use, please use another") );
                 return CurrentUmbracoPage();
             }
 
@@ -175,6 +175,7 @@ namespace MediaWiz.Forums.Controllers
                 {
                     member.Properties[property.Alias]?.SetValue(property.Value);
                 }
+                
             }
 
             try
@@ -204,7 +205,7 @@ namespace MediaWiz.Forums.Controllers
             //do the passwords match
             if (changePassword.Password != changePassword.ConfirmPassword)
             {
-                TempData["ValidationError"] = _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.PasswordMismatch","Passwords do not match!");
+                TempData["ValidationError"] = await _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.PasswordMismatch","Passwords do not match!");
                 return CurrentUmbracoPage();
             }
             try
@@ -213,7 +214,7 @@ namespace MediaWiz.Forums.Controllers
                 var member = _memberService.GetById(id);
                 if (member == null)
                 {
-                    TempData["ValidationError"] = _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.NoMember","Invalid member");
+                    TempData["ValidationError"] = await _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.NoMember","Invalid member");
                 }
                 else
                 {
@@ -221,7 +222,7 @@ namespace MediaWiz.Forums.Controllers
                     {
                         if (member.GetValue<string>("resetGuid") != token)
                         {
-                            TempData["ValidationError"] = _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.InvalidToken","Token not found");
+                            TempData["ValidationError"] = await _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.InvalidToken","Token not found");
                             return CurrentUmbracoPage();
                         }
                     }

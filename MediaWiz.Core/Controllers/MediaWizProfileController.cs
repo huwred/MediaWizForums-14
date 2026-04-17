@@ -130,7 +130,7 @@ public class MediaWizProfileController : SurfaceController
                 new { userId = currentMember.Id, email = model.Email, token = encodedToken },
                 protocol: Request.Scheme);
 
-            var messageBody = $"Please confirm your email change by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.";
+            var messageBody = $"Please confirm your email change by <a href=\"{HtmlEncoder.Default.Encode(callbackUrl)}\">clicking here</a>.";
 
             EmailMessage message = new EmailMessage(_fromEmail, model.Email,
                 "Confirm your email change", messageBody, true);

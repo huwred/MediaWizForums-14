@@ -163,7 +163,7 @@ namespace MediaWiz.Forums.Controllers
             return false;
         }
         [Route("captchacheck/{id?}")]
-        public bool CaptchaCheck(int? id)
+        public async Task<bool> CaptchaCheck(int? id)
         {
             if (id != null)
             {
@@ -172,7 +172,7 @@ namespace MediaWiz.Forums.Controllers
                 if (session.Keys.Contains("Captcha") && session.GetString("Captcha") != id.Value.ToString())
                 {
                     
-                    ModelState.AddModelError("Captcha", _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.CaptchaFail","Wrong value of sum, please try again."));
+                    ModelState.AddModelError("Captcha", await _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.CaptchaFail","Wrong value of sum, please try again."));
                     return false;
                 }
                 //empty the captcha variable
@@ -370,12 +370,12 @@ namespace MediaWiz.Forums.Controllers
         }
 
         [Route("memberfiles/{id?}")]
-        public Task<string> GetMemberFiles(int? id)
+        public async Task<string> GetMemberFiles(int? id)
         {
             string wwwroot = _hostingEnvironment.MapPathWebRoot("~/");
             string folderPath = _hostingEnvironment.MapPathWebRoot($"~/media/{uploadFolder}/" + id);
             string[] files = Directory.GetFiles(folderPath);
-            var content = _dictionaryService.GetOrCreateDictionaryValue("Forums.Profile.NoFiles", "No files uploaded");
+            var content = await _dictionaryService.GetOrCreateDictionaryValue("Forums.Profile.NoFiles", "No files uploaded");
             if (files.Any())
             {
                 
@@ -388,7 +388,7 @@ namespace MediaWiz.Forums.Controllers
 
                 content += "</ul>";
             }
-            return Task.FromResult(content);
+            return content;
         }
 
         [Route("deletefile/{id?}")]
@@ -431,18 +431,18 @@ namespace MediaWiz.Forums.Controllers
 
             if (!file.ContentType.StartsWith("image/"))
             {
-                throw new InvalidOperationException(_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.MimeType","MIME type is not an Image."));
+                throw new InvalidOperationException(await _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.MimeType","MIME type is not an Image."));
             }
             var extension = Path.GetExtension(file.FileName.ToLowerInvariant());
             if (!extensions.Contains(extension))
             {
-                throw new InvalidOperationException(_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.FileExt","Invalid file extension."));
-            }            
+                throw new InvalidOperationException(await _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.FileExt","Invalid file extension."));
+            }
             if (file.Length > (MaxFileSize * megabyte))
             {
-                
-                throw new InvalidOperationException($"{_dictionaryService.GetOrCreateDictionaryValue("Forums.Error.FileSize","File size limit exceeded.")} ({MaxFileSize}MB)");
-            }            
+
+                throw new InvalidOperationException($"{await _dictionaryService.GetOrCreateDictionaryValue("Forums.Error.FileSize","File size limit exceeded.")} ({MaxFileSize}MB)");
+            }
             var _fileSystem = _mediaFileManager.FileSystem;
 
             if (!_fileSystem.DirectoryExists(_fileSystem.GetFullPath(targetFolder)))

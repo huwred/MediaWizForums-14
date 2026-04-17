@@ -18,14 +18,14 @@
     if ( memberManager.IsLoggedIn())
     {
             <span class="bi bi-star" aria-hidden="true" style="color: gold;"></span>
-            @DictionaryService.GetOrCreateDictionaryValue("Forums.Signin.Welcome","Welcome back") <a href="/profile/?user=@user.UserName" rel="no-follow" title="@DictionaryService.GetOrCreateDictionaryValue("Forums.Profile.View","View profile")" class="nav-icon">@user.Name</a>
+            @await DictionaryService.GetOrCreateDictionaryValue("Forums.Signin.Welcome","Welcome back") <a href="/profile/?user=@user.UserName" rel="no-follow" title="@await DictionaryService.GetOrCreateDictionaryValue("Forums.Profile.View","View profile")" class="nav-icon">@user.Name</a>
     }
     else
     {
-        <a href="@DictionaryService.GetOrCreateDictionaryValue("Forums.LoginUrl","/login")" class="nav-link" title="Login"><i class="fs-5 bi-door-open me-3"></i><span class="d-none d-sm-none d-md-inline">@DictionaryService.GetOrCreateDictionaryValue("Forums.Signin","Login")</span></a>
+        <a href="@await DictionaryService.GetOrCreateDictionaryValue("Forums.LoginUrl","/login")" class="nav-link" title="Login"><i class="fs-5 bi-door-open me-3"></i><span class="d-none d-sm-none d-md-inline">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Signin","Login")</span></a>
         @if (_hostingSettings.Smtp != null)
         {
-            <a href="@DictionaryService.GetOrCreateDictionaryValue("Forums.RegisterUrl","/register")" class="nav-link" title="Register"><i class="fs-5 bi-person-badge me-3"></i><span class="d-none d-sm-none d-md-inline">@DictionaryService.GetOrCreateDictionaryValue("Forums.Register","Register")</span></a>
+            <a href="@await DictionaryService.GetOrCreateDictionaryValue("Forums.RegisterUrl","/register")" class="nav-link" title="Register"><i class="fs-5 bi-person-badge me-3"></i><span class="d-none d-sm-none d-md-inline">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Register","Register")</span></a>
             // <a href="@DictionaryService.GetOrCreateDictionaryValue("Forums.ForgotPassword","/ForgotPassword")" class="nav-link" title="Forgot Password"><i class="fs-5 bi-file-lock me-3"></i><span class="d-none d-sm-none d-md-inline">@DictionaryService.GetOrCreateDictionaryValue("Forums.Profile.Forgotpassword","Forgot Password")</span></a>
         }
     }

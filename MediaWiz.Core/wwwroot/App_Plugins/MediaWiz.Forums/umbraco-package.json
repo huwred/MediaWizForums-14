@@ -2,13 +2,13 @@
     "$schema": "../umbraco-package-schema.json",
     "name": "MediaWiz Forums Menu",
     "id": "MediaWiz.Forums.Client",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "allowTelemetry": true,
     "extensions": [
       {
         "name": "MediaWiz Forums Menu",
         "alias": "MediaWiz.Forums.Client.EntryPoint",
-        "type": "entryPoint",
+        "type": "backofficeEntryPoint",
         "js": "/app_plugins/MediaWiz.Forums/assets.js"
       }
     ]

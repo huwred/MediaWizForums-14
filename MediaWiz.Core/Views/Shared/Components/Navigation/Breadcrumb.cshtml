@@ -14,7 +14,8 @@
 @{
     IList<string> roles = new List<string>();
     var CurrentPage = UmbracoContext.PublishedRequest.PublishedContent;
-    var ForumUrl = DictionaryService.GetOrCreateDictionaryValue("Forums.ForumUrl", "/").TrimEnd('/');
+    var ForumUrl = await DictionaryService.GetOrCreateDictionaryValue("Forums.ForumUrl", "/");
+    ForumUrl = ForumUrl.TrimEnd('/');
 }
     <div class="logo justify-content-between" style="width:240px">
         <span><img src="/wizard.svg?width=45&height=45" alt="MediaWizards Logo" width="45" /></span>
@@ -40,7 +41,7 @@
             <div class="input-group input-group-sm">
                 <input type="text" placeholder="Quick Search" title="Search in messages" id="query" name="query" class="form-control border-end-0" required="required" />
                 <a href="/forumsearch" title="Advanced Search" class="btn btn-outline-secondary border-start-0" role="button"><i class="bi bi-sliders"></i></a>
-                <button type="submit" name="Submit" class="btn btn-secondary" style="display:none">@DictionaryService.GetOrCreateDictionaryValue("Forums.Find", "Find")</button>
+                <button type="submit" name="Submit" class="btn btn-secondary d-none" style="display:none">@DictionaryService.GetOrCreateDictionaryValue("Forums.Find", "Find")</button>
             </div>
         </form>
     </span>

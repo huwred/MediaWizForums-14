@@ -49,18 +49,18 @@
                     <span asp-validation-for="@loginModel.Password" class="invalid-feedback"></span>
                 </div>
                 <div class="mb-3">
-                    <a href="@DictionaryService.GetOrCreateDictionaryValue("Forums.ForgotPassword", "/ForgotPassword")" class="nav-link ps-0" title="Forgot Password">@DictionaryService.GetOrCreateDictionaryValue("Forums.Profile.Forgotpassword", "Forgot Password ?")</a>
+                    <a href="@await DictionaryService.GetOrCreateDictionaryValue("Forums.ForgotPassword", "/ForgotPassword")" class="nav-link ps-0" title="Forgot Password">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Profile.Forgotpassword", "Forgot Password ?")</a>
                 </div>
                 <div class="col-12 gy-2">
                     <div class="d-grid">
-                        <button class="btn btn-lg btn-secondary mb-3" type="submit">@DictionaryService.GetOrCreateDictionaryValue("Forums.Signin", "Sign in")</button>
+                        <button class="btn btn-lg btn-secondary mb-3" type="submit">@await DictionaryService.GetOrCreateDictionaryValue("Forums.Signin", "Sign in")</button>
                     </div>
                 </div>
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="mb-3 form-check">
                     <input asp-for="@loginModel.RememberMe" class="form-check-input" aria_required="true" type="checkbox" />
                     <label asp-for="@loginModel.RememberMe" class="form-check-label">
-                        @DictionaryService.GetOrCreateDictionaryValue("Forums.Signin.RememberMe", "keep me logged in")
+                        @await DictionaryService.GetOrCreateDictionaryValue("Forums.Signin.RememberMe", "keep me logged in")
                     </label>
                 </div>
             }
