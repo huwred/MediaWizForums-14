@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net10.0</TargetFrameworks>
-    <Version>17.0.2</Version>
+    <Version>17.0.3-rc01</Version>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <ContentTargetFolders>.</ContentTargetFolders>
     <PackageId>MediaWiz.Forums.14</PackageId>
@@ -17,10 +17,15 @@
     <RepositoryUrl>https://github.com/huwred/MediaWizForums-14</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageReleaseNotes>Fixes deprecated entryPoint usage</PackageReleaseNotes>
+    <PackageReleaseNotes>
+    Version 17.0.2
+    - Fixes deprecated entryPoint usage
+    - Bug fixes and improvements
+    </PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageOutputPath>E:\Umbraco-Dev\Nuget</PackageOutputPath>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+
   </PropertyGroup>
 
 <ItemGroup>
@@ -33,6 +38,7 @@
 	<PackageReference Include="Umbraco.Cms.Infrastructure" Version="17.*" />
 	<PackageReference Include="Umbraco.Cms.Web.Common" Version="17.*" />
 	<PackageReference Include="Umbraco.Cms.Web.Website" Version="17.*" />
+	<PackageReference Include="System.Security.Cryptography.Xml" Version="9.0.15" />
 </ItemGroup>
 	
 <ItemGroup>

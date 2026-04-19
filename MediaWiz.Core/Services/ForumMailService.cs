@@ -71,7 +71,7 @@ namespace MediaWiz.Core.Services
                     await _dictionaryItemService.GetOrCreateDictionaryValue("Forums.VerifySubject", "Verifiy your account"), messageBody, true);
 
 
-                await _emailSender.SendAsync(message, emailType: "Contact");
+                await _emailSender.SendAsync(message, emailType: "Contact", false, null);
                 return true;
  
             }
@@ -124,7 +124,7 @@ namespace MediaWiz.Core.Services
             {
                 _logger.LogInformation("Sending Email {0} to {1} people", threadTitle, recipients.Count);
                 // smtp (assuming you've set all this up)
-                await _emailSender.SendAsync(message, emailType: "Contact");
+                await _emailSender.SendAsync(message, emailType: "Contact", false, null);
             }
             catch (Exception ex)
             {
@@ -169,7 +169,7 @@ namespace MediaWiz.Core.Services
                     try
                     {
                         // smtp (assuming you've set all this up)
-                        await _emailSender.SendAsync(message, emailType: "Contact");
+                        await _emailSender.SendAsync(message, emailType: "Contact", false, null);
                     }
                     catch (Exception ex)
                     {

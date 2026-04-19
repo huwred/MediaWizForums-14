@@ -105,7 +105,7 @@ namespace MediaWiz.Forums.Controllers
 
             return new RedirectResult("/Forums/?emailconfirmed=true");
 
-            return Ok("Email successfully changed.");
+            //return Ok("Email successfully changed.");
         }
         /// <summary>
         /// used by the front end to delete posts via ajax.

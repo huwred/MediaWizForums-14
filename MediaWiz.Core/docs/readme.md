@@ -1,6 +1,10 @@
 ﻿# MediaWizForums 14 #
 Simple Forum add on for Umbraco 14+. 
 
+## 17.0.2
+- Fixes deprecated entryPoint usage
+- Bug fixes and improvements
+
 ## 17.0.0
 
 - **Umbraco 17 Compatibility**  

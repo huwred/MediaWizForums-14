@@ -15,7 +15,6 @@ using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Web;
-using Umbraco.Cms.Infrastructure.Examine;
 using Umbraco.Cms.Web.Common.Controllers;
 using Umbraco.Extensions;
 
@@ -25,7 +24,6 @@ namespace MediaWiz.Forums.Controllers
     public class SearchPageController : RenderController
     {
         private readonly IPublishedContentQuery _publishedContentQuery;
-        private readonly IExamineManager _examineManager;
         private readonly IVariationContextAccessor _variationContextAccessor;
         private readonly ServiceContext _serviceContext;
         private readonly ForumSearchService _searchService;

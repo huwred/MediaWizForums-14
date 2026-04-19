@@ -135,7 +135,7 @@ public class MediaWizProfileController : SurfaceController
             EmailMessage message = new EmailMessage(_fromEmail, model.Email,
                 "Confirm your email change", messageBody, true);
 
-            await _emailSender.SendAsync(message, "Contact");
+            await _emailSender.SendAsync(message, "Contact", false, null);
 
             ModelState.AddModelError("", "Confirmation link sent to the new email.");
             return CurrentUmbracoPage();
@@ -173,7 +173,7 @@ public class MediaWizProfileController : SurfaceController
         //currentMember.Email = model.Email; //requires confirmation!
         currentMember.Name = model.Name;
         //currentMember.UserName = model.UserName; //not allowed to change
-        currentMember.Comments = model.Comments;
+        //currentMember.Comments = model.Comments;
 
         IdentityResult saveResult = await _memberManager.UpdateAsync(currentMember);
         if (!saveResult.Succeeded)

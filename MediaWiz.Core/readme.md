@@ -3,6 +3,10 @@ Simple Forum add on for Umbraco 14+.
 
 ## Changelog
 
+## 17.0.2
+- Fixes deprecated entryPoint usage
+- Bug fixes and improvements
+
 ## 17.0.1
 Fixes deprecated entryPoint usage, now using the new backofficeEntryPoint, this version is compatible with Umbraco 17.0.0 and later.
 
